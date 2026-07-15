@@ -5,25 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoteCraft - Nested Notes</title>
-
-  <meta name="theme-color" content="#e8a84c">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="application-name" content="Notecraft">
-  <meta name="apple-mobile-web-app-title" content="Notecraft">
-  <meta name="description"
-    content="A beautiful, fast note-taking app. Organize your thoughts with folders, colors, and rich text editing.">
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg">
-  <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
-  <link rel="icon" href="./favicon/favicon.ico">
-  <link rel="shortcut icon" href="./favicon/favicon.ico">
-
-  <!-- Apple -->
-  <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
-
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
@@ -51,6 +32,7 @@
       --toolbar-bg: #1a1a2c;
       --scrollbar-thumb: #2a2a44;
       --scrollbar-track: transparent;
+      --sidebar-w: 300px;
     }
 
     * {
@@ -85,23 +67,41 @@
       background: var(--fg-muted);
     }
 
+    /* ===== 侧边栏 — 固定浮动，不占据 flex 空间 ===== */
+    .sidebar-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(3px);
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .sidebar-backdrop.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .sidebar {
-      width: 300px;
-      min-width: 300px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
       background: var(--bg-sidebar);
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      position: relative;
-      z-index: 10;
-      transition: margin-left 0.3s ease, opacity 0.3s ease;
+      z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
     }
 
-    .sidebar.collapsed {
-      margin-left: -300px;
-      opacity: 0;
-      pointer-events: none;
+    .sidebar.open {
+      transform: translateX(0);
     }
 
     .sidebar-header {
@@ -160,34 +160,6 @@
     }
 
     .sidebar-actions button:hover {
-      background: var(--bg-hover);
-      color: var(--fg);
-    }
-
-    .sidebar-open-btn {
-      position: fixed;
-      top: 18px;
-      left: 12px;
-      z-index: 20;
-      width: 36px;
-      height: 36px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      color: var(--fg-dim);
-      font-size: 14px;
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .sidebar-open-btn.visible {
-      display: flex;
-    }
-
-    .sidebar-open-btn:hover {
       background: var(--bg-hover);
       color: var(--fg);
     }
@@ -493,12 +465,98 @@
       transform: translateY(0);
     }
 
+    /* ===== 主区域 — 始终全宽 ===== */
     .main-area {
       flex: 1;
       display: flex;
       flex-direction: column;
       background: var(--bg-main);
       min-width: 0;
+      position: relative;
+    }
+
+    /* 主区域顶部的汉堡按钮 */
+    .main-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--toolbar-bg);
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--fg-dim);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .hamburger-btn:hover {
+      background: var(--bg-hover);
+      color: var(--fg);
+      border-color: var(--accent);
+    }
+
+    .topbar-breadcrumb {
+      font-size: 13px;
+      color: var(--fg-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .topbar-breadcrumb .tb-folder {
+      color: var(--fg-dim);
+      font-weight: 500;
+    }
+
+    .topbar-breadcrumb .tb-sep {
+      font-size: 9px;
+    }
+
+    .topbar-breadcrumb .tb-note {
+      color: var(--fg);
+      font-weight: 500;
+    }
+
+    .topbar-spacer {
+      flex: 1;
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .topbar-actions button {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--fg-dim);
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .topbar-actions button:hover {
+      background: var(--bg-hover);
+      color: var(--fg);
     }
 
     .toolbar {
@@ -595,25 +653,8 @@
     }
 
     .note-header {
-      padding: 24px 40px 0;
+      padding: 20px 40px 0;
       flex-shrink: 0;
-    }
-
-    .note-breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--fg-muted);
-      margin-bottom: 10px;
-    }
-
-    .note-breadcrumb .bc-folder {
-      font-weight: 500;
-    }
-
-    .note-breadcrumb .bc-sep {
-      font-size: 9px;
     }
 
     .note-title-input {
@@ -811,7 +852,6 @@
       font-size: 13px;
       color: var(--fg-dim);
       transition: all 0.12s;
-      position: relative;
     }
 
     .ctx-item:hover {
@@ -1213,10 +1253,10 @@
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
-  <button class="sidebar-open-btn" id="sidebarOpenBtn" onclick="toggleSidebar()" aria-label="Open sidebar">
-    <i class="fas fa-bars"></i>
-  </button>
+  <!-- 遮罩层 -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
+  <!-- 浮动侧边栏 -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -1226,8 +1266,8 @@
       <div class="sidebar-actions">
         <button title="New Folder" onclick="openNewFolderModal()" aria-label="New folder"><i
             class="fas fa-folder-plus"></i></button>
-        <button title="Toggle sidebar" onclick="toggleSidebar()" aria-label="Toggle sidebar"><i
-            class="fas fa-chevron-left"></i></button>
+        <button title="Close sidebar" onclick="closeSidebar()" aria-label="Close sidebar"><i
+            class="fas fa-times"></i></button>
       </div>
     </div>
 
@@ -1255,7 +1295,21 @@
     </button>
   </aside>
 
+  <!-- 主区域 — 始终全宽 -->
   <main class="main-area" id="mainArea">
+    <!-- 顶部栏：汉堡按钮 + 面包屑 -->
+    <div class="main-topbar" id="mainTopbar">
+      <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open sidebar"><i
+          class="fas fa-bars"></i></button>
+      <div class="topbar-breadcrumb" id="topbarBreadcrumb">
+        <span class="tb-folder" id="tbFolder">NoteCraft</span>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button title="New Note" onclick="createNewNote()" aria-label="New note"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+
     <div class="empty-state" id="emptyState">
       <div class="empty-icon"><i class="far fa-sticky-note"></i></div>
       <div class="empty-title" id="emptyTitle">No note selected</div>
@@ -1312,11 +1366,6 @@
       </div>
 
       <div class="note-header">
-        <div class="note-breadcrumb" id="noteBreadcrumb">
-          <span class="bc-folder" id="bcFolder">Personal</span>
-          <i class="fas fa-chevron-right bc-sep"></i>
-          <span id="bcNote">Untitled</span>
-        </div>
         <input type="text" class="note-title-input" id="noteTitleInput" placeholder="Untitled"
           oninput="updateNoteTitle(this.value)" aria-label="Note title">
         <div class="note-meta" id="noteMeta">
@@ -1429,12 +1478,10 @@
     let contextTarget = null;
     let selectedFolderColor = FOLDER_COLORS[0];
     let renameTarget = null;
-    let sidebarCollapsed = false;
+    let sidebarOpen = false;
     let colorSubmenuTimer = null;
 
-    function genId() {
-      return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
-    }
+    function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
 
     function formatDate(dateStr) {
       const d = new Date(dateStr);
@@ -1454,9 +1501,7 @@
       });
     }
 
-    function getTotalNoteCount() {
-      return folders.reduce((s, f) => s + f.notes.length, 0);
-    }
+    function getTotalNoteCount() { return folders.reduce((s, f) => s + f.notes.length, 0); }
 
     function findNote(noteId) {
       for (const f of folders) {
@@ -1466,25 +1511,27 @@
       return null;
     }
 
-    function escHtml(str) {
-      const d = document.createElement('div');
-      d.textContent = str;
-      return d.innerHTML;
+    function escHtml(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
+
+    // ===== 侧边栏开关 =====
+    function openSidebar() {
+      sidebarOpen = true;
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebarBackdrop').classList.add('visible');
+    }
+
+    function closeSidebar() {
+      sidebarOpen = false;
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('sidebarBackdrop').classList.remove('visible');
     }
 
     function toggleSidebar() {
-      sidebarCollapsed = !sidebarCollapsed;
-      const sidebar = document.getElementById('sidebar');
-      const openBtn = document.getElementById('sidebarOpenBtn');
-      if (sidebarCollapsed) {
-        sidebar.classList.add('collapsed');
-        openBtn.classList.add('visible');
-      } else {
-        sidebar.classList.remove('collapsed');
-        openBtn.classList.remove('visible');
-      }
+      if (sidebarOpen) closeSidebar();
+      else openSidebar();
     }
 
+    // ===== 渲染 =====
     function render() {
       renderFolders();
       document.getElementById('allNotesCount').textContent = getTotalNoteCount();
@@ -1495,7 +1542,20 @@
       } else {
         allItem.classList.remove('active');
       }
+      updateTopbarBreadcrumb();
       if (activeNoteId) updateMeta();
+    }
+
+    function updateTopbarBreadcrumb() {
+      const bc = document.getElementById('topbarBreadcrumb');
+      if (activeNoteId) {
+        const found = findNote(activeNoteId);
+        if (found) {
+          bc.innerHTML = `<span class="tb-folder" style="color:${found.folder.color}">${escHtml(found.folder.name)}</span><i class="fas fa-chevron-right tb-sep"></i><span class="tb-note">${escHtml(found.note.title || 'Untitled')}</span>`;
+          return;
+        }
+      }
+      bc.innerHTML = `<span class="tb-folder">NoteCraft</span>`;
     }
 
     function renderFolders() {
@@ -1545,7 +1605,6 @@
         `).join('')}
       </div>
     `;
-
         container.appendChild(div);
       });
     }
@@ -1564,6 +1623,7 @@
       activeFolderId = folderId;
       showEditor();
       render();
+      closeSidebar();
     }
 
     function showAllNotes() {
@@ -1571,6 +1631,7 @@
       activeFolderId = null;
       showEmptyState('All Notes', 'Showing all notes across folders. Select a note to edit.');
       render();
+      closeSidebar();
     }
 
     function showEditor() {
@@ -1579,9 +1640,6 @@
       const { note, folder } = found;
       document.getElementById('emptyState').style.display = 'none';
       document.getElementById('editorView').style.display = 'flex';
-      document.getElementById('bcFolder').textContent = folder.name;
-      document.getElementById('bcFolder').style.color = folder.color;
-      document.getElementById('bcNote').textContent = note.title || 'Untitled';
       document.getElementById('noteTitleInput').value = note.title || '';
       document.getElementById('editorArea').innerHTML = note.content || '';
       document.getElementById('statusFolder').textContent = folder.name;
@@ -1601,7 +1659,6 @@
       const found = findNote(activeNoteId);
       if (!found) return;
       found.note.title = val;
-      document.getElementById('bcNote').textContent = val || 'Untitled';
       render();
     }
 
@@ -1614,6 +1671,7 @@
       const noteEl = document.querySelector(`.note-item[data-note-id="${activeNoteId}"] .note-date`);
       if (noteEl) noteEl.textContent = formatDate(found.note.date);
       document.getElementById('allNotesCount').textContent = getTotalNoteCount();
+      updateTopbarBreadcrumb();
     }
 
     function updateMeta() {
@@ -1626,10 +1684,7 @@
       document.getElementById('metaChars').textContent = text.length + ' characters';
     }
 
-    function execCmd(cmd, val) {
-      document.execCommand(cmd, false, val || null);
-      document.getElementById('editorArea').focus();
-    }
+    function execCmd(cmd, val) { document.execCommand(cmd, false, val || null); document.getElementById('editorArea').focus(); }
 
     function formatBlock(tag) {
       if (!tag) return;
@@ -1669,6 +1724,7 @@
       activeFolderId = targetFolder.id;
       showEditor();
       render();
+      closeSidebar();
       setTimeout(() => document.getElementById('noteTitleInput').focus(), 100);
       showToast('New note created', 'success');
     }
@@ -1683,9 +1739,7 @@
       setTimeout(() => input.focus(), 100);
     }
 
-    function closeFolderModal() {
-      document.getElementById('folderModal').classList.remove('show');
-    }
+    function closeFolderModal() { document.getElementById('folderModal').classList.remove('show'); }
 
     function renderFolderColors() {
       document.getElementById('folderColorPicker').innerHTML = FOLDER_COLORS.map(c =>
@@ -1693,10 +1747,7 @@
       ).join('');
     }
 
-    function selectFolderColor(c) {
-      selectedFolderColor = c;
-      renderFolderColors();
-    }
+    function selectFolderColor(c) { selectedFolderColor = c; renderFolderColors(); }
 
     function confirmNewFolder() {
       const input = document.getElementById('newFolderName');
@@ -1708,88 +1759,43 @@
       showToast('Folder "' + name + '" created', 'success');
     }
 
-    function showFolderContext(e, folderId) {
-      e.preventDefault();
-      e.stopPropagation();
-      contextTarget = { type: 'folder', folderId };
-      positionMenu(e);
-    }
-
-    function showNoteContext(e, folderId, noteId) {
-      e.preventDefault();
-      e.stopPropagation();
-      contextTarget = { type: 'note', folderId, noteId };
-      positionMenu(e);
-    }
+    function showFolderContext(e, folderId) { e.preventDefault(); e.stopPropagation(); contextTarget = { type: 'folder', folderId }; positionMenu(e); }
+    function showNoteContext(e, folderId, noteId) { e.preventDefault(); e.stopPropagation(); contextTarget = { type: 'note', folderId, noteId }; positionMenu(e); }
 
     function positionMenu(e) {
       const menu = document.getElementById('contextMenu');
       menu.style.display = 'block';
-      const x = Math.min(e.clientX, window.innerWidth - 210);
-      const y = Math.min(e.clientY, window.innerHeight - 240);
-      menu.style.left = x + 'px';
-      menu.style.top = y + 'px';
+      menu.style.left = Math.min(e.clientX, window.innerWidth - 210) + 'px';
+      menu.style.top = Math.min(e.clientY, window.innerHeight - 240) + 'px';
       hideColorSubmenuNow();
     }
 
-    function hideContextMenu() {
-      document.getElementById('contextMenu').style.display = 'none';
-      hideColorSubmenuNow();
-      contextTarget = null;
-    }
+    function hideContextMenu() { document.getElementById('contextMenu').style.display = 'none'; hideColorSubmenuNow(); contextTarget = null; }
 
     function showColorSubmenu() {
       clearTimeout(colorSubmenuTimer);
       const submenu = document.getElementById('colorSubmenu');
       const ctxItem = document.getElementById('ctxChangeColor');
       const ctxMenu = document.getElementById('contextMenu');
-
       let currentColor = '#ff6b35';
-      if (contextTarget && contextTarget.folderId) {
-        const folder = folders.find(f => f.id === contextTarget.folderId);
-        if (folder) currentColor = folder.color;
-      }
-
-      const grid = document.getElementById('colorSubmenuGrid');
-      grid.innerHTML = FOLDER_COLORS.map(c =>
-        `<div class="color-submenu-opt ${c === currentColor ? 'current' : ''}"
-          style="background:${c}" title="${c}"
-          onclick="pickSubmenuColor('${c}')"></div>`
+      if (contextTarget && contextTarget.folderId) { const f = folders.find(f => f.id === contextTarget.folderId); if (f) currentColor = f.color; }
+      document.getElementById('colorSubmenuGrid').innerHTML = FOLDER_COLORS.map(c =>
+        `<div class="color-submenu-opt ${c === currentColor ? 'current' : ''}" style="background:${c}" title="${c}" onclick="pickSubmenuColor('${c}')"></div>`
       ).join('');
-
       const ctxRect = ctxMenu.getBoundingClientRect();
       const itemRect = ctxItem.getBoundingClientRect();
-
-      let left = ctxRect.right + 4;
-      let top = itemRect.top - 10;
-
-      if (left + 180 > window.innerWidth) {
-        left = ctxRect.left - 184;
-      }
-      if (top + 100 > window.innerHeight) {
-        top = window.innerHeight - 110;
-      }
+      let left = ctxRect.right + 4, top = itemRect.top - 10;
+      if (left + 180 > window.innerWidth) left = ctxRect.left - 184;
+      if (top + 100 > window.innerHeight) top = window.innerHeight - 110;
       if (top < 8) top = 8;
-
       submenu.style.left = left + 'px';
       submenu.style.top = top + 'px';
       submenu.style.display = 'block';
     }
 
-    function startHideColorSubmenu() {
-      colorSubmenuTimer = setTimeout(() => {
-        hideColorSubmenuNow();
-      }, 200);
-    }
-
-    function cancelHideColorSubmenu() {
-      clearTimeout(colorSubmenuTimer);
-    }
-
-    function hideColorSubmenuNow() {
-      document.getElementById('colorSubmenu').style.display = 'none';
-      clearTimeout(colorSubmenuTimer);
-    }
+    function startHideColorSubmenu() { colorSubmenuTimer = setTimeout(hideColorSubmenuNow, 200); }
+    function cancelHideColorSubmenu() { clearTimeout(colorSubmenuTimer); }
+    function hideColorSubmenuNow() { document.getElementById('colorSubmenu').style.display = 'none'; clearTimeout(colorSubmenuTimer); }
 
     function pickSubmenuColor(color) {
       if (!contextTarget || !contextTarget.folderId) return;
@@ -1797,9 +1803,6 @@
       if (folder) {
         folder.color = color;
         render();
-        if (activeFolderId === folder.id) {
-          document.getElementById('bcFolder').style.color = color;
-        }
         showToast('Color changed', 'info');
       }
       hideContextMenu();
@@ -1808,20 +1811,12 @@
     document.getElementById('contextMenu').addEventListener('click', function (e) {
       const item = e.target.closest('.ctx-item');
       if (!item) return;
-
       const action = item.dataset.action;
       if (!action) return;
-
-      if (action === 'changeColor') {
-        showColorSubmenu();
-        return;
-      }
-
+      if (action === 'changeColor') { showColorSubmenu(); return; }
       const target = contextTarget ? { ...contextTarget } : null;
       hideContextMenu();
-
       if (!target) return;
-
       if (target.type === 'folder') {
         const folder = folders.find(f => f.id === target.folderId);
         if (!folder) return;
@@ -1834,77 +1829,46 @@
       } else if (target.type === 'note') {
         const folder = folders.find(f => f.id === target.folderId);
         if (!folder) return;
-        const note = folder.notes.find(n => n.id === target.noteId);
-        if (!note) return;
         switch (action) {
-          case 'rename': openRenameModal('note', folder.id, note.title, note.id); break;
+          case 'rename': { const note = folder.notes.find(n => n.id === target.noteId); if (note) openRenameModal('note', folder.id, note.title, note.id); break; }
           case 'addNote': activeFolderId = folder.id; folder.expanded = true; createNewNote(); break;
-          case 'duplicate': duplicateNote(folder.id, note.id); break;
-          case 'delete': deleteNote(folder.id, note.id); break;
+          case 'duplicate': { const note = folder.notes.find(n => n.id === target.noteId); if (note) duplicateNote(folder.id, note.id); break; }
+          case 'delete': { const note = folder.notes.find(n => n.id === target.noteId); if (note) deleteNote(folder.id, note.id); break; }
         }
       }
     });
 
-    document.getElementById('ctxChangeColor').addEventListener('mouseenter', function () {
-      showColorSubmenu();
-    });
-
-    document.getElementById('ctxChangeColor').addEventListener('mouseleave', function () {
-      startHideColorSubmenu();
-    });
-
-    document.getElementById('colorSubmenu').addEventListener('mouseenter', function () {
-      cancelHideColorSubmenu();
-    });
-
-    document.getElementById('colorSubmenu').addEventListener('mouseleave', function () {
-      hideColorSubmenuNow();
-    });
+    document.getElementById('ctxChangeColor').addEventListener('mouseenter', showColorSubmenu);
+    document.getElementById('ctxChangeColor').addEventListener('mouseleave', startHideColorSubmenu);
+    document.getElementById('colorSubmenu').addEventListener('mouseenter', cancelHideColorSubmenu);
+    document.getElementById('colorSubmenu').addEventListener('mouseleave', hideColorSubmenuNow);
 
     function openRenameModal(type, folderId, currentName, noteId) {
       renameTarget = { type, folderId, noteId };
       document.getElementById('renameModalTitle').textContent = type === 'folder' ? 'Rename Folder' : 'Rename Note';
       const input = document.getElementById('renameInput');
-      input.value = currentName;
-      input.classList.remove('error');
+      input.value = currentName; input.classList.remove('error');
       document.getElementById('renameModal').classList.add('show');
       setTimeout(() => { input.focus(); input.select(); }, 100);
     }
 
-    function closeRenameModal() {
-      document.getElementById('renameModal').classList.remove('show');
-      renameTarget = null;
-    }
+    function closeRenameModal() { document.getElementById('renameModal').classList.remove('show'); renameTarget = null; }
 
     function confirmRename() {
       if (!renameTarget) return;
       const input = document.getElementById('renameInput');
       const val = input.value.trim();
       if (!val) { input.classList.add('error'); setTimeout(() => input.classList.remove('error'), 1500); return; }
-
       if (renameTarget.type === 'folder') {
         const folder = folders.find(f => f.id === renameTarget.folderId);
-        if (folder) {
-          folder.name = val;
-          if (activeFolderId === folder.id) {
-            document.getElementById('bcFolder').textContent = val;
-            document.getElementById('statusFolder').textContent = val;
-          }
-        }
+        if (folder) { folder.name = val; if (activeFolderId === folder.id) document.getElementById('statusFolder').textContent = val; }
       } else if (renameTarget.type === 'note') {
         const folder = folders.find(f => f.id === renameTarget.folderId);
         if (folder) {
           const note = folder.notes.find(n => n.id === renameTarget.noteId);
-          if (note) {
-            note.title = val;
-            if (activeNoteId === note.id) {
-              document.getElementById('noteTitleInput').value = val;
-              document.getElementById('bcNote').textContent = val;
-            }
-          }
+          if (note) { note.title = val; if (activeNoteId === note.id) document.getElementById('noteTitleInput').value = val; }
         }
       }
-
       closeRenameModal();
       render();
       showToast('Renamed successfully', 'success');
@@ -1913,13 +1877,7 @@
     function deleteFolder(folderId) {
       const folder = folders.find(f => f.id === folderId);
       if (!folder) return;
-      if (activeNoteId) {
-        const found = findNote(activeNoteId);
-        if (found && found.folder.id === folderId) {
-          activeNoteId = null;
-          showEmptyState('No note selected', 'The note you were editing was deleted.');
-        }
-      }
+      if (activeNoteId) { const found = findNote(activeNoteId); if (found && found.folder.id === folderId) { activeNoteId = null; showEmptyState('No note selected', 'The note you were editing was deleted.'); } }
       if (activeFolderId === folderId) activeFolderId = null;
       folders = folders.filter(f => f.id !== folderId);
       render();
@@ -1929,10 +1887,7 @@
     function deleteNote(folderId, noteId) {
       const folder = folders.find(f => f.id === folderId);
       if (!folder) return;
-      if (activeNoteId === noteId) {
-        activeNoteId = null;
-        showEmptyState('No note selected', 'Select a note from the sidebar to start editing.');
-      }
+      if (activeNoteId === noteId) { activeNoteId = null; showEmptyState('No note selected', 'Select a note from the sidebar to start editing.'); }
       folder.notes = folder.notes.filter(n => n.id !== noteId);
       render();
       showToast('Note deleted', 'error');
@@ -1941,10 +1896,7 @@
     function duplicateFolder(folderId) {
       const folder = folders.find(f => f.id === folderId);
       if (!folder) return;
-      folders.push({
-        id: genId(), name: folder.name + ' (copy)', color: folder.color, expanded: false,
-        notes: folder.notes.map(n => ({ id: genId(), title: n.title + ' (copy)', content: n.content, date: new Date().toISOString() }))
-      });
+      folders.push({ id: genId(), name: folder.name + ' (copy)', color: folder.color, expanded: false, notes: folder.notes.map(n => ({ id: genId(), title: n.title + ' (copy)', content: n.content, date: new Date().toISOString() })) });
       render();
       showToast('Folder duplicated', 'info');
     }
@@ -1954,19 +1906,9 @@
       if (!folder) return;
       const note = folder.notes.find(n => n.id === noteId);
       if (!note) return;
-      const idx = folder.notes.indexOf(note);
-      folder.notes.splice(idx + 1, 0, { id: genId(), title: note.title + ' (copy)', content: note.content, date: new Date().toISOString() });
+      folder.notes.splice(folder.notes.indexOf(note) + 1, 0, { id: genId(), title: note.title + ' (copy)', content: note.content, date: new Date().toISOString() });
       render();
       showToast('Note duplicated', 'info');
-    }
-
-    function cycleFolderColor(folderId) {
-      const folder = folders.find(f => f.id === folderId);
-      if (!folder) return;
-      const idx = FOLDER_COLORS.indexOf(folder.color);
-      folder.color = FOLDER_COLORS[(idx + 1) % FOLDER_COLORS.length];
-      render();
-      if (activeFolderId === folder.id) document.getElementById('bcFolder').style.color = folder.color;
     }
 
     function filterNotes(query) { render(); }
@@ -1983,13 +1925,11 @@
 
     document.addEventListener('keydown', (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'n') { e.preventDefault(); createNewNote(); }
-      if (e.key === 'Escape') { hideContextMenu(); closeFolderModal(); closeRenameModal(); }
+      if (e.key === 'Escape') { hideContextMenu(); closeFolderModal(); closeRenameModal(); if (sidebarOpen) closeSidebar(); }
     });
 
     document.addEventListener('click', (e) => {
-      if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu')) {
-        hideContextMenu();
-      }
+      if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu')) hideContextMenu();
     });
 
     render();
