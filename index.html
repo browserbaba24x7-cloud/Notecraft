@@ -5,6 +5,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NoteCraft - Nested Notes</title>
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#e8a84c">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="application-name" content="Notecraft">
+  <meta name="apple-mobile-web-app-title" content="Notecraft">
+  <meta name="description"
+    content="A beautiful, fast note-taking app. Organize your thoughts with folders, colors, and rich text editing.">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg">
+  <link rel="icon" type="image/png" sizes="96x96" href="./favicon/favicon-96x96.png">
+  <link rel="icon" href="./favicon/favicon.ico">
+  <link rel="shortcut icon" href="./favicon/favicon.ico">
+
+  <!-- Apple -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png">
+
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     rel="stylesheet">
@@ -67,7 +87,6 @@
       background: var(--fg-muted);
     }
 
-    /* ===== 侧边栏 — 固定浮动，不占据 flex 空间 ===== */
     .sidebar-backdrop {
       position: fixed;
       inset: 0;
@@ -465,7 +484,6 @@
       transform: translateY(0);
     }
 
-    /* ===== 主区域 — 始终全宽 ===== */
     .main-area {
       flex: 1;
       display: flex;
@@ -475,7 +493,6 @@
       position: relative;
     }
 
-    /* 主区域顶部的汉堡按钮 */
     .main-topbar {
       display: flex;
       align-items: center;
@@ -1253,10 +1270,8 @@
   <div class="bg-glow bg-glow-1"></div>
   <div class="bg-glow bg-glow-2"></div>
 
-  <!-- 遮罩层 -->
   <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
-  <!-- 浮动侧边栏 -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo">
@@ -1270,7 +1285,6 @@
             class="fas fa-times"></i></button>
       </div>
     </div>
-
     <div class="search-bar">
       <div class="search-input-wrap">
         <i class="fas fa-search"></i>
@@ -1278,7 +1292,6 @@
           aria-label="Search notes">
       </div>
     </div>
-
     <div class="folder-tree" id="folderTree">
       <div class="tree-section-label">Folders</div>
       <div class="all-notes-item" id="allNotesItem" onclick="showAllNotes()">
@@ -1288,21 +1301,18 @@
       </div>
       <div id="foldersContainer"></div>
     </div>
-
     <button class="new-note-btn" onclick="createNewNote()">
       <i class="fas fa-plus"></i>
       New Note
     </button>
   </aside>
 
-  <!-- 主区域 — 始终全宽 -->
   <main class="main-area" id="mainArea">
-    <!-- 顶部栏：汉堡按钮 + 面包屑 -->
-    <div class="main-topbar" id="mainTopbar">
+    <div class="main-topbar">
       <button class="hamburger-btn" onclick="openSidebar()" aria-label="Open sidebar"><i
           class="fas fa-bars"></i></button>
       <div class="topbar-breadcrumb" id="topbarBreadcrumb">
-        <span class="tb-folder" id="tbFolder">NoteCraft</span>
+        <span class="tb-folder" style="color:var(--fg-muted)">NoteCraft</span>
       </div>
       <div class="topbar-spacer"></div>
       <div class="topbar-actions">
@@ -1321,7 +1331,7 @@
     </div>
 
     <div id="editorView" style="display:none; flex-direction:column; flex:1; min-height:0;">
-      <div class="toolbar" id="toolbar">
+      <div class="toolbar">
         <select class="toolbar-select" onchange="formatBlock(this.value); this.value='';" aria-label="Text format">
           <option value="">Format</option>
           <option value="p">Paragraph</option>
@@ -1331,29 +1341,29 @@
           <option value="blockquote">Quote</option>
         </select>
         <div class="toolbar-divider"></div>
-        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('bold')" title="Bold (Ctrl+B)"
-          aria-label="Bold"><i class="fas fa-bold"></i></button>
-        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('italic')"
-          title="Italic (Ctrl+I)" aria-label="Italic"><i class="fas fa-italic"></i></button>
+        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('bold')" title="Bold"><i
+            class="fas fa-bold"></i></button>
+        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('italic')" title="Italic"><i
+            class="fas fa-italic"></i></button>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('underline')"
-          title="Underline (Ctrl+U)" aria-label="Underline"><i class="fas fa-underline"></i></button>
+          title="Underline"><i class="fas fa-underline"></i></button>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('strikeThrough')"
-          title="Strikethrough" aria-label="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+          title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
         <div class="toolbar-divider"></div>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('insertUnorderedList')"
-          title="Bullet list" aria-label="Bullet list"><i class="fas fa-list-ul"></i></button>
+          title="Bullet list"><i class="fas fa-list-ul"></i></button>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('insertOrderedList')"
-          title="Numbered list" aria-label="Numbered list"><i class="fas fa-list-ol"></i></button>
+          title="Numbered list"><i class="fas fa-list-ol"></i></button>
         <div class="toolbar-divider"></div>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('justifyLeft')"
-          title="Align left" aria-label="Align left"><i class="fas fa-align-left"></i></button>
+          title="Align left"><i class="fas fa-align-left"></i></button>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('justifyCenter')"
-          title="Align center" aria-label="Align center"><i class="fas fa-align-center"></i></button>
+          title="Align center"><i class="fas fa-align-center"></i></button>
         <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="execCmd('justifyRight')"
-          title="Align right" aria-label="Align right"><i class="fas fa-align-right"></i></button>
+          title="Align right"><i class="fas fa-align-right"></i></button>
         <div class="toolbar-divider"></div>
-        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="insertCode()" title="Inline code"
-          aria-label="Code"><i class="fas fa-code"></i></button>
+        <button class="toolbar-btn" onmousedown="event.preventDefault()" onclick="insertCode()" title="Code"><i
+            class="fas fa-code"></i></button>
         <div class="toolbar-spacer"></div>
         <div class="toolbar-color-btn" style="background:#ff6b35;" title="Orange" onmousedown="event.preventDefault()"
           onclick="applyColor('#ff6b35', this)"></div>
@@ -1364,25 +1374,22 @@
         <div class="toolbar-color-btn" style="background:#e8e8f0;" title="White" onmousedown="event.preventDefault()"
           onclick="applyColor('#e8e8f0', this)"></div>
       </div>
-
       <div class="note-header">
         <input type="text" class="note-title-input" id="noteTitleInput" placeholder="Untitled"
           oninput="updateNoteTitle(this.value)" aria-label="Note title">
-        <div class="note-meta" id="noteMeta">
+        <div class="note-meta">
           <div class="note-meta-item"><i class="far fa-clock"></i><span id="metaDate">--</span></div>
           <div class="note-meta-item"><i class="far fa-file-alt"></i><span id="metaWords">0 words</span></div>
           <div class="note-meta-item"><i class="far fa-file-lines"></i><span id="metaChars">0 characters</span></div>
         </div>
       </div>
-
       <div class="editor-area" id="editorArea" contenteditable="true" oninput="onEditorInput()" spellcheck="true"></div>
     </div>
 
     <div class="status-bar">
       <div class="status-left">
         <div style="display:flex;align-items:center;gap:6px;">
-          <div class="status-dot"></div>
-          <span>Auto-saved</span>
+          <div class="status-dot"></div><span>Auto-saved</span>
         </div>
         <span id="statusFolder">--</span>
       </div>
@@ -1442,39 +1449,36 @@
 
     let folders = [
       {
-        id: 'f1', name: 'Personal', color: '#ff6b35', expanded: true,
-        notes: [
+        id: 'f1', name: 'Personal', color: '#ff6b35', expanded: true, notes: [
           { id: 'n1', title: 'Daily Routine', content: '<h2>Morning Routine</h2><ul><li>Wake up at 6:00 AM</li><li>Meditation for 15 minutes</li><li>Exercise for 30 minutes</li><li>Healthy breakfast</li></ul><h2>Evening Routine</h2><ul><li>Review the day</li><li>Read for 30 minutes</li><li>Plan tomorrow</li><li>Sleep by 10:30 PM</li></ul>', date: '2026-07-14T10:30:00' },
           { id: 'n2', title: 'Books to Read', content: '<p>My reading list for this year:</p><ol><li><strong>Atomic Habits</strong> by James Clear</li><li><strong>Deep Work</strong> by Cal Newport</li><li><strong>The Almanack of Naval Ravikant</strong></li><li><strong>Thinking, Fast and Slow</strong> by Daniel Kahneman</li></ol><blockquote>Reading is to the mind what exercise is to the body.</blockquote>', date: '2026-07-13T15:20:00' },
           { id: 'n3', title: 'Fitness Goals', content: '<p>Target: Get in the best shape of my life by December 2026.</p><h3>Weekly Schedule</h3><ul><li>Monday: Chest & Triceps</li><li>Tuesday: Back & Biceps</li><li>Wednesday: Rest / Cardio</li><li>Thursday: Shoulders & Arms</li><li>Friday: Legs</li><li>Saturday: Full body HIIT</li><li>Sunday: Rest</li></ul>', date: '2026-07-12T09:00:00' }
         ]
       },
       {
-        id: 'f2', name: 'Work', color: '#60a5fa', expanded: false,
-        notes: [
-          { id: 'n4', title: 'Project Roadmap Q3', content: '<h2>Q3 2026 Roadmap</h2><p>Key objectives for the quarter:</p><ul><li>Launch v2.0 of the platform</li><li>Migrate to new infrastructure</li><li>Hire 3 senior engineers</li><li>Achieve 99.9% uptime SLA</li></ul><h3>Milestones</h3><p>July: Design complete<br>August: Development sprint<br>September: Testing & launch</p>', date: '2026-07-14T08:00:00' },
-          { id: 'n5', title: 'Meeting Notes - July 10', content: '<p><strong>Attendees:</strong> Team Lead, PM, Design Lead</p><h3>Discussion Points</h3><ul><li>Reviewed sprint progress — on track</li><li>Design system updates needed for new components</li><li>Performance optimization for dashboard</li></ul><h3>Action Items</h3><ol><li>Prepare migration plan — <strong>due July 15</strong></li><li>Schedule design review — <strong>due July 12</strong></li><li>Update documentation — <strong>due July 18</strong></li></ol>', date: '2026-07-10T14:00:00' },
-          { id: 'n6', title: 'API Documentation Draft', content: '<p>Endpoints for the new service:</p><h3>Authentication</h3><code>POST /api/v2/auth/login</code><br><code>POST /api/v2/auth/refresh</code><h3>Users</h3><code>GET /api/v2/users</code><br><code>GET /api/v2/users/:id</code><br><code>PUT /api/v2/users/:id</code>', date: '2026-07-09T11:30:00' }
+        id: 'f2', name: 'Work', color: '#60a5fa', expanded: false, notes: [
+          { id: 'n4', title: 'Project Roadmap Q3', content: '<h2>Q3 2026 Roadmap</h2><p>Key objectives:</p><ul><li>Launch v2.0</li><li>Migrate infrastructure</li><li>Hire 3 engineers</li><li>99.9% uptime</li></ul>', date: '2026-07-14T08:00:00' },
+          { id: 'n5', title: 'Meeting Notes - July 10', content: '<p><strong>Attendees:</strong> Team Lead, PM, Design Lead</p><ul><li>Sprint progress on track</li><li>Design system updates needed</li></ul>', date: '2026-07-10T14:00:00' },
+          { id: 'n6', title: 'API Documentation', content: '<code>POST /api/v2/auth/login</code><br><code>GET /api/v2/users</code><br><code>PUT /api/v2/users/:id</code>', date: '2026-07-09T11:30:00' }
         ]
       },
       {
-        id: 'f3', name: 'Ideas', color: '#a78bfa', expanded: false,
-        notes: [
-          { id: 'n7', title: 'App Concept: FocusFlow', content: '<h2>FocusFlow — A Focus Timer App</h2><p>A beautiful Pomodoro timer with ambient sounds and task tracking.</p><h3>Key Features</h3><ul><li>Customizable timer intervals</li><li>Ambient sound mixer (rain, cafe, forest)</li><li>Daily focus statistics</li><li>Task integration with notes</li><li>Minimal, calming UI</li></ul><blockquote>The best productivity tool is the one you actually enjoy using.</blockquote>', date: '2026-07-11T20:00:00' },
-          { id: 'n8', title: 'Blog Post Ideas', content: '<ol><li><strong>Why Dark Mode Matters for Productivity</strong></li><li><strong>Building a Note App from Scratch</strong></li><li><strong>The Art of Single-Page Applications</strong></li><li><strong>Color Theory for Developer Tools</strong></li><li><strong>10 CSS Tricks I Use Every Day</strong></li></ol>', date: '2026-07-08T16:45:00' }
+        id: 'f3', name: 'Ideas', color: '#a78bfa', expanded: false, notes: [
+          { id: 'n7', title: 'App Concept: FocusFlow', content: '<h2>FocusFlow</h2><p>A Pomodoro timer with ambient sounds and task tracking.</p><ul><li>Customizable intervals</li><li>Sound mixer</li><li>Daily stats</li></ul>', date: '2026-07-11T20:00:00' },
+          { id: 'n8', title: 'Blog Post Ideas', content: '<ol><li>Why Dark Mode Matters</li><li>Building a Note App</li><li>Single-Page Applications</li><li>Color Theory for Dev Tools</li></ol>', date: '2026-07-08T16:45:00' }
         ]
       },
       {
-        id: 'f4', name: 'Learning', color: '#4ade80', expanded: false,
-        notes: [
-          { id: 'n9', title: 'Rust Notes - Ownership', content: '<h2>Ownership in Rust</h2><p>Three rules of ownership:</p><ol><li>Each value in Rust has a single <strong>owner</strong>.</li><li>When the owner goes out of scope, the value is <strong>dropped</strong>.</li><li>Values can be <strong>borrowed</strong> with references (&amp;).</li></ol><h3>Borrowing Rules</h3><ul><li>You can have either one mutable reference <strong>or</strong> any number of immutable references</li><li>References must always be valid</li></ul><code>let s1 = String::from("hello");</code><br><code>let s2 = &amp;s1; // immutable borrow</code>', date: '2026-07-07T13:00:00' },
-          { id: 'n10', title: 'WebGL Shader Basics', content: '<p>Shaders are small programs that run on the GPU.</p><h3>Types</h3><ul><li><strong>Vertex Shader</strong> — processes each vertex</li><li><strong>Fragment Shader</strong> — processes each pixel</li></ul><h3>GLSL Basics</h3><code>void main() { gl_Position = vec4(position, 1.0); }</code><p>The fragment shader determines the final color of each pixel.</p>', date: '2026-07-06T10:15:00' }
+        id: 'f4', name: 'Learning', color: '#4ade80', expanded: false, notes: [
+          { id: 'n9', title: 'Rust Notes - Ownership', content: '<h2>Ownership Rules</h2><ol><li>Each value has one <strong>owner</strong></li><li>Value is <strong>dropped</strong> when owner goes out of scope</li><li>Values can be <strong>borrowed</strong> with &amp;</li></ol>', date: '2026-07-07T13:00:00' },
+          { id: 'n10', title: 'WebGL Shader Basics', content: '<p>Shaders run on the GPU.</p><ul><li><strong>Vertex Shader</strong> — per vertex</li><li><strong>Fragment Shader</strong> — per pixel</li></ul>', date: '2026-07-06T10:15:00' }
         ]
       }
     ];
 
     let activeNoteId = null;
     let activeFolderId = null;
+    let lastOpenedFolderId = 'f1';
     let contextTarget = null;
     let selectedFolderColor = FOLDER_COLORS[0];
     let renameTarget = null;
@@ -1484,9 +1488,7 @@
     function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
 
     function formatDate(dateStr) {
-      const d = new Date(dateStr);
-      const now = new Date();
-      const diff = now - d;
+      const d = new Date(dateStr), now = new Date(), diff = now - d;
       if (diff < 60000) return 'Just now';
       if (diff < 3600000) return Math.floor(diff / 60000) + 'm ago';
       if (diff < 86400000) return Math.floor(diff / 3600000) + 'h ago';
@@ -1495,59 +1497,26 @@
     }
 
     function formatFullDate(dateStr) {
-      return new Date(dateStr).toLocaleString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
+      return new Date(dateStr).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
     }
 
     function getTotalNoteCount() { return folders.reduce((s, f) => s + f.notes.length, 0); }
 
     function findNote(noteId) {
-      for (const f of folders) {
-        const n = f.notes.find(n => n.id === noteId);
-        if (n) return { note: n, folder: f };
-      }
+      for (const f of folders) { const n = f.notes.find(n => n.id === noteId); if (n) return { note: n, folder: f }; }
       return null;
     }
 
     function escHtml(str) { const d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 
-    // ===== 侧边栏开关 =====
-    function openSidebar() {
-      sidebarOpen = true;
-      document.getElementById('sidebar').classList.add('open');
-      document.getElementById('sidebarBackdrop').classList.add('visible');
-    }
+    function openSidebar() { sidebarOpen = true; document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarBackdrop').classList.add('visible'); }
+    function closeSidebar() { sidebarOpen = false; document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarBackdrop').classList.remove('visible'); }
 
-    function closeSidebar() {
-      sidebarOpen = false;
-      document.getElementById('sidebar').classList.remove('open');
-      document.getElementById('sidebarBackdrop').classList.remove('visible');
-    }
-
-    function toggleSidebar() {
-      if (sidebarOpen) closeSidebar();
-      else openSidebar();
-    }
-
-    // ===== 渲染 =====
-    function render() {
-      renderFolders();
-      document.getElementById('allNotesCount').textContent = getTotalNoteCount();
-      document.getElementById('statusNotes').textContent = getTotalNoteCount() + ' notes';
-      const allItem = document.getElementById('allNotesItem');
-      if (activeNoteId === null && activeFolderId === null) {
-        allItem.classList.add('active');
-      } else {
-        allItem.classList.remove('active');
-      }
-      updateTopbarBreadcrumb();
-      if (activeNoteId) updateMeta();
-    }
-
+    // ===== Breadcrumb: sirf tab show folder name jab user ne folder/select kiya ho =====
     function updateTopbarBreadcrumb() {
       const bc = document.getElementById('topbarBreadcrumb');
+
+      // Agar koi note selected hai → folder > note dikhao
       if (activeNoteId) {
         const found = findNote(activeNoteId);
         if (found) {
@@ -1555,7 +1524,27 @@
           return;
         }
       }
-      bc.innerHTML = `<span class="tb-folder">NoteCraft</span>`;
+
+      // Agar user ne folder click kiya hai (activeFolderId set hai) aur koi note nahi → sirf folder name
+      if (activeFolderId && !activeNoteId) {
+        const folder = folders.find(f => f.id === activeFolderId);
+        if (folder) {
+          bc.innerHTML = `<span class="tb-folder" style="color:${folder.color}">${escHtml(folder.name)}</span>`;
+          return;
+        }
+      }
+
+      // Kuch select nahi hai → sirf "NoteCraft"
+      bc.innerHTML = `<span class="tb-folder" style="color:var(--fg-muted)">NoteCraft</span>`;
+    }
+
+    function render() {
+      renderFolders();
+      document.getElementById('allNotesCount').textContent = getTotalNoteCount();
+      document.getElementById('statusNotes').textContent = getTotalNoteCount() + ' notes';
+      document.getElementById('allNotesItem').classList.toggle('active', activeNoteId === null && activeFolderId === null);
+      updateTopbarBreadcrumb();
+      if (activeNoteId) updateMeta();
     }
 
     function renderFolders() {
@@ -1566,36 +1555,27 @@
       folders.forEach(folder => {
         let filteredNotes = folder.notes;
         if (query) {
-          filteredNotes = folder.notes.filter(n =>
-            n.title.toLowerCase().includes(query) ||
-            n.content.replace(/<[^>]*>/g, '').toLowerCase().includes(query)
-          );
+          filteredNotes = folder.notes.filter(n => n.title.toLowerCase().includes(query) || n.content.replace(/<[^>]*>/g, '').toLowerCase().includes(query));
           if (filteredNotes.length === 0 && !folder.name.toLowerCase().includes(query)) return;
         }
-
         const isExpanded = folder.expanded || (query && filteredNotes.length > 0);
         const isActive = activeFolderId === folder.id && !activeNoteId;
 
         const div = document.createElement('div');
         div.className = 'folder-item';
-        div.dataset.folderId = folder.id;
-
         div.innerHTML = `
       <div class="folder-header ${isActive ? 'active' : ''}" data-folder-id="${folder.id}"
-           onclick="toggleFolder('${folder.id}')"
+           onclick="selectFolder('${folder.id}')"
            oncontextmenu="showFolderContext(event, '${folder.id}')">
         <span class="folder-chevron ${isExpanded ? 'open' : ''}"><i class="fas fa-chevron-right"></i></span>
         <span class="folder-icon" style="color:${folder.color}"><i class="fas fa-folder${isExpanded ? '-open' : ''}"></i></span>
         <span class="folder-name">${escHtml(folder.name)}</span>
         <span class="folder-count">${filteredNotes.length}</span>
-        <button class="folder-menu-btn" onclick="event.stopPropagation(); showFolderContext(event, '${folder.id}')" aria-label="Folder menu">
-          <i class="fas fa-ellipsis-h"></i>
-        </button>
+        <button class="folder-menu-btn" onclick="event.stopPropagation(); showFolderContext(event, '${folder.id}')" aria-label="Folder menu"><i class="fas fa-ellipsis-h"></i></button>
       </div>
       <div class="folder-notes ${isExpanded ? 'expanded' : ''}">
         ${filteredNotes.map(n => `
           <div class="note-item ${activeNoteId === n.id ? 'active' : ''}"
-               data-note-id="${n.id}" data-folder-id="${folder.id}"
                onclick="selectNote('${folder.id}', '${n.id}')"
                oncontextmenu="showNoteContext(event, '${folder.id}', '${n.id}')">
             <span class="note-dot" style="background:${folder.color}"></span>
@@ -1603,16 +1583,27 @@
             <span class="note-date">${formatDate(n.date)}</span>
           </div>
         `).join('')}
-      </div>
-    `;
+      </div>`;
         container.appendChild(div);
       });
     }
 
-    function toggleFolder(folderId) {
+    // ===== Folder select: expand + set activeFolderId + update breadcrumb =====
+    function selectFolder(folderId) {
       const folder = folders.find(f => f.id === folderId);
       if (!folder) return;
+
+      // Toggle expand
       folder.expanded = !folder.expanded;
+
+      // Set as active folder (clear note selection)
+      activeFolderId = folderId;
+      activeNoteId = null;
+      lastOpenedFolderId = folderId;
+
+      // Show empty state since no note selected
+      showEmptyState('No note selected', 'Select a note from "' + folder.name + '" to start editing.');
+      document.getElementById('statusFolder').textContent = folder.name;
       render();
     }
 
@@ -1621,6 +1612,7 @@
       if (folder) folder.expanded = true;
       activeNoteId = noteId;
       activeFolderId = folderId;
+      lastOpenedFolderId = folderId;
       showEditor();
       render();
       closeSidebar();
@@ -1630,6 +1622,7 @@
       activeNoteId = null;
       activeFolderId = null;
       showEmptyState('All Notes', 'Showing all notes across folders. Select a note to edit.');
+      document.getElementById('statusFolder').textContent = '--';
       render();
       closeSidebar();
     }
@@ -1652,15 +1645,9 @@
       document.getElementById('editorView').style.display = 'none';
       document.getElementById('emptyTitle').textContent = title;
       document.getElementById('emptyDesc').textContent = desc;
-      document.getElementById('statusFolder').textContent = '--';
     }
 
-    function updateNoteTitle(val) {
-      const found = findNote(activeNoteId);
-      if (!found) return;
-      found.note.title = val;
-      render();
-    }
+    function updateNoteTitle(val) { const f = findNote(activeNoteId); if (f) { f.note.title = val; render(); } }
 
     function onEditorInput() {
       const found = findNote(activeNoteId);
@@ -1685,55 +1672,38 @@
     }
 
     function execCmd(cmd, val) { document.execCommand(cmd, false, val || null); document.getElementById('editorArea').focus(); }
-
-    function formatBlock(tag) {
-      if (!tag) return;
-      document.execCommand('formatBlock', false, '<' + tag + '>');
-      document.getElementById('editorArea').focus();
-    }
+    function formatBlock(tag) { if (!tag) return; document.execCommand('formatBlock', false, '<' + tag + '>'); document.getElementById('editorArea').focus(); }
 
     function insertCode() {
       const sel = window.getSelection();
-      if (sel.rangeCount) {
-        const range = sel.getRangeAt(0);
-        const code = document.createElement('code');
-        try { range.surroundContents(code); } catch (e) {
-          code.textContent = sel.toString() || 'code';
-          range.deleteContents();
-          range.insertNode(code);
-        }
-      }
+      if (sel.rangeCount) { const range = sel.getRangeAt(0); const code = document.createElement('code'); try { range.surroundContents(code); } catch (e) { code.textContent = sel.toString() || 'code'; range.deleteContents(); range.insertNode(code); } }
       document.getElementById('editorArea').focus();
     }
 
-    function applyColor(hex, btnEl) {
-      document.execCommand('foreColor', false, hex);
-      document.querySelectorAll('.toolbar-color-btn').forEach(b => b.classList.remove('active-color'));
-      if (btnEl) btnEl.classList.add('active-color');
-    }
+    function applyColor(hex, btnEl) { document.execCommand('foreColor', false, hex); document.querySelectorAll('.toolbar-color-btn').forEach(b => b.classList.remove('active-color')); if (btnEl) btnEl.classList.add('active-color'); }
 
     function createNewNote() {
       let targetFolder = null;
       if (activeFolderId) targetFolder = folders.find(f => f.id === activeFolderId);
+      if (!targetFolder && lastOpenedFolderId) targetFolder = folders.find(f => f.id === lastOpenedFolderId);
       if (!targetFolder) targetFolder = folders[0];
       if (!targetFolder) { openNewFolderModal(); return; }
       targetFolder.expanded = true;
+      lastOpenedFolderId = targetFolder.id;
+      activeFolderId = targetFolder.id;
       const newNote = { id: genId(), title: '', content: '', date: new Date().toISOString() };
       targetFolder.notes.unshift(newNote);
       activeNoteId = newNote.id;
-      activeFolderId = targetFolder.id;
       showEditor();
       render();
       closeSidebar();
       setTimeout(() => document.getElementById('noteTitleInput').focus(), 100);
-      showToast('New note created', 'success');
+      showToast('New note in ' + targetFolder.name, 'success');
     }
 
     function openNewFolderModal() {
       document.getElementById('folderModal').classList.add('show');
-      const input = document.getElementById('newFolderName');
-      input.value = '';
-      input.classList.remove('error');
+      const input = document.getElementById('newFolderName'); input.value = ''; input.classList.remove('error');
       selectedFolderColor = FOLDER_COLORS[Math.floor(Math.random() * FOLDER_COLORS.length)];
       renderFolderColors();
       setTimeout(() => input.focus(), 100);
@@ -1742,29 +1712,24 @@
     function closeFolderModal() { document.getElementById('folderModal').classList.remove('show'); }
 
     function renderFolderColors() {
-      document.getElementById('folderColorPicker').innerHTML = FOLDER_COLORS.map(c =>
-        `<div class="modal-color-opt ${c === selectedFolderColor ? 'selected' : ''}" style="background:${c}" onclick="selectFolderColor('${c}')"></div>`
-      ).join('');
+      document.getElementById('folderColorPicker').innerHTML = FOLDER_COLORS.map(c => `<div class="modal-color-opt ${c === selectedFolderColor ? 'selected' : ''}" style="background:${c}" onclick="selectFolderColor('${c}')"></div>`).join('');
     }
 
     function selectFolderColor(c) { selectedFolderColor = c; renderFolderColors(); }
 
     function confirmNewFolder() {
-      const input = document.getElementById('newFolderName');
-      const name = input.value.trim();
+      const input = document.getElementById('newFolderName'); const name = input.value.trim();
       if (!name) { input.classList.add('error'); setTimeout(() => input.classList.remove('error'), 1500); return; }
-      folders.push({ id: genId(), name, color: selectedFolderColor, expanded: false, notes: [] });
-      closeFolderModal();
-      render();
+      const nf = { id: genId(), name, color: selectedFolderColor, expanded: false, notes: [] };
+      folders.push(nf); lastOpenedFolderId = nf.id; closeFolderModal(); render();
       showToast('Folder "' + name + '" created', 'success');
     }
 
-    function showFolderContext(e, folderId) { e.preventDefault(); e.stopPropagation(); contextTarget = { type: 'folder', folderId }; positionMenu(e); }
-    function showNoteContext(e, folderId, noteId) { e.preventDefault(); e.stopPropagation(); contextTarget = { type: 'note', folderId, noteId }; positionMenu(e); }
+    function showFolderContext(e, folderId) { e.preventDefault(); e.stopPropagation(); lastOpenedFolderId = folderId; contextTarget = { type: 'folder', folderId }; positionMenu(e); }
+    function showNoteContext(e, folderId, noteId) { e.preventDefault(); e.stopPropagation(); lastOpenedFolderId = folderId; contextTarget = { type: 'note', folderId, noteId }; positionMenu(e); }
 
     function positionMenu(e) {
-      const menu = document.getElementById('contextMenu');
-      menu.style.display = 'block';
+      const menu = document.getElementById('contextMenu'); menu.style.display = 'block';
       menu.style.left = Math.min(e.clientX, window.innerWidth - 210) + 'px';
       menu.style.top = Math.min(e.clientY, window.innerHeight - 240) + 'px';
       hideColorSubmenuNow();
@@ -1774,23 +1739,16 @@
 
     function showColorSubmenu() {
       clearTimeout(colorSubmenuTimer);
-      const submenu = document.getElementById('colorSubmenu');
-      const ctxItem = document.getElementById('ctxChangeColor');
-      const ctxMenu = document.getElementById('contextMenu');
       let currentColor = '#ff6b35';
       if (contextTarget && contextTarget.folderId) { const f = folders.find(f => f.id === contextTarget.folderId); if (f) currentColor = f.color; }
-      document.getElementById('colorSubmenuGrid').innerHTML = FOLDER_COLORS.map(c =>
-        `<div class="color-submenu-opt ${c === currentColor ? 'current' : ''}" style="background:${c}" title="${c}" onclick="pickSubmenuColor('${c}')"></div>`
-      ).join('');
-      const ctxRect = ctxMenu.getBoundingClientRect();
-      const itemRect = ctxItem.getBoundingClientRect();
-      let left = ctxRect.right + 4, top = itemRect.top - 10;
-      if (left + 180 > window.innerWidth) left = ctxRect.left - 184;
+      document.getElementById('colorSubmenuGrid').innerHTML = FOLDER_COLORS.map(c => `<div class="color-submenu-opt ${c === currentColor ? 'current' : ''}" style="background:${c}" onclick="pickSubmenuColor('${c}')"></div>`).join('');
+      const ctxMenu = document.getElementById('contextMenu'), ctxItem = document.getElementById('ctxChangeColor');
+      const cr = ctxMenu.getBoundingClientRect(), ir = ctxItem.getBoundingClientRect();
+      let left = cr.right + 4, top = ir.top - 10;
+      if (left + 180 > window.innerWidth) left = cr.left - 184;
       if (top + 100 > window.innerHeight) top = window.innerHeight - 110;
       if (top < 8) top = 8;
-      submenu.style.left = left + 'px';
-      submenu.style.top = top + 'px';
-      submenu.style.display = 'block';
+      const sub = document.getElementById('colorSubmenu'); sub.style.left = left + 'px'; sub.style.top = top + 'px'; sub.style.display = 'block';
     }
 
     function startHideColorSubmenu() { colorSubmenuTimer = setTimeout(hideColorSubmenuNow, 200); }
@@ -1800,41 +1758,28 @@
     function pickSubmenuColor(color) {
       if (!contextTarget || !contextTarget.folderId) return;
       const folder = folders.find(f => f.id === contextTarget.folderId);
-      if (folder) {
-        folder.color = color;
-        render();
-        showToast('Color changed', 'info');
-      }
+      if (folder) { folder.color = color; render(); showToast('Color changed', 'info'); }
       hideContextMenu();
     }
 
     document.getElementById('contextMenu').addEventListener('click', function (e) {
-      const item = e.target.closest('.ctx-item');
-      if (!item) return;
-      const action = item.dataset.action;
-      if (!action) return;
+      const item = e.target.closest('.ctx-item'); if (!item) return;
+      const action = item.dataset.action; if (!action) return;
       if (action === 'changeColor') { showColorSubmenu(); return; }
-      const target = contextTarget ? { ...contextTarget } : null;
-      hideContextMenu();
+      const target = contextTarget ? { ...contextTarget } : null; hideContextMenu();
       if (!target) return;
       if (target.type === 'folder') {
-        const folder = folders.find(f => f.id === target.folderId);
-        if (!folder) return;
-        switch (action) {
-          case 'rename': openRenameModal('folder', folder.id, folder.name); break;
-          case 'addNote': activeFolderId = folder.id; folder.expanded = true; createNewNote(); break;
-          case 'duplicate': duplicateFolder(folder.id); break;
-          case 'delete': deleteFolder(folder.id); break;
-        }
+        const folder = folders.find(f => f.id === target.folderId); if (!folder) return;
+        if (action === 'rename') openRenameModal('folder', folder.id, folder.name);
+        else if (action === 'addNote') { lastOpenedFolderId = folder.id; activeFolderId = folder.id; folder.expanded = true; createNewNote(); }
+        else if (action === 'duplicate') duplicateFolder(folder.id);
+        else if (action === 'delete') deleteFolder(folder.id);
       } else if (target.type === 'note') {
-        const folder = folders.find(f => f.id === target.folderId);
-        if (!folder) return;
-        switch (action) {
-          case 'rename': { const note = folder.notes.find(n => n.id === target.noteId); if (note) openRenameModal('note', folder.id, note.title, note.id); break; }
-          case 'addNote': activeFolderId = folder.id; folder.expanded = true; createNewNote(); break;
-          case 'duplicate': { const note = folder.notes.find(n => n.id === target.noteId); if (note) duplicateNote(folder.id, note.id); break; }
-          case 'delete': { const note = folder.notes.find(n => n.id === target.noteId); if (note) deleteNote(folder.id, note.id); break; }
-        }
+        const folder = folders.find(f => f.id === target.folderId); if (!folder) return;
+        if (action === 'rename') { const n = folder.notes.find(n => n.id === target.noteId); if (n) openRenameModal('note', folder.id, n.title, n.id); }
+        else if (action === 'addNote') { lastOpenedFolderId = folder.id; activeFolderId = folder.id; folder.expanded = true; createNewNote(); }
+        else if (action === 'duplicate') { const n = folder.notes.find(n => n.id === target.noteId); if (n) duplicateNote(folder.id, n.id); }
+        else if (action === 'delete') { const n = folder.notes.find(n => n.id === target.noteId); if (n) deleteNote(folder.id, n.id); }
       }
     });
 
@@ -1846,8 +1791,7 @@
     function openRenameModal(type, folderId, currentName, noteId) {
       renameTarget = { type, folderId, noteId };
       document.getElementById('renameModalTitle').textContent = type === 'folder' ? 'Rename Folder' : 'Rename Note';
-      const input = document.getElementById('renameInput');
-      input.value = currentName; input.classList.remove('error');
+      const input = document.getElementById('renameInput'); input.value = currentName; input.classList.remove('error');
       document.getElementById('renameModal').classList.add('show');
       setTimeout(() => { input.focus(); input.select(); }, 100);
     }
@@ -1856,69 +1800,36 @@
 
     function confirmRename() {
       if (!renameTarget) return;
-      const input = document.getElementById('renameInput');
-      const val = input.value.trim();
+      const input = document.getElementById('renameInput'); const val = input.value.trim();
       if (!val) { input.classList.add('error'); setTimeout(() => input.classList.remove('error'), 1500); return; }
-      if (renameTarget.type === 'folder') {
-        const folder = folders.find(f => f.id === renameTarget.folderId);
-        if (folder) { folder.name = val; if (activeFolderId === folder.id) document.getElementById('statusFolder').textContent = val; }
-      } else if (renameTarget.type === 'note') {
-        const folder = folders.find(f => f.id === renameTarget.folderId);
-        if (folder) {
-          const note = folder.notes.find(n => n.id === renameTarget.noteId);
-          if (note) { note.title = val; if (activeNoteId === note.id) document.getElementById('noteTitleInput').value = val; }
-        }
-      }
-      closeRenameModal();
-      render();
-      showToast('Renamed successfully', 'success');
+      if (renameTarget.type === 'folder') { const f = folders.find(f => f.id === renameTarget.folderId); if (f) { f.name = val; if (activeFolderId === f.id) document.getElementById('statusFolder').textContent = val; } }
+      else if (renameTarget.type === 'note') { const f = folders.find(f => f.id === renameTarget.folderId); if (f) { const n = f.notes.find(n => n.id === renameTarget.noteId); if (n) { n.title = val; if (activeNoteId === n.id) document.getElementById('noteTitleInput').value = val; } } }
+      closeRenameModal(); render(); showToast('Renamed successfully', 'success');
     }
 
     function deleteFolder(folderId) {
-      const folder = folders.find(f => f.id === folderId);
-      if (!folder) return;
-      if (activeNoteId) { const found = findNote(activeNoteId); if (found && found.folder.id === folderId) { activeNoteId = null; showEmptyState('No note selected', 'The note you were editing was deleted.'); } }
+      const folder = folders.find(f => f.id === folderId); if (!folder) return;
+      if (activeNoteId) { const found = findNote(activeNoteId); if (found && found.folder.id === folderId) { activeNoteId = null; showEmptyState('No note selected', 'The note was deleted.'); } }
       if (activeFolderId === folderId) activeFolderId = null;
-      folders = folders.filter(f => f.id !== folderId);
-      render();
-      showToast('Folder "' + folder.name + '" deleted', 'error');
+      if (lastOpenedFolderId === folderId) lastOpenedFolderId = folders.length > 0 ? folders[0].id : null;
+      folders = folders.filter(f => f.id !== folderId); render(); showToast('Folder deleted', 'error');
     }
 
     function deleteNote(folderId, noteId) {
-      const folder = folders.find(f => f.id === folderId);
-      if (!folder) return;
-      if (activeNoteId === noteId) { activeNoteId = null; showEmptyState('No note selected', 'Select a note from the sidebar to start editing.'); }
-      folder.notes = folder.notes.filter(n => n.id !== noteId);
-      render();
-      showToast('Note deleted', 'error');
+      const folder = folders.find(f => f.id === folderId); if (!folder) return;
+      if (activeNoteId === noteId) { activeNoteId = null; showEmptyState('No note selected', 'Select a note to edit.'); }
+      folder.notes = folder.notes.filter(n => n.id !== noteId); render(); showToast('Note deleted', 'error');
     }
 
-    function duplicateFolder(folderId) {
-      const folder = folders.find(f => f.id === folderId);
-      if (!folder) return;
-      folders.push({ id: genId(), name: folder.name + ' (copy)', color: folder.color, expanded: false, notes: folder.notes.map(n => ({ id: genId(), title: n.title + ' (copy)', content: n.content, date: new Date().toISOString() })) });
-      render();
-      showToast('Folder duplicated', 'info');
-    }
-
-    function duplicateNote(folderId, noteId) {
-      const folder = folders.find(f => f.id === folderId);
-      if (!folder) return;
-      const note = folder.notes.find(n => n.id === noteId);
-      if (!note) return;
-      folder.notes.splice(folder.notes.indexOf(note) + 1, 0, { id: genId(), title: note.title + ' (copy)', content: note.content, date: new Date().toISOString() });
-      render();
-      showToast('Note duplicated', 'info');
-    }
-
-    function filterNotes(query) { render(); }
+    function duplicateFolder(folderId) { const f = folders.find(f => f.id === folderId); if (!f) return; folders.push({ id: genId(), name: f.name + ' (copy)', color: f.color, expanded: false, notes: f.notes.map(n => ({ id: genId(), title: n.title + ' (copy)', content: n.content, date: new Date().toISOString() })) }); render(); showToast('Folder duplicated', 'info'); }
+    function duplicateNote(folderId, noteId) { const f = folders.find(f => f.id === folderId); if (!f) return; const n = f.notes.find(n => n.id === noteId); if (!n) return; f.notes.splice(f.notes.indexOf(n) + 1, 0, { id: genId(), title: n.title + ' (copy)', content: n.content, date: new Date().toISOString() }); render(); showToast('Note duplicated', 'info'); }
+    function filterNotes() { render(); }
 
     function showToast(msg, type) {
       const container = document.getElementById('toastContainer');
-      const iconMap = { success: 'fas fa-check-circle', error: 'fas fa-trash-alt', info: 'fas fa-info-circle' };
-      const toast = document.createElement('div');
-      toast.className = 'toast ' + (type || 'info');
-      toast.innerHTML = `<i class="${iconMap[type] || iconMap.info}"></i><span>${escHtml(msg)}</span>`;
+      const icons = { success: 'fas fa-check-circle', error: 'fas fa-trash-alt', info: 'fas fa-info-circle' };
+      const toast = document.createElement('div'); toast.className = 'toast ' + (type || 'info');
+      toast.innerHTML = `<i class="${icons[type] || icons.info}"></i><span>${escHtml(msg)}</span>`;
       container.appendChild(toast);
       setTimeout(() => { if (toast.parentNode) toast.remove(); }, 2600);
     }
@@ -1928,9 +1839,7 @@
       if (e.key === 'Escape') { hideContextMenu(); closeFolderModal(); closeRenameModal(); if (sidebarOpen) closeSidebar(); }
     });
 
-    document.addEventListener('click', (e) => {
-      if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu')) hideContextMenu();
-    });
+    document.addEventListener('click', (e) => { if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu')) hideContextMenu(); });
 
     render();
     showEmptyState('No note selected', 'Select a note from the sidebar to start editing, or create a new one.');
