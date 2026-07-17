@@ -141,3 +141,6 @@ Google Fonts — Space Grotesk + JetBrains Mono
 Font Awesome 6 — Icon library
 Generating Icons
 Icons were generated using RealFaviconGenerator:
+
+
+have a miner update
