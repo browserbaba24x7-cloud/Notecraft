@@ -1497,9 +1497,7 @@
           activeFolderId: activeFolderId,
           lastOpenedFolderId: lastOpenedFolderId
         }));
-      } catch (e) {
-        // silently fail — never break the app
-      }
+      } catch (e) {}
     }
 
     function loadData() {
@@ -1508,7 +1506,6 @@
         if (!saved) return false;
         var data = JSON.parse(saved);
         if (!data || !Array.isArray(data.folders)) return false;
-        // validate each folder has a notes array
         for (var i = 0; i < data.folders.length; i++) {
           var f = data.folders[i];
           if (!f.id || !f.name || !Array.isArray(f.notes)) return false;
@@ -1519,13 +1516,11 @@
         lastOpenedFolderId = data.lastOpenedFolderId || (folders.length > 0 ? folders[0].id : 'f1');
         return true;
       } catch (e) {
-        // corrupted data — remove it so next load uses defaults
         try { localStorage.removeItem(STORAGE_KEY); } catch (e2) {}
         return false;
       }
     }
 
-    // Load from localStorage, fall back to defaults
     if (!loadData()) {
       folders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
     }
@@ -1707,7 +1702,6 @@
       updateMeta();
       document.getElementById('allNotesCount').textContent = getTotalNoteCount();
       updateTopbarBreadcrumb();
-      // debounce saves on typing
       clearTimeout(_editorSaveTimer);
       _editorSaveTimer = setTimeout(function () { saveData(); }, 300);
     }
@@ -1827,12 +1821,21 @@
       var item = e.target.closest('.ctx-item');
       if (!item || !contextTarget) return;
       var action = item.dataset.action;
-      if (action === 'rename') openRenameModal();
-      else if (action === 'addNote') addNoteToContextFolder();
-      else if (action === 'changeColor') showColorSubmenu();
-      else if (action === 'duplicate') duplicateContextTarget();
-      else if (action === 'delete') deleteContextTarget();
-      hideContextMenu();
+      if (action === 'rename') {
+        openRenameModal();
+        hideContextMenu();
+      } else if (action === 'addNote') {
+        addNoteToContextFolder();
+        hideContextMenu();
+      } else if (action === 'changeColor') {
+        showColorSubmenu();
+      } else if (action === 'duplicate') {
+        duplicateContextTarget();
+        hideContextMenu();
+      } else if (action === 'delete') {
+        deleteContextTarget();
+        hideContextMenu();
+      }
     });
 
     function showColorSubmenu() {
