@@ -1253,6 +1253,73 @@
       }
     }
 
+    /* ===== Delete Confirmation Modal ===== */
+    .delete-modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 8px 0 4px;
+    }
+
+    .delete-modal-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(248, 113, 113, 0.1);
+      border: 1px solid rgba(248, 113, 113, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .delete-modal-icon i {
+      font-size: 28px;
+      color: var(--danger);
+    }
+
+    .delete-modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 8px;
+    }
+
+    .delete-modal-desc {
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .delete-modal-name {
+      font-size: 14px;
+      color: var(--fg-dim);
+      font-weight: 600;
+      background: var(--bg-deep);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 24px;
+      width: 100%;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    .modal-btn.danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .modal-btn.danger:hover {
+      background: #ef4444;
+      box-shadow: 0 4px 12px rgba(248, 113, 113, 0.3);
+    }
+
+    /* ===== End Delete Modal ===== */
+
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -1442,6 +1509,21 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal">
+      <div class="delete-modal-body">
+        <div class="delete-modal-icon"><i class="far fa-trash-alt"></i></div>
+        <div class="delete-modal-title" id="deleteModalTitle">Delete Note</div>
+        <div class="delete-modal-desc" id="deleteModalDesc">This note will be permanently deleted.</div>
+        <div class="delete-modal-name" id="deleteModalName"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="modal-btn cancel" onclick="closeDeleteModal()">Cancel</button>
+        <button class="modal-btn danger" onclick="confirmDelete()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-container" id="toastContainer"></div>
 
   <script>
@@ -1483,6 +1565,7 @@
     var contextTarget = null;
     var selectedFolderColor = FOLDER_COLORS[0];
     var renameTarget = null;
+    var deleteTarget = null;
     var sidebarOpen = false;
     var colorSubmenuTimer = null;
 
@@ -1833,7 +1916,7 @@
         duplicateContextTarget();
         hideContextMenu();
       } else if (action === 'delete') {
-        deleteContextTarget();
+        openDeleteModal();
         hideContextMenu();
       }
     });
@@ -1908,16 +1991,45 @@
       }
     }
 
-    function deleteContextTarget() {
-      if (contextTarget.type === 'folder') {
+    /* ===== Delete Confirmation ===== */
+    function openDeleteModal() {
+      if (!contextTarget) return;
+      deleteTarget = { type: contextTarget.type, id: contextTarget.id, folderId: contextTarget.folderId };
+
+      if (deleteTarget.type === 'folder') {
+        var folder = folders.find(function (f) { return f.id === deleteTarget.id; });
+        if (!folder) return;
+        document.getElementById('deleteModalTitle').textContent = 'Delete Folder';
+        document.getElementById('deleteModalDesc').textContent = 'This folder and all its notes will be permanently deleted.';
+        document.getElementById('deleteModalName').textContent = folder.name;
+      } else {
+        var found = findNote(deleteTarget.id);
+        if (!found) return;
+        document.getElementById('deleteModalTitle').textContent = 'Delete Note';
+        document.getElementById('deleteModalDesc').textContent = 'This note will be permanently deleted.';
+        document.getElementById('deleteModalName').textContent = found.note.title || 'Untitled';
+      }
+
+      document.getElementById('deleteModal').classList.add('show');
+    }
+
+    function closeDeleteModal() {
+      document.getElementById('deleteModal').classList.remove('show');
+      deleteTarget = null;
+    }
+
+    function confirmDelete() {
+      if (!deleteTarget) return;
+
+      if (deleteTarget.type === 'folder') {
         var idx = -1;
         for (var i = 0; i < folders.length; i++) {
-          if (folders[i].id === contextTarget.id) { idx = i; break; }
+          if (folders[i].id === deleteTarget.id) { idx = i; break; }
         }
-        if (idx === -1) return;
+        if (idx === -1) { closeDeleteModal(); return; }
         var name = folders[idx].name;
         folders.splice(idx, 1);
-        if (activeFolderId === contextTarget.id) {
+        if (activeFolderId === deleteTarget.id) {
           activeFolderId = null;
           activeNoteId = null;
           showEmptyState('No note selected', 'Select a note from the sidebar.');
@@ -1932,17 +2044,17 @@
         render();
         showToast('"' + name + '" deleted', 'error');
         saveData();
-      } else if (contextTarget.type === 'note') {
-        var f = folders.find(function (f) { return f.id === contextTarget.folderId; });
-        if (!f) return;
+      } else if (deleteTarget.type === 'note') {
+        var f = folders.find(function (f) { return f.id === deleteTarget.folderId; });
+        if (!f) { closeDeleteModal(); return; }
         var ni = -1;
         for (var j = 0; j < f.notes.length; j++) {
-          if (f.notes[j].id === contextTarget.id) { ni = j; break; }
+          if (f.notes[j].id === deleteTarget.id) { ni = j; break; }
         }
-        if (ni === -1) return;
+        if (ni === -1) { closeDeleteModal(); return; }
         var title = f.notes[ni].title || 'Untitled';
         f.notes.splice(ni, 1);
-        if (activeNoteId === contextTarget.id) {
+        if (activeNoteId === deleteTarget.id) {
           activeNoteId = null;
           showEmptyState('No note selected', 'Select a note from the sidebar.');
         }
@@ -1950,7 +2062,10 @@
         showToast('"' + title + '" deleted', 'error');
         saveData();
       }
+
+      closeDeleteModal();
     }
+    /* ============================= */
 
     function openRenameModal() {
       if (!contextTarget) return;
@@ -2016,7 +2131,7 @@
 
     document.addEventListener('keydown', function (e) {
       if (e.ctrlKey && e.key === 'n') { e.preventDefault(); createNewNote(); }
-      if (e.key === 'Escape') { closeSidebar(); closeFolderModal(); closeRenameModal(); hideContextMenu(); }
+      if (e.key === 'Escape') { closeSidebar(); closeFolderModal(); closeRenameModal(); closeDeleteModal(); hideContextMenu(); }
     });
 
     // ===== Initial render =====
