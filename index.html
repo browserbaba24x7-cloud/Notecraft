@@ -484,6 +484,76 @@
       align-self: flex-start;
     }
 
+    /* ===== Empty Folder State ===== */
+    .folder-empty-state {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 12px 10px 46px;
+      margin: 2px 8px 4px 0;
+      cursor: pointer;
+      border-radius: 7px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .folder-empty-state::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 1px;
+      background: var(--border-light);
+    }
+
+    .folder-empty-state:hover {
+      background: var(--bg-hover);
+    }
+
+    .folder-empty-icon {
+      font-size: 11px;
+      color: var(--fg-muted);
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
+    .folder-empty-text {
+      font-size: 11.5px;
+      color: var(--fg-muted);
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .folder-empty-state:hover .folder-empty-text {
+      opacity: 1;
+    }
+
+    .folder-empty-plus {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-light);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--fg-dim);
+      vertical-align: middle;
+      margin: 0 2px;
+      transition: all 0.15s;
+    }
+
+    .folder-empty-state:hover .folder-empty-plus {
+      background: var(--accent-glow);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    /* ============================ */
+
     .new-note-btn {
       margin: 8px 12px 16px;
       padding: 11px 16px;
@@ -1729,19 +1799,26 @@
         div.className = 'folder-item';
 
         var notesHtml = '';
-        for (var ni = 0; ni < filteredNotes.length; ni++) {
-          var n = filteredNotes[ni];
-          var noteActive = activeNoteId === n.id ? ' active' : '';
-          var preview = getPreview(n.content);
-          var previewHtml = preview ? '<span class="note-preview-text">' + escHtml(preview) + '</span>' : '';
-          notesHtml += '<div class="note-item' + noteActive + '" onclick="selectNote(\'' + folder.id + '\', \'' + n.id + '\')" oncontextmenu="showNoteContext(event, \'' + folder.id + '\', \'' + n.id + '\')">'
-            + '<span class="note-dot" style="background:' + folder.color + '"></span>'
-            + '<div class="note-text-area">'
-            + '<span class="note-title-text">' + escHtml(n.title || 'Untitled') + '</span>'
-            + previewHtml
-            + '</div>'
-            + '<span class="note-date">' + formatDate(n.date) + '</span>'
+        if (filteredNotes.length === 0) {
+          notesHtml = '<div class="folder-empty-state" onclick="addNoteToFolderById(\'' + folder.id + '\')">'
+            + '<i class="far fa-folder-open folder-empty-icon"></i>'
+            + '<span class="folder-empty-text">No notes yet. Click <span class="folder-empty-plus">+</span> to add one.</span>'
             + '</div>';
+        } else {
+          for (var ni = 0; ni < filteredNotes.length; ni++) {
+            var n = filteredNotes[ni];
+            var noteActive = activeNoteId === n.id ? ' active' : '';
+            var preview = getPreview(n.content);
+            var previewHtml = preview ? '<span class="note-preview-text">' + escHtml(preview) + '</span>' : '';
+            notesHtml += '<div class="note-item' + noteActive + '" onclick="selectNote(\'' + folder.id + '\', \'' + n.id + '\')" oncontextmenu="showNoteContext(event, \'' + folder.id + '\', \'' + n.id + '\')">'
+              + '<span class="note-dot" style="background:' + folder.color + '"></span>'
+              + '<div class="note-text-area">'
+              + '<span class="note-title-text">' + escHtml(n.title || 'Untitled') + '</span>'
+              + previewHtml
+              + '</div>'
+              + '<span class="note-date">' + formatDate(n.date) + '</span>'
+              + '</div>';
+          }
         }
 
         div.innerHTML = '<div class="folder-header ' + (isActive ? 'active' : '') + '" data-folder-id="' + folder.id + '" onclick="selectFolder(\'' + folder.id + '\')" oncontextmenu="showFolderContext(event, \'' + folder.id + '\')">'
@@ -1758,6 +1835,23 @@
         container.appendChild(div);
       }
     }
+
+    /* ===== Add note to folder by ID (for empty state click) ===== */
+    function addNoteToFolderById(folderId) {
+      var folder = folders.find(function (f) { return f.id === folderId; });
+      if (!folder) return;
+      var note = { id: genId(), title: '', content: '', date: new Date().toISOString() };
+      folder.notes.unshift(note);
+      folder.expanded = true;
+      activeNoteId = note.id;
+      activeFolderId = folder.id;
+      lastOpenedFolderId = folder.id;
+      showEditor();
+      render();
+      document.getElementById('noteTitleInput').focus();
+      saveData();
+    }
+    /* ============================================================ */
 
     function selectFolder(folderId) {
       var folder = folders.find(function (f) { return f.id === folderId; });
