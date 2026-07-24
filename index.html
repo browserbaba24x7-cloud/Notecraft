@@ -1419,6 +1419,94 @@
 
     /* ===== End Delete Modal ===== */
 
+    /* ===== Sort Button & Menu ===== */
+    .folder-sort-btn {
+      opacity: 0;
+      background: transparent;
+      border: none;
+      color: var(--fg-muted);
+      cursor: pointer;
+      font-size: 11px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+    }
+
+    .folder-header:hover .folder-sort-btn {
+      opacity: 1;
+    }
+
+    .folder-sort-btn:hover {
+      color: var(--fg);
+      background: var(--bg-active);
+    }
+
+    .sort-menu {
+      position: fixed;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 6px;
+      min-width: 185px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      z-index: 1001;
+      display: none;
+      animation: ctxIn 0.15s ease;
+    }
+
+    .sort-menu-title {
+      padding: 4px 10px 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+    }
+
+    .sort-menu .ctx-divider {
+      margin: 4px 0;
+    }
+
+    .sort-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12.5px;
+      color: var(--fg-dim);
+      transition: all 0.12s;
+    }
+
+    .sort-option:hover {
+      background: var(--bg-hover);
+      color: var(--fg);
+    }
+
+    .sort-option.active {
+      color: var(--accent);
+    }
+
+    .sort-option > i:first-child {
+      width: 14px;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .sort-check {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--accent);
+    }
+    /* ========================== */
+
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -1582,6 +1670,8 @@
     <div class="color-submenu-grid" id="colorSubmenuGrid"></div>
   </div>
 
+  <div class="sort-menu" id="sortMenu"></div>
+
   <div class="modal-overlay" id="folderModal">
     <div class="modal">
       <div class="modal-title">New Folder</div>
@@ -1630,27 +1720,27 @@
 
     var DEFAULT_FOLDERS = [
       {
-        id: 'f1', name: 'Personal', color: '#ff6b35', expanded: true, notes: [
+        id: 'f1', name: 'Personal', color: '#ff6b35', expanded: true, sortMode: 'date-desc', notes: [
           { id: 'n1', title: 'Daily Routine', content: '<h2>Morning Routine</h2><ul><li>Wake up at 6:00 AM</li><li>Meditation for 15 minutes</li><li>Exercise for 30 minutes</li><li>Healthy breakfast</li></ul><h2>Evening Routine</h2><ul><li>Review the day</li><li>Read for 30 minutes</li><li>Plan tomorrow</li><li>Sleep by 10:30 PM</li></ul>', date: '2026-07-14T10:30:00' },
           { id: 'n2', title: 'Books to Read', content: '<p>My reading list for this year:</p><ol><li><strong>Atomic Habits</strong> by James Clear</li><li><strong>Deep Work</strong> by Cal Newport</li><li><strong>The Almanack of Naval Ravikant</strong></li><li><strong>Thinking, Fast and Slow</strong> by Daniel Kahneman</li></ol><blockquote>Reading is to the mind what exercise is to the body.</blockquote>', date: '2026-07-13T15:20:00' },
           { id: 'n3', title: 'Fitness Goals', content: '<p>Target: Get in the best shape of my life by December 2026.</p><h3>Weekly Schedule</h3><ul><li>Monday: Chest & Triceps</li><li>Tuesday: Back & Biceps</li><li>Wednesday: Rest / Cardio</li><li>Thursday: Shoulders & Arms</li><li>Friday: Legs</li><li>Saturday: Full body HIIT</li><li>Sunday: Rest</li></ul>', date: '2026-07-12T09:00:00' }
         ]
       },
       {
-        id: 'f2', name: 'Work', color: '#60a5fa', expanded: false, notes: [
+        id: 'f2', name: 'Work', color: '#60a5fa', expanded: false, sortMode: 'date-desc', notes: [
           { id: 'n4', title: 'Project Roadmap Q3', content: '<h2>Q3 2026 Roadmap</h2><p>Key objectives:</p><ul><li>Launch v2.0</li><li>Migrate infrastructure</li><li>Hire 3 engineers</li><li>99.9% uptime</li></ul>', date: '2026-07-14T08:00:00' },
           { id: 'n5', title: 'Meeting Notes - July 10', content: '<p><strong>Attendees:</strong> Team Lead, PM, Design Lead</p><ul><li>Sprint progress on track</li><li>Design system updates needed</li></ul>', date: '2026-07-10T14:00:00' },
           { id: 'n6', title: 'API Documentation', content: '<code>POST /api/v2/auth/login</code><br><code>GET /api/v2/users</code><br><code>PUT /api/v2/users/:id</code>', date: '2026-07-09T11:30:00' }
         ]
       },
       {
-        id: 'f3', name: 'Ideas', color: '#a78bfa', expanded: false, notes: [
+        id: 'f3', name: 'Ideas', color: '#a78bfa', expanded: false, sortMode: 'date-desc', notes: [
           { id: 'n7', title: 'App Concept: FocusFlow', content: '<h2>FocusFlow</h2><p>A Pomodoro timer with ambient sounds and task tracking.</p><ul><li>Customizable intervals</li><li>Sound mixer</li><li>Daily stats</li></ul>', date: '2026-07-11T20:00:00' },
           { id: 'n8', title: 'Blog Post Ideas', content: '<ol><li>Why Dark Mode Matters</li><li>Building a Note App</li><li>Single-Page Applications</li><li>Color Theory for Dev Tools</li></ol>', date: '2026-07-08T16:45:00' }
         ]
       },
       {
-        id: 'f4', name: 'Learning', color: '#4ade80', expanded: false, notes: [
+        id: 'f4', name: 'Learning', color: '#4ade80', expanded: false, sortMode: 'date-desc', notes: [
           { id: 'n9', title: 'Rust Notes - Ownership', content: '<h2>Ownership Rules</h2><ol><li>Each value has one <strong>owner</strong></li><li>Value is <strong>dropped</strong> when owner goes out of scope</li><li>Values can be <strong>borrowed</strong> with &amp;</li></ol>', date: '2026-07-07T13:00:00' },
           { id: 'n10', title: 'WebGL Shader Basics', content: '<p>Shaders run on the GPU.</p><ul><li><strong>Vertex Shader</strong> — per vertex</li><li><strong>Fragment Shader</strong> — per pixel</li></ul>', date: '2026-07-06T10:15:00' }
         ]
@@ -1667,6 +1757,7 @@
     var deleteTarget = null;
     var sidebarOpen = false;
     var colorSubmenuTimer = null;
+    var sortTarget = null;
 
     /* ===== LOCAL STORAGE ===== */
     var STORAGE_KEY = 'notecraft_data';
@@ -1696,6 +1787,10 @@
         activeNoteId = data.activeNoteId || null;
         activeFolderId = data.activeFolderId || null;
         lastOpenedFolderId = data.lastOpenedFolderId || (folders.length > 0 ? folders[0].id : 'f1');
+        // Backward compat: ensure sortMode exists on all folders
+        for (var j = 0; j < folders.length; j++) {
+          if (!folders[j].sortMode) folders[j].sortMode = 'date-desc';
+        }
         return true;
       } catch (e) {
         try { localStorage.removeItem(STORAGE_KEY); } catch (e2) {}
@@ -1737,7 +1832,6 @@
 
     function escHtml(str) { var d = document.createElement('div'); d.textContent = str; return d.innerHTML; }
 
-    /* ===== Content Preview Helper ===== */
     function getPreview(html, maxLen) {
       maxLen = maxLen || 48;
       var text = html.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
@@ -1745,7 +1839,6 @@
       if (text.length <= maxLen) return text;
       return text.slice(0, maxLen) + '...';
     }
-    /* ================================== */
 
     function openSidebar() { sidebarOpen = true; document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebarBackdrop').classList.add('visible'); }
     function closeSidebar() { sidebarOpen = false; document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarBackdrop').classList.remove('visible'); }
@@ -1795,6 +1888,19 @@
         var isExpanded = folder.expanded || (query && filteredNotes.length > 0);
         var isActive = activeFolderId === folder.id && !activeNoteId;
 
+        // Sort notes
+        var sortMode = folder.sortMode || 'date-desc';
+        var sortedNotes = filteredNotes.slice();
+        if (sortMode === 'date-desc') {
+          sortedNotes.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+        } else if (sortMode === 'date-asc') {
+          sortedNotes.sort(function (a, b) { return new Date(a.date) - new Date(b.date); });
+        } else if (sortMode === 'name-asc') {
+          sortedNotes.sort(function (a, b) { return (a.title || 'Untitled').localeCompare(b.title || 'Untitled'); });
+        } else if (sortMode === 'name-desc') {
+          sortedNotes.sort(function (a, b) { return (b.title || 'Untitled').localeCompare(a.title || 'Untitled'); });
+        }
+
         var div = document.createElement('div');
         div.className = 'folder-item';
 
@@ -1805,8 +1911,8 @@
             + '<span class="folder-empty-text">No notes yet. Click <span class="folder-empty-plus">+</span> to add one.</span>'
             + '</div>';
         } else {
-          for (var ni = 0; ni < filteredNotes.length; ni++) {
-            var n = filteredNotes[ni];
+          for (var ni = 0; ni < sortedNotes.length; ni++) {
+            var n = sortedNotes[ni];
             var noteActive = activeNoteId === n.id ? ' active' : '';
             var preview = getPreview(n.content);
             var previewHtml = preview ? '<span class="note-preview-text">' + escHtml(preview) + '</span>' : '';
@@ -1826,6 +1932,7 @@
           + '<span class="folder-icon" style="color:' + folder.color + '"><i class="fas fa-folder' + (isExpanded ? '-open' : '') + '"></i></span>'
           + '<span class="folder-name">' + escHtml(folder.name) + '</span>'
           + '<span class="folder-count">' + filteredNotes.length + '</span>'
+          + '<button class="folder-sort-btn" onclick="event.stopPropagation(); showSortMenu(event, \'' + folder.id + '\')" aria-label="Sort notes"><i class="fas fa-sort"></i></button>'
           + '<button class="folder-menu-btn" onclick="event.stopPropagation(); showFolderContext(event, \'' + folder.id + '\')" aria-label="Folder menu"><i class="fas fa-ellipsis-h"></i></button>'
           + '</div>'
           + '<div class="folder-notes ' + (isExpanded ? 'expanded' : '') + '">'
@@ -1836,7 +1943,65 @@
       }
     }
 
-    /* ===== Add note to folder by ID (for empty state click) ===== */
+    /* ===== Sort Menu ===== */
+    function showSortMenu(e, folderId) {
+      e.stopPropagation();
+      hideContextMenu();
+      sortTarget = folderId;
+
+      var folder = folders.find(function (f) { return f.id === folderId; });
+      if (!folder) return;
+      var currentMode = folder.sortMode || 'date-desc';
+
+      var options = [
+        { mode: 'date-desc', label: 'Newest first', icon: 'fa-arrow-down-wide-short' },
+        { mode: 'date-asc', label: 'Oldest first', icon: 'fa-arrow-up-wide-short' },
+        { mode: 'name-asc', label: 'Name A \u2192 Z', icon: 'fa-arrow-down-a-z' },
+        { mode: 'name-desc', label: 'Name Z \u2192 A', icon: 'fa-arrow-up-z-a' }
+      ];
+
+      var html = '<div class="sort-menu-title">Sort Notes</div><div class="ctx-divider"></div>';
+      for (var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        var isAct = currentMode === opt.mode ? ' active' : '';
+        html += '<div class="sort-option' + isAct + '" onclick="setSortMode(\'' + opt.mode + '\')">'
+          + '<i class="fas ' + opt.icon + '"></i>'
+          + '<span>' + opt.label + '</span>'
+          + (isAct ? '<i class="fas fa-check sort-check"></i>' : '')
+          + '</div>';
+      }
+
+      var menu = document.getElementById('sortMenu');
+      menu.innerHTML = html;
+      menu.style.display = 'block';
+
+      var btn = e.currentTarget;
+      var rect = btn.getBoundingClientRect();
+      var top = rect.bottom + 4;
+      var left = rect.left;
+
+      menu.style.left = left + 'px';
+      menu.style.top = top + 'px';
+
+      var menuRect = menu.getBoundingClientRect();
+      if (menuRect.right > window.innerWidth) left = window.innerWidth - menuRect.width - 8;
+      if (menuRect.bottom > window.innerHeight) top = rect.top - menuRect.height - 4;
+
+      menu.style.left = left + 'px';
+      menu.style.top = top + 'px';
+    }
+
+    function setSortMode(mode) {
+      if (!sortTarget) return;
+      var folder = folders.find(function (f) { return f.id === sortTarget; });
+      if (!folder) return;
+      folder.sortMode = mode;
+      document.getElementById('sortMenu').style.display = 'none';
+      render();
+      saveData();
+    }
+    /* ===================== */
+
     function addNoteToFolderById(folderId) {
       var folder = folders.find(function (f) { return f.id === folderId; });
       if (!folder) return;
@@ -1851,7 +2016,6 @@
       document.getElementById('noteTitleInput').focus();
       saveData();
     }
-    /* ============================================================ */
 
     function selectFolder(folderId) {
       var folder = folders.find(function (f) { return f.id === folderId; });
@@ -2002,7 +2166,7 @@
     function confirmNewFolder() {
       var name = document.getElementById('newFolderName').value.trim();
       if (!name) { document.getElementById('newFolderName').classList.add('error'); return; }
-      folders.push({ id: genId(), name: name, color: selectedFolderColor, expanded: false, notes: [] });
+      folders.push({ id: genId(), name: name, color: selectedFolderColor, expanded: false, sortMode: 'date-desc', notes: [] });
       closeFolderModal();
       render();
       showToast('Folder created', 'success');
@@ -2024,6 +2188,7 @@
     }
 
     function showContextMenu(x, y) {
+      document.getElementById('sortMenu').style.display = 'none';
       var menu = document.getElementById('contextMenu');
       menu.style.display = 'block';
       var rect = menu.getBoundingClientRect();
@@ -2036,6 +2201,7 @@
     function hideContextMenu() {
       document.getElementById('contextMenu').style.display = 'none';
       document.getElementById('colorSubmenu').style.display = 'none';
+      document.getElementById('sortMenu').style.display = 'none';
     }
 
     document.getElementById('contextMenu').addEventListener('click', function (e) {
@@ -2060,6 +2226,7 @@
     });
 
     function showColorSubmenu() {
+      document.getElementById('sortMenu').style.display = 'none';
       var grid = document.getElementById('colorSubmenuGrid');
       var folder = folders.find(function (f) { return f.id === contextTarget.id; });
       var html = '';
@@ -2109,7 +2276,7 @@
         for (var i = 0; i < folder.notes.length; i++) {
           newNotes.push({ id: genId(), title: folder.notes[i].title, content: folder.notes[i].content, date: folder.notes[i].date });
         }
-        folders.push({ id: genId(), name: folder.name + ' (copy)', color: folder.color, expanded: false, notes: newNotes });
+        folders.push({ id: genId(), name: folder.name + ' (copy)', color: folder.color, expanded: false, sortMode: 'date-desc', notes: newNotes });
         render();
         showToast('Folder duplicated', 'success');
         saveData();
@@ -2129,7 +2296,6 @@
       }
     }
 
-    /* ===== Delete Confirmation ===== */
     function openDeleteModal() {
       if (!contextTarget) return;
       deleteTarget = { type: contextTarget.type, id: contextTarget.id, folderId: contextTarget.folderId };
@@ -2203,7 +2369,6 @@
 
       closeDeleteModal();
     }
-    /* ============================= */
 
     function openRenameModal() {
       if (!contextTarget) return;
@@ -2262,7 +2427,7 @@
     }
 
     document.addEventListener('click', function (e) {
-      if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu') && !e.target.closest('.folder-menu-btn')) {
+      if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu') && !e.target.closest('.folder-menu-btn') && !e.target.closest('.sort-menu') && !e.target.closest('.folder-sort-btn')) {
         hideContextMenu();
       }
     });
