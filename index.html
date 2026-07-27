@@ -402,6 +402,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
+      position: relative;
     }
 
     .pinned-section-label::before {
@@ -411,10 +412,6 @@
       width: 12px;
       height: 1px;
       background: var(--border-light);
-    }
-
-    .pinned-section-label {
-      position: relative;
     }
 
     .note-item {
@@ -1140,6 +1137,26 @@
       color: var(--danger);
     }
 
+    .toast-undo {
+      margin-left: auto;
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .toast-undo:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
     @keyframes toastIn {
       from {
         opacity: 0;
@@ -1544,6 +1561,152 @@
       color: var(--accent);
     }
 
+    /* ===== TRASH BIN STYLES (NEW) ===== */
+    .trash-section-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      margin: 2px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--fg-muted);
+      user-select: none;
+    }
+
+    .trash-section-item:hover {
+      background: var(--bg-hover);
+      color: var(--fg-dim);
+    }
+
+    .trash-section-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .trash-section-item i {
+      font-size: 14px;
+      width: 18px;
+      text-align: center;
+    }
+
+    .trash-section-item .count-badge {
+      margin-left: auto;
+      font-size: 11px;
+      background: var(--bg-card);
+      color: var(--fg-muted);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .trash-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .trash-list.expanded {
+      max-height: 2000px;
+    }
+
+    .trash-empty {
+      padding: 10px 20px 10px 48px;
+      font-size: 11.5px;
+      color: var(--fg-muted);
+      opacity: 0.5;
+    }
+
+    .trash-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px 7px 48px;
+      margin: 1px 8px 1px 0;
+      border-radius: 7px;
+      cursor: default;
+      transition: all 0.2s;
+      position: relative;
+      opacity: 0.7;
+    }
+
+    .trash-item:hover {
+      background: var(--bg-hover);
+      opacity: 1;
+    }
+
+    .trash-item-icon {
+      font-size: 12px;
+      flex-shrink: 0;
+      width: 16px;
+      text-align: center;
+    }
+
+    .trash-item-icon.note-icon {
+      color: var(--fg-muted);
+    }
+
+    .trash-item-icon.folder-icon-trash {
+      color: var(--folder-color);
+    }
+
+    .trash-item-info {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .trash-item-name {
+      font-size: 12.5px;
+      color: var(--fg-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .trash-item-type {
+      font-size: 9.5px;
+      color: var(--fg-muted);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .trash-item-time {
+      font-size: 10px;
+      color: var(--fg-muted);
+      flex-shrink: 0;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .trash-empty-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 12px 8px 48px;
+      margin: 4px 8px 6px 0;
+      font-size: 11.5px;
+      color: var(--fg-muted);
+      cursor: pointer;
+      border-radius: 7px;
+      transition: all 0.2s;
+      opacity: 0.7;
+    }
+
+    .trash-empty-btn:hover {
+      background: rgba(248, 113, 113, 0.08);
+      color: var(--danger);
+      opacity: 1;
+    }
+
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -1591,6 +1754,16 @@
         <span class="count-badge" id="allNotesCount">0</span>
       </div>
       <div id="foldersContainer"></div>
+
+      <!-- TRASH BIN (NEW) -->
+      <div style="height:1px;background:var(--border);margin:8px 20px;"></div>
+      <div class="trash-section-item" id="trashSectionItem" onclick="toggleTrash()">
+        <i class="far fa-trash-alt"></i>
+        <span>Trash</span>
+        <span class="count-badge" id="trashCount">0</span>
+      </div>
+      <div class="trash-list" id="trashList"></div>
+
     </div>
     <button class="new-note-btn" onclick="createNewNote()">
       <i class="fas fa-plus"></i>
@@ -1691,7 +1864,6 @@
     </div>
   </main>
 
-  <!-- Folder right-click menu (existing) -->
   <div class="context-menu" id="contextMenu">
     <div class="ctx-item" data-action="rename"><i class="fas fa-pen"></i>Rename</div>
     <div class="ctx-item" data-action="addNote"><i class="fas fa-plus"></i>Add note here</div>
@@ -1703,7 +1875,6 @@
     <div class="ctx-item danger" data-action="delete"><i class="far fa-trash-alt"></i>Delete</div>
   </div>
 
-  <!-- Note right-click menu (NEW for Pin feature) -->
   <div class="context-menu" id="noteContextMenu">
     <div class="ctx-item" id="ctxPinNote" data-action="pinNote"><i class="fas fa-thumbtack"></i><span id="ctxPinLabel">Pin note</span></div>
     <div class="ctx-divider"></div>
@@ -1711,6 +1882,13 @@
     <div class="ctx-item" data-action="duplicate"><i class="far fa-copy"></i>Duplicate</div>
     <div class="ctx-divider"></div>
     <div class="ctx-item danger" data-action="delete"><i class="far fa-trash-alt"></i>Delete</div>
+  </div>
+
+  <!-- Trash item context menu (NEW) -->
+  <div class="context-menu" id="trashContextMenu">
+    <div class="ctx-item" data-action="restore"><i class="fas fa-undo"></i>Restore</div>
+    <div class="ctx-divider"></div>
+    <div class="ctx-item danger" data-action="permanentDelete"><i class="fas fa-times-circle"></i>Delete permanently</div>
   </div>
 
   <div class="color-submenu" id="colorSubmenu">
@@ -1796,17 +1974,21 @@
     ];
 
     var folders = [];
+    var trash = [];
+    var TRASH_DURATION = 24 * 60 * 60 * 1000;
     var activeNoteId = null;
     var activeFolderId = null;
     var lastOpenedFolderId = 'f1';
-    var contextTarget = null; // {type:'folder', id} or {type:'note', id}
+    var contextTarget = null;
+    var trashContextIndex = -1;
     var selectedFolderColor = FOLDER_COLORS[0];
-    var renameTarget = null; // {type:'folder'|'note', id}
-    var deleteTarget = null; // {type:'folder'|'note', id}
+    var renameTarget = null;
+    var deleteTarget = null;
     var sidebarOpen = false;
     var colorSubmenuTimer = null;
     var sortTarget = null;
     var searchQuery = '';
+    var trashExpanded = false;
 
     /* ===== LOCAL STORAGE ===== */
     var STORAGE_KEY = 'notecraft_data';
@@ -1815,6 +1997,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           folders: folders,
+          trash: trash,
           activeNoteId: activeNoteId,
           activeFolderId: activeFolderId,
           lastOpenedFolderId: lastOpenedFolderId
@@ -1833,12 +2016,12 @@
           if (!f.id || !f.name || !Array.isArray(f.notes)) return false;
         }
         folders = data.folders;
+        trash = Array.isArray(data.trash) ? data.trash : [];
         activeNoteId = data.activeNoteId || null;
         activeFolderId = data.activeFolderId || null;
         lastOpenedFolderId = data.lastOpenedFolderId || (folders.length > 0 ? folders[0].id : 'f1');
         for (var j = 0; j < folders.length; j++) {
           if (!folders[j].sortMode) folders[j].sortMode = 'date-desc';
-          // Migrate: add pinned property if missing
           for (var k = 0; k < folders[j].notes.length; k++) {
             if (typeof folders[j].notes[k].pinned !== 'boolean') {
               folders[j].notes[k].pinned = false;
@@ -1854,7 +2037,30 @@
 
     if (!loadData()) {
       folders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
+      trash = [];
     }
+
+    /* ===== TRASH CLEANUP ===== */
+    function purgeOldTrash() {
+      var now = Date.now();
+      trash = trash.filter(function (item) {
+        return (now - new Date(item.deletedAt).getTime()) < TRASH_DURATION;
+      });
+    }
+
+    purgeOldTrash();
+    saveData();
+
+    /* Auto-purge trash every 60 seconds */
+    setInterval(function () {
+      var before = trash.length;
+      purgeOldTrash();
+      if (trash.length !== before) {
+        saveData();
+        renderTrash();
+      }
+    }, 60000);
+
     /* ========================= */
 
     function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
@@ -1903,10 +2109,8 @@
       var notes = folder.notes;
       var mode = folder.sortMode || 'date-desc';
       notes.sort(function (a, b) {
-        // Pinned notes always come first, regardless of sort mode
         if (a.pinned && !b.pinned) return -1;
         if (!a.pinned && b.pinned) return 1;
-        // Within same pin status, apply sort
         switch (mode) {
           case 'date-desc': return new Date(b.date) - new Date(a.date);
           case 'date-asc': return new Date(a.date) - new Date(b.date);
@@ -1920,6 +2124,7 @@
     /* ===== RENDER ===== */
     function renderAll() {
       renderFolders();
+      renderTrash();
       updateAllNotesCount();
       updateStatusBar();
       if (activeNoteId) {
@@ -1954,7 +2159,6 @@
         html += '</div>';
         html += '<div class="folder-notes' + (isExpanded ? ' expanded' : '') + '">';
 
-        // Render pinned notes section
         var pinnedNotes = f.notes.filter(function (n) { return n.pinned; });
         var otherNotes = f.notes.filter(function (n) { return !n.pinned; });
 
@@ -1965,7 +2169,6 @@
           }
         }
 
-        // Render other notes
         for (var j = 0; j < otherNotes.length; j++) {
           html += renderNoteItem(otherNotes[j], f.color);
         }
@@ -1981,7 +2184,6 @@
       }
       container.innerHTML = html;
 
-      // Attach note right-click handlers
       var noteEls = container.querySelectorAll('.note-item');
       for (var n = 0; n < noteEls.length; n++) {
         (function (el) {
@@ -2021,6 +2223,173 @@
       html += '</div>';
       return html;
     }
+
+    /* ===== TRASH BIN RENDER (NEW) ===== */
+    function renderTrash() {
+      purgeOldTrash();
+      document.getElementById('trashCount').textContent = trash.length;
+
+      var listEl = document.getElementById('trashList');
+      var sectionEl = document.getElementById('trashSectionItem');
+
+      if (trashExpanded) {
+        listEl.classList.add('expanded');
+        sectionEl.classList.add('active');
+      } else {
+        listEl.classList.remove('expanded');
+        sectionEl.classList.remove('active');
+      }
+
+      if (trash.length === 0) {
+        listEl.innerHTML = '<div class="trash-empty">Trash is empty</div>';
+        return;
+      }
+
+      var html = '';
+      for (var i = 0; i < trash.length; i++) {
+        var item = trash[i];
+        var name = item.type === 'folder' ? item.item.name : (item.item.title || 'Untitled');
+        var typeLabel = item.type === 'folder' ? 'Folder' : 'Note';
+        var iconCls = item.type === 'folder' ? 'trash-item-icon folder-icon-trash' : 'trash-item-icon note-icon';
+        var icon = item.type === 'folder' ? '<i class="fas fa-folder"></i>' : '<i class="far fa-sticky-note"></i>';
+        var timeLeft = getTrashTimeLeft(item.deletedAt);
+
+        html += '<div class="trash-item" data-trash-index="' + i + '" oncontextmenu="onTrashItemContext(event,' + i + ')">';
+        html += '<span class="' + iconCls + '">' + icon + '</span>';
+        html += '<div class="trash-item-info">';
+        html += '<div class="trash-item-name">' + escHtml(name) + '</div>';
+        html += '<div class="trash-item-type">' + typeLabel + '</div>';
+        html += '</div>';
+        html += '<span class="trash-item-time">' + timeLeft + '</span>';
+        html += '</div>';
+      }
+
+      html += '<div class="trash-empty-btn" onclick="emptyTrash()"><i class="fas fa-broom"></i> Empty trash</div>';
+      listEl.innerHTML = html;
+    }
+
+    function getTrashTimeLeft(deletedAt) {
+      var elapsed = Date.now() - new Date(deletedAt).getTime();
+      var remaining = TRASH_DURATION - elapsed;
+      if (remaining <= 0) return 'Expiring';
+      var hours = Math.floor(remaining / 3600000);
+      var mins = Math.floor((remaining % 3600000) / 60000);
+      if (hours > 0) return hours + 'h ' + mins + 'm left';
+      return mins + 'm left';
+    }
+
+    function toggleTrash() {
+      trashExpanded = !trashExpanded;
+      renderTrash();
+    }
+
+    /* ===== TRASH ITEM CONTEXT MENU (NEW) ===== */
+    function onTrashItemContext(e, index) {
+      e.preventDefault();
+      e.stopPropagation();
+      trashContextIndex = index;
+      var menu = document.getElementById('trashContextMenu');
+      menu.style.display = 'block';
+      positionMenu(menu, e.clientX, e.clientY);
+    }
+
+    document.getElementById('trashContextMenu').addEventListener('click', function (e) {
+      var item = e.target.closest('.ctx-item');
+      if (!item || trashContextIndex < 0) return;
+      var action = item.getAttribute('data-action');
+      if (action === 'restore') {
+        restoreFromTrash(trashContextIndex);
+      } else if (action === 'permanentDelete') {
+        permanentDeleteFromTrash(trashContextIndex);
+      }
+      hideAllMenus();
+      trashContextIndex = -1;
+    });
+
+    /* ===== RESTORE FROM TRASH (NEW) ===== */
+    function restoreFromTrash(index) {
+      if (index < 0 || index >= trash.length) return;
+      var item = trash.splice(index, 1)[0];
+      if (item.type === 'folder') {
+        // Generate new IDs for folder and its notes to avoid conflicts
+        item.item.id = genId();
+        for (var i = 0; i < item.item.notes.length; i++) {
+          item.item.notes[i].id = genId();
+        }
+        item.item.expanded = false;
+        folders.push(item.item);
+        showToast('Folder restored', 'success');
+      } else if (item.type === 'note') {
+        item.item.id = genId();
+        var targetFolder = findFolder(item.folderId);
+        if (targetFolder) {
+          targetFolder.notes.push(item.item);
+          showToast('Note restored to ' + targetFolder.name, 'success');
+        } else if (folders.length > 0) {
+          folders[0].notes.push(item.item);
+          showToast('Note restored to ' + folders[0].name, 'success');
+        } else {
+          // No folders exist, create one
+          var newF = { id: genId(), name: 'Restored', color: FOLDER_COLORS[0], expanded: true, sortMode: 'date-desc', notes: [item.item] };
+          folders.push(newF);
+          showToast('Note restored to new folder', 'success');
+        }
+      }
+      saveData();
+      renderAll();
+    }
+
+    /* ===== PERMANENT DELETE FROM TRASH (NEW) ===== */
+    function permanentDeleteFromTrash(index) {
+      if (index < 0 || index >= trash.length) return;
+      var item = trash[index];
+      var name = item.type === 'folder' ? item.item.name : (item.item.title || 'Untitled');
+      trash.splice(index, 1);
+      saveData();
+      renderTrash();
+      updateAllNotesCount();
+      showToast(name + ' permanently deleted', 'error');
+    }
+
+    /* ===== EMPTY TRASH (NEW) ===== */
+    function emptyTrash() {
+      if (trash.length === 0) return;
+      var count = trash.length;
+      trash = [];
+      saveData();
+      renderTrash();
+      updateAllNotesCount();
+      showToast(count + ' item' + (count > 1 ? 's' : '') + ' permanently deleted', 'error');
+    }
+
+    /* ===== UNDO DELETE (FROM TOAST) ===== */
+    function undoDelete() {
+      if (trash.length === 0) return;
+      var lastItem = trash.pop();
+      if (lastItem.type === 'folder') {
+        lastItem.item.id = genId();
+        for (var i = 0; i < lastItem.item.notes.length; i++) {
+          lastItem.item.notes[i].id = genId();
+        }
+        lastItem.item.expanded = false;
+        folders.push(lastItem.item);
+        showToast('Folder restored', 'success');
+      } else if (lastItem.type === 'note') {
+        lastItem.item.id = genId();
+        var targetFolder = findFolder(lastItem.folderId);
+        if (targetFolder) {
+          targetFolder.notes.push(lastItem.item);
+          showToast('Note restored', 'success');
+        } else if (folders.length > 0) {
+          folders[0].notes.push(lastItem.item);
+          showToast('Note restored', 'success');
+        }
+      }
+      saveData();
+      renderAll();
+    }
+
+    /* ===== END TRASH BIN ===== */
 
     function escHtml(str) {
       var div = document.createElement('div');
@@ -2079,7 +2448,6 @@
       document.getElementById('editorArea').innerHTML = found.note.content || '';
       updateMeta(found.note);
 
-      // Breadcrumb
       var bc = document.getElementById('topbarBreadcrumb');
       bc.innerHTML = '<span class="tb-folder" style="cursor:pointer" onclick="toggleFolder(\'' + found.folder.id + '\')">' + escHtml(found.folder.name) + '</span>';
       bc.innerHTML += '<span class="tb-sep"><i class="fas fa-chevron-right"></i></span>';
@@ -2088,7 +2456,6 @@
       if (!skipRender) {
         renderFolders();
       } else {
-        // Just update active states
         var items = document.querySelectorAll('.note-item');
         for (var i = 0; i < items.length; i++) {
           items[i].classList.toggle('active', items[i].getAttribute('data-note-id') === noteId);
@@ -2122,11 +2489,9 @@
       var found = findNote(activeNoteId);
       if (!found) return;
       found.note.title = val;
-      // Update breadcrumb
       var bc = document.getElementById('topbarBreadcrumb');
       var spans = bc.querySelectorAll('.tb-note');
       if (spans.length > 0) spans[0].textContent = val || 'Untitled';
-      // Update sidebar note title
       var noteEl = document.querySelector('.note-item[data-note-id="' + activeNoteId + '"] .note-title-text');
       if (noteEl) noteEl.textContent = val || 'Untitled';
       saveData();
@@ -2139,7 +2504,6 @@
       found.note.content = document.getElementById('editorArea').innerHTML;
       found.note.date = new Date().toISOString();
       updateMeta(found.note);
-      // Update preview in sidebar
       var previewEl = document.querySelector('.note-item[data-note-id="' + activeNoteId + '"] .note-preview-text');
       if (previewEl) {
         var text = getPlainText(found.note.content).slice(0, 60);
@@ -2183,7 +2547,6 @@
       renderAll();
       openNote(newNote.id);
       document.getElementById('noteTitleInput').focus();
-      // Close sidebar on mobile
       if (window.innerWidth < 768) closeSidebar();
     }
 
@@ -2224,19 +2587,10 @@
         renderFolders();
         return;
       }
-      // Expand all folders and highlight matching notes
       for (var i = 0; i < folders.length; i++) {
         folders[i].expanded = true;
-        var noteEls = document.querySelectorAll('.folder-item[data-folder-id="' + folders[i].id + '"] .note-item');
-        for (var j = 0; j < noteEls.length; j++) {
-          var titleEl = noteEls[j].querySelector('.note-title-text');
-          var previewEl = noteEls[j].querySelector('.note-preview-text');
-          var text = ((titleEl ? titleEl.textContent : '') + ' ' + (previewEl ? previewEl.textContent : '')).toLowerCase();
-          noteEls[j].style.display = text.indexOf(searchQuery) >= 0 ? '' : 'none';
-        }
       }
       renderFolders();
-      // Re-apply filter after render
       setTimeout(function () {
         var allNoteEls = document.querySelectorAll('.note-item');
         for (var k = 0; k < allNoteEls.length; k++) {
@@ -2271,26 +2625,21 @@
       positionMenu(menu, e.clientX, e.clientY);
     }
 
-    /* ===== NOTE CONTEXT MENU (Pin Feature) ===== */
+    /* ===== NOTE CONTEXT MENU ===== */
     function onNoteContext(e, noteId) {
       e.preventDefault();
       e.stopPropagation();
       contextTarget = { type: 'note', id: noteId };
-
-      // Update pin label based on current state
       var found = findNote(noteId);
       var pinLabel = document.getElementById('ctxPinLabel');
       var pinIcon = document.querySelector('#ctxPinNote i');
       if (found && found.note.pinned) {
         pinLabel.textContent = 'Unpin note';
-        pinIcon.className = 'fas fa-thumbtack';
         pinIcon.style.transform = 'rotate(45deg)';
       } else {
         pinLabel.textContent = 'Pin note';
-        pinIcon.className = 'fas fa-thumbtack';
         pinIcon.style.transform = 'rotate(0deg)';
       }
-
       var menu = document.getElementById('noteContextMenu');
       menu.style.display = 'block';
       positionMenu(menu, e.clientX, e.clientY);
@@ -2310,6 +2659,7 @@
     function hideAllMenus() {
       document.getElementById('contextMenu').style.display = 'none';
       document.getElementById('noteContextMenu').style.display = 'none';
+      document.getElementById('trashContextMenu').style.display = 'none';
       document.getElementById('colorSubmenu').style.display = 'none';
       document.getElementById('sortMenu').style.display = 'none';
     }
@@ -2339,21 +2689,11 @@
       var f = findFolder(folderId);
       if (!f) return;
       switch (action) {
-        case 'rename':
-          openRenameModal('folder', folderId, f.name);
-          break;
-        case 'addNote':
-          addNoteToFolder(folderId);
-          break;
-        case 'changeColor':
-          openColorSubmenu(evt);
-          return;
-        case 'duplicate':
-          duplicateFolder(folderId);
-          break;
-        case 'delete':
-          openDeleteModal('folder', folderId, f.name);
-          break;
+        case 'rename': openRenameModal('folder', folderId, f.name); break;
+        case 'addNote': addNoteToFolder(folderId); break;
+        case 'changeColor': openColorSubmenu(evt); return;
+        case 'duplicate': duplicateFolder(folderId); break;
+        case 'delete': openDeleteModal('folder', folderId, f.name); break;
       }
     }
 
@@ -2361,33 +2701,21 @@
       var found = findNote(noteId);
       if (!found) return;
       switch (action) {
-        case 'pinNote':
-          togglePinNote(noteId);
-          break;
-        case 'rename':
-          openRenameModal('note', noteId, found.note.title || 'Untitled');
-          break;
-        case 'duplicate':
-          duplicateNote(noteId);
-          break;
-        case 'delete':
-          openDeleteModal('note', noteId, found.note.title || 'Untitled');
-          break;
+        case 'pinNote': togglePinNote(noteId); break;
+        case 'rename': openRenameModal('note', noteId, found.note.title || 'Untitled'); break;
+        case 'duplicate': duplicateNote(noteId); break;
+        case 'delete': openDeleteModal('note', noteId, found.note.title || 'Untitled'); break;
       }
     }
 
-    /* ===== PIN NOTE (NEW FEATURE) ===== */
+    /* ===== PIN NOTE ===== */
     function togglePinNote(noteId) {
       var found = findNote(noteId);
       if (!found) return;
       found.note.pinned = !found.note.pinned;
       saveData();
       renderFolders();
-      if (found.note.pinned) {
-        showToast('Note pinned', 'info');
-      } else {
-        showToast('Note unpinned', 'info');
-      }
+      showToast(found.note.pinned ? 'Note pinned' : 'Note unpinned', 'info');
     }
 
     /* ===== COLOR SUBMENU ===== */
@@ -2401,7 +2729,6 @@
         html += '<div class="color-submenu-opt' + (isCurrent ? ' current' : '') + '" style="background:' + FOLDER_COLORS[i] + '" data-color="' + FOLDER_COLORS[i] + '"></div>';
       }
       grid.innerHTML = html;
-
       var submenu = document.getElementById('colorSubmenu');
       var ctxMenu = document.getElementById('contextMenu');
       var rect = ctxMenu.getBoundingClientRect();
@@ -2411,12 +2738,10 @@
         submenu.style.left = (rect.left - 184) + 'px';
       }
       submenu.style.display = 'block';
-
       grid.onclick = function (e) {
         var opt = e.target.closest('.color-submenu-opt');
         if (!opt) return;
-        var color = opt.getAttribute('data-color');
-        f.color = color;
+        f.color = opt.getAttribute('data-color');
         saveData();
         renderFolders();
         hideAllMenus();
@@ -2424,28 +2749,18 @@
       };
     }
 
-    // Hover to open color submenu
     document.getElementById('ctxChangeColor').addEventListener('mouseenter', function () {
       if (contextTarget && contextTarget.type === 'folder') {
         clearTimeout(colorSubmenuTimer);
         openColorSubmenu({ clientX: 0, clientY: 0 });
       }
     });
-
     document.getElementById('ctxChangeColor').addEventListener('mouseleave', function () {
-      colorSubmenuTimer = setTimeout(function () {
-        document.getElementById('colorSubmenu').style.display = 'none';
-      }, 200);
+      colorSubmenuTimer = setTimeout(function () { document.getElementById('colorSubmenu').style.display = 'none'; }, 200);
     });
-
-    document.getElementById('colorSubmenu').addEventListener('mouseenter', function () {
-      clearTimeout(colorSubmenuTimer);
-    });
-
+    document.getElementById('colorSubmenu').addEventListener('mouseenter', function () { clearTimeout(colorSubmenuTimer); });
     document.getElementById('colorSubmenu').addEventListener('mouseleave', function () {
-      colorSubmenuTimer = setTimeout(function () {
-        document.getElementById('colorSubmenu').style.display = 'none';
-      }, 200);
+      colorSubmenuTimer = setTimeout(function () { document.getElementById('colorSubmenu').style.display = 'none'; }, 200);
     });
 
     /* ===== SORT MENU ===== */
@@ -2461,36 +2776,29 @@
       sortTarget = folderId;
       var f = findFolder(folderId);
       if (!f) return;
-
       var html = '<div class="sort-menu-title">Sort Notes</div>';
       for (var i = 0; i < SORT_OPTIONS.length; i++) {
         var opt = SORT_OPTIONS[i];
         var isActive = f.sortMode === opt.id;
         html += '<div class="sort-option' + (isActive ? ' active' : '') + '" data-sort="' + opt.id + '">';
-        html += '<i class="' + opt.icon + '"></i>';
-        html += '<span>' + opt.label + '</span>';
+        html += '<i class="' + opt.icon + '"></i><span>' + opt.label + '</span>';
         if (isActive) html += '<i class="fas fa-check sort-check"></i>';
         html += '</div>';
       }
-
       var menu = document.getElementById('sortMenu');
       menu.innerHTML = html;
       menu.style.display = 'block';
-
       var btn = e.target.closest('.folder-sort-btn');
       var rect = btn.getBoundingClientRect();
-      var x = rect.left;
-      var y = rect.bottom + 4;
+      var x = rect.left, y = rect.bottom + 4;
       if (y + 180 > window.innerHeight) y = rect.top - 180;
       if (x + 185 > window.innerWidth) x = window.innerWidth - 185 - 8;
       menu.style.left = x + 'px';
       menu.style.top = y + 'px';
-
       menu.onclick = function (ev) {
         var optEl = ev.target.closest('.sort-option');
         if (!optEl) return;
-        var mode = optEl.getAttribute('data-sort');
-        f.sortMode = mode;
+        f.sortMode = optEl.getAttribute('data-sort');
         saveData();
         renderFolders();
         hideAllMenus();
@@ -2550,18 +2858,10 @@
     function confirmRename() {
       if (!renameTarget) return;
       var val = document.getElementById('renameInput').value.trim();
-      if (!val) {
-        document.getElementById('renameInput').classList.add('error');
-        return;
-      }
+      if (!val) { document.getElementById('renameInput').classList.add('error'); return; }
       if (renameTarget.type === 'folder') {
         var f = findFolder(renameTarget.id);
-        if (f) {
-          f.name = val;
-          saveData();
-          renderAll();
-          showToast('Folder renamed', 'success');
-        }
+        if (f) { f.name = val; saveData(); renderAll(); showToast('Folder renamed', 'success'); }
       } else if (renameTarget.type === 'note') {
         var found = findNote(renameTarget.id);
         if (found) {
@@ -2585,8 +2885,8 @@
       deleteTarget = { type: type, id: id };
       document.getElementById('deleteModalTitle').textContent = type === 'folder' ? 'Delete Folder' : 'Delete Note';
       document.getElementById('deleteModalDesc').textContent = type === 'folder'
-        ? 'This folder and all its notes will be permanently deleted.'
-        : 'This note will be permanently deleted.';
+        ? 'This folder and all its notes will be moved to trash. They will be permanently deleted after 24 hours.'
+        : 'This note will be moved to trash. It will be permanently deleted after 24 hours.';
       document.getElementById('deleteModalName').textContent = name || 'Untitled';
       document.getElementById('deleteModal').classList.add('show');
     }
@@ -2604,41 +2904,37 @@
           if (folders[i].id === deleteTarget.id) { idx = i; break; }
         }
         if (idx >= 0) {
-          var removedFolder = folders[idx];
-          // If active note was in this folder, clear it
+          var removedFolder = folders.splice(idx, 1)[0];
           if (activeFolderId === deleteTarget.id) {
             activeNoteId = null;
             activeFolderId = null;
             showEmptyState();
           }
-          // Check if active note was in removed folder
           if (activeNoteId) {
             var wasInFolder = false;
             for (var j = 0; j < removedFolder.notes.length; j++) {
               if (removedFolder.notes[j].id === activeNoteId) { wasInFolder = true; break; }
             }
-            if (wasInFolder) {
-              activeNoteId = null;
-              showEmptyState();
-            }
+            if (wasInFolder) { activeNoteId = null; showEmptyState(); }
           }
-          folders.splice(idx, 1);
           if (folders.length > 0) lastOpenedFolderId = folders[0].id;
+          trash.push({ type: 'folder', item: JSON.parse(JSON.stringify(removedFolder)), deletedAt: new Date().toISOString() });
           saveData();
           renderAll();
-          showToast('Folder deleted', 'error');
+          showToast('Folder moved to trash', 'error', function () { undoDelete(); });
         }
       } else if (deleteTarget.type === 'note') {
         var found = findNote(deleteTarget.id);
         if (found) {
-          found.folder.notes.splice(found.index, 1);
+          var removedNote = found.folder.notes.splice(found.index, 1)[0];
           if (activeNoteId === deleteTarget.id) {
             activeNoteId = null;
             showEmptyState();
           }
+          trash.push({ type: 'note', item: JSON.parse(JSON.stringify(removedNote)), folderId: found.folder.id, deletedAt: new Date().toISOString() });
           saveData();
           renderAll();
-          showToast('Note deleted', 'error');
+          showToast('Note moved to trash', 'error', function () { undoDelete(); });
         }
       }
       closeDeleteModal();
@@ -2673,19 +2969,10 @@
 
     function confirmNewFolder() {
       var name = document.getElementById('newFolderName').value.trim();
-      if (!name) {
-        document.getElementById('newFolderName').classList.add('error');
-        return;
-      }
-      var newFolder = {
-        id: genId(),
-        name: name,
-        color: selectedFolderColor,
-        expanded: true,
-        sortMode: 'date-desc',
-        notes: []
-      };
-      folders.push(newFolder);
+      if (!name) { document.getElementById('newFolderName').classList.add('error'); return; }
+      folders.push({
+        id: genId(), name: name, color: selectedFolderColor, expanded: true, sortMode: 'date-desc', notes: []
+      });
       saveData();
       closeFolderModal();
       renderAll();
@@ -2711,31 +2998,39 @@
       var noteId = e.dataTransfer.getData('text/plain');
       if (!noteId) return;
       var found = findNote(noteId);
-      if (!found) return;
-      if (found.folder.id === targetFolderId) return; // Same folder
-      // Move note
+      if (!found || found.folder.id === targetFolderId) return;
       found.folder.notes.splice(found.index, 1);
       var targetFolder = findFolder(targetFolderId);
-      if (targetFolder) {
-        targetFolder.notes.unshift(found.note);
-        targetFolder.expanded = true;
-      }
+      if (targetFolder) { targetFolder.notes.unshift(found.note); targetFolder.expanded = true; }
       saveData();
       renderAll();
       showToast('Note moved', 'info');
     }
 
     /* ===== TOAST ===== */
-    function showToast(message, type) {
+    function showToast(message, type, undoFn) {
       var container = document.getElementById('toastContainer');
       var icons = { success: 'fas fa-check-circle', info: 'fas fa-info-circle', error: 'fas fa-exclamation-circle' };
       var toast = document.createElement('div');
       toast.className = 'toast ' + (type || 'info');
-      toast.innerHTML = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + escHtml(message) + '</span>';
+      var html = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + escHtml(message) + '</span>';
+      if (undoFn) {
+        html += '<button class="toast-undo">Undo</button>';
+        toast.style.animation = 'toastIn 0.3s ease';
+      }
+      toast.innerHTML = html;
       container.appendChild(toast);
+      var duration = undoFn ? 8000 : 2600;
+      if (undoFn) {
+        toast.querySelector('.toast-undo').onclick = function (e) {
+          e.stopPropagation();
+          undoFn();
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        };
+      }
       setTimeout(function () {
         if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 2600);
+      }, duration);
     }
 
     /* ===== GLOBAL CLICK TO CLOSE MENUS ===== */
@@ -2747,12 +3042,10 @@
 
     /* ===== KEYBOARD SHORTCUTS ===== */
     document.addEventListener('keydown', function (e) {
-      // Ctrl+N: New note
       if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
         e.preventDefault();
         createNewNote();
       }
-      // Escape: close modals/menus/sidebar
       if (e.key === 'Escape') {
         hideAllMenus();
         closeFolderModal();
@@ -2776,12 +3069,10 @@
     /* ===== INIT ===== */
     renderAll();
 
-    // Auto-open sidebar on desktop
     if (window.innerWidth >= 768) {
       openSidebar();
     }
 
-    // If there was an active note, restore it
     if (activeNoteId) {
       var check = findNote(activeNoteId);
       if (check) {
