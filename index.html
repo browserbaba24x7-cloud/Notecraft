@@ -391,29 +391,6 @@
       max-height: 2000px;
     }
 
-    .pinned-section-label {
-      padding: 10px 12px 4px 46px;
-      font-size: 9px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--fg-muted);
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      position: relative;
-    }
-
-    .pinned-section-label::before {
-      content: '';
-      position: absolute;
-      left: 28px;
-      width: 12px;
-      height: 1px;
-      background: var(--border-light);
-    }
-
     .note-item {
       display: flex;
       align-items: center;
@@ -448,13 +425,6 @@
     .note-item.dragging {
       opacity: 0.4;
       cursor: grabbing;
-    }
-
-    .note-pin-icon {
-      font-size: 10px;
-      flex-shrink: 0;
-      opacity: 0.85;
-      line-height: 1;
     }
 
     .note-dot {
@@ -1137,26 +1107,6 @@
       color: var(--danger);
     }
 
-    .toast-undo {
-      margin-left: auto;
-      background: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
-
-    .toast-undo:hover {
-      background: var(--accent);
-      color: #fff;
-    }
-
     @keyframes toastIn {
       from {
         opacity: 0;
@@ -1549,7 +1499,7 @@
       color: var(--accent);
     }
 
-    .sort-option > i:first-child {
+    .sort-option>i:first-child {
       width: 14px;
       text-align: center;
       font-size: 12px;
@@ -1561,152 +1511,6 @@
       color: var(--accent);
     }
 
-    /* ===== TRASH BIN STYLES (NEW) ===== */
-    .trash-section-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 9px 20px;
-      margin: 2px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--fg-muted);
-      user-select: none;
-    }
-
-    .trash-section-item:hover {
-      background: var(--bg-hover);
-      color: var(--fg-dim);
-    }
-
-    .trash-section-item.active {
-      background: var(--accent-glow);
-      color: var(--accent);
-    }
-
-    .trash-section-item i {
-      font-size: 14px;
-      width: 18px;
-      text-align: center;
-    }
-
-    .trash-section-item .count-badge {
-      margin-left: auto;
-      font-size: 11px;
-      background: var(--bg-card);
-      color: var(--fg-muted);
-      padding: 1px 7px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-
-    .trash-list {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .trash-list.expanded {
-      max-height: 2000px;
-    }
-
-    .trash-empty {
-      padding: 10px 20px 10px 48px;
-      font-size: 11.5px;
-      color: var(--fg-muted);
-      opacity: 0.5;
-    }
-
-    .trash-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px 7px 48px;
-      margin: 1px 8px 1px 0;
-      border-radius: 7px;
-      cursor: default;
-      transition: all 0.2s;
-      position: relative;
-      opacity: 0.7;
-    }
-
-    .trash-item:hover {
-      background: var(--bg-hover);
-      opacity: 1;
-    }
-
-    .trash-item-icon {
-      font-size: 12px;
-      flex-shrink: 0;
-      width: 16px;
-      text-align: center;
-    }
-
-    .trash-item-icon.note-icon {
-      color: var(--fg-muted);
-    }
-
-    .trash-item-icon.folder-icon-trash {
-      color: var(--folder-color);
-    }
-
-    .trash-item-info {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .trash-item-name {
-      font-size: 12.5px;
-      color: var(--fg-dim);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-height: 1.3;
-    }
-
-    .trash-item-type {
-      font-size: 9.5px;
-      color: var(--fg-muted);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .trash-item-time {
-      font-size: 10px;
-      color: var(--fg-muted);
-      flex-shrink: 0;
-      white-space: nowrap;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .trash-empty-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 12px 8px 48px;
-      margin: 4px 8px 6px 0;
-      font-size: 11.5px;
-      color: var(--fg-muted);
-      cursor: pointer;
-      border-radius: 7px;
-      transition: all 0.2s;
-      opacity: 0.7;
-    }
-
-    .trash-empty-btn:hover {
-      background: rgba(248, 113, 113, 0.08);
-      color: var(--danger);
-      opacity: 1;
-    }
-
     @media (prefers-reduced-motion: reduce) {
 
       *,
@@ -1715,6 +1519,52 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
+    }
+
+    /* ===== PIN / FAVORITE NOTES - NEW STYLES ===== */
+    .pinned-label {
+      padding: 8px 12px 4px 46px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.65;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pinned-label i {
+      font-size: 8px;
+    }
+
+    .note-pin-icon {
+      font-size: 9px;
+      color: var(--accent);
+      flex-shrink: 0;
+      opacity: 0.85;
+      margin-left: 1px;
+    }
+
+    .notes-separator {
+      height: 1px;
+      background: var(--border);
+      margin: 5px 20px 5px 46px;
+      opacity: 0.5;
+    }
+
+    .ctx-item.pin-active {
+      color: var(--accent);
+    }
+
+    #metaPin {
+      color: var(--accent) !important;
+    }
+
+    #metaPin i {
+      color: var(--accent) !important;
     }
   </style>
 </head>
@@ -1754,16 +1604,6 @@
         <span class="count-badge" id="allNotesCount">0</span>
       </div>
       <div id="foldersContainer"></div>
-
-      <!-- TRASH BIN (NEW) -->
-      <div style="height:1px;background:var(--border);margin:8px 20px;"></div>
-      <div class="trash-section-item" id="trashSectionItem" onclick="toggleTrash()">
-        <i class="far fa-trash-alt"></i>
-        <span>Trash</span>
-        <span class="count-badge" id="trashCount">0</span>
-      </div>
-      <div class="trash-list" id="trashList"></div>
-
     </div>
     <button class="new-note-btn" onclick="createNewNote()">
       <i class="fas fa-plus"></i>
@@ -1843,6 +1683,7 @@
           oninput="updateNoteTitle(this.value)" aria-label="Note title">
         <div class="note-meta">
           <div class="note-meta-item"><i class="far fa-clock"></i><span id="metaDate">--</span></div>
+          <div class="note-meta-item" id="metaPin" style="display:none;"><i class="fas fa-thumbtack"></i><span>Pinned</span></div>
           <div class="note-meta-item"><i class="far fa-file-alt"></i><span id="metaWords">0 words</span></div>
           <div class="note-meta-item"><i class="far fa-file-lines"></i><span id="metaChars">0 characters</span></div>
         </div>
@@ -1868,27 +1709,12 @@
     <div class="ctx-item" data-action="rename"><i class="fas fa-pen"></i>Rename</div>
     <div class="ctx-item" data-action="addNote"><i class="fas fa-plus"></i>Add note here</div>
     <div class="ctx-divider"></div>
+    <div class="ctx-item" id="ctxPinNote" data-action="pinNote" style="display:none;"><i class="fas fa-thumbtack"></i><span id="ctxPinLabel">Pin note</span></div>
     <div class="ctx-item" id="ctxChangeColor" data-action="changeColor"><i class="fas fa-palette"></i>Change color<span
         class="ctx-arrow"><i class="fas fa-chevron-right"></i></span></div>
     <div class="ctx-item" data-action="duplicate"><i class="far fa-copy"></i>Duplicate</div>
     <div class="ctx-divider"></div>
     <div class="ctx-item danger" data-action="delete"><i class="far fa-trash-alt"></i>Delete</div>
-  </div>
-
-  <div class="context-menu" id="noteContextMenu">
-    <div class="ctx-item" id="ctxPinNote" data-action="pinNote"><i class="fas fa-thumbtack"></i><span id="ctxPinLabel">Pin note</span></div>
-    <div class="ctx-divider"></div>
-    <div class="ctx-item" data-action="rename"><i class="fas fa-pen"></i>Rename</div>
-    <div class="ctx-item" data-action="duplicate"><i class="far fa-copy"></i>Duplicate</div>
-    <div class="ctx-divider"></div>
-    <div class="ctx-item danger" data-action="delete"><i class="far fa-trash-alt"></i>Delete</div>
-  </div>
-
-  <!-- Trash item context menu (NEW) -->
-  <div class="context-menu" id="trashContextMenu">
-    <div class="ctx-item" data-action="restore"><i class="fas fa-undo"></i>Restore</div>
-    <div class="ctx-divider"></div>
-    <div class="ctx-item danger" data-action="permanentDelete"><i class="fas fa-times-circle"></i>Delete permanently</div>
   </div>
 
   <div class="color-submenu" id="colorSubmenu">
@@ -1974,13 +1800,10 @@
     ];
 
     var folders = [];
-    var trash = [];
-    var TRASH_DURATION = 24 * 60 * 60 * 1000;
     var activeNoteId = null;
     var activeFolderId = null;
     var lastOpenedFolderId = 'f1';
     var contextTarget = null;
-    var trashContextIndex = -1;
     var selectedFolderColor = FOLDER_COLORS[0];
     var renameTarget = null;
     var deleteTarget = null;
@@ -1988,7 +1811,8 @@
     var colorSubmenuTimer = null;
     var sortTarget = null;
     var searchQuery = '';
-    var trashExpanded = false;
+    var dragNoteId = null;
+    var dragSourceFolderId = null;
 
     /* ===== LOCAL STORAGE ===== */
     var STORAGE_KEY = 'notecraft_data';
@@ -1997,7 +1821,6 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           folders: folders,
-          trash: trash,
           activeNoteId: activeNoteId,
           activeFolderId: activeFolderId,
           lastOpenedFolderId: lastOpenedFolderId
@@ -2016,16 +1839,13 @@
           if (!f.id || !f.name || !Array.isArray(f.notes)) return false;
         }
         folders = data.folders;
-        trash = Array.isArray(data.trash) ? data.trash : [];
         activeNoteId = data.activeNoteId || null;
         activeFolderId = data.activeFolderId || null;
         lastOpenedFolderId = data.lastOpenedFolderId || (folders.length > 0 ? folders[0].id : 'f1');
         for (var j = 0; j < folders.length; j++) {
           if (!folders[j].sortMode) folders[j].sortMode = 'date-desc';
           for (var k = 0; k < folders[j].notes.length; k++) {
-            if (typeof folders[j].notes[k].pinned !== 'boolean') {
-              folders[j].notes[k].pinned = false;
-            }
+            if (folders[j].notes[k].pinned === undefined) folders[j].notes[k].pinned = false;
           }
         }
         return true;
@@ -2037,30 +1857,7 @@
 
     if (!loadData()) {
       folders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
-      trash = [];
     }
-
-    /* ===== TRASH CLEANUP ===== */
-    function purgeOldTrash() {
-      var now = Date.now();
-      trash = trash.filter(function (item) {
-        return (now - new Date(item.deletedAt).getTime()) < TRASH_DURATION;
-      });
-    }
-
-    purgeOldTrash();
-    saveData();
-
-    /* Auto-purge trash every 60 seconds */
-    setInterval(function () {
-      var before = trash.length;
-      purgeOldTrash();
-      if (trash.length !== before) {
-        saveData();
-        renderTrash();
-      }
-    }, 60000);
-
     /* ========================= */
 
     function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
@@ -2098,43 +1895,87 @@
       return null;
     }
 
-    function getPlainText(html) {
-      var tmp = document.createElement('div');
-      tmp.innerHTML = html;
-      return (tmp.textContent || tmp.innerText || '').trim();
+    function escapeHtml(str) {
+      var div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
     }
 
-    /* ===== SORT NOTES ===== */
-    function sortNotes(folder) {
-      var notes = folder.notes;
-      var mode = folder.sortMode || 'date-desc';
-      notes.sort(function (a, b) {
-        if (a.pinned && !b.pinned) return -1;
-        if (!a.pinned && b.pinned) return 1;
+    function getPlainText(html) {
+      var div = document.createElement('div');
+      div.innerHTML = html;
+      return (div.textContent || div.innerText || '').trim();
+    }
+
+    function noteMatchesSearch(note) {
+      if (!searchQuery) return true;
+      var text = (note.title + ' ' + getPlainText(note.content)).toLowerCase();
+      return text.indexOf(searchQuery) !== -1;
+    }
+
+    function sortNotesArr(notesArr, mode) {
+      notesArr.sort(function (a, b) {
         switch (mode) {
           case 'date-desc': return new Date(b.date) - new Date(a.date);
           case 'date-asc': return new Date(a.date) - new Date(b.date);
-          case 'name-asc': return (a.title || '').localeCompare(b.title || '');
-          case 'name-desc': return (b.title || '').localeCompare(a.title || '');
+          case 'title-asc': return (a.title || '').toLowerCase().localeCompare((b.title || '').toLowerCase());
+          case 'title-desc': return (b.title || '').toLowerCase().localeCompare((a.title || '').toLowerCase());
           default: return new Date(b.date) - new Date(a.date);
         }
       });
     }
 
-    /* ===== RENDER ===== */
-    function renderAll() {
-      renderFolders();
-      renderTrash();
-      updateAllNotesCount();
-      updateStatusBar();
-      if (activeNoteId) {
-        var found = findNote(activeNoteId);
-        if (found) {
-          openNote(activeNoteId, true);
-          return;
+    function renderNoteItem(note, folder) {
+      var isActive = activeNoteId === note.id;
+      var preview = getPlainText(note.content).substring(0, 60);
+      var pinHtml = note.pinned ? '<i class="fas fa-thumbtack note-pin-icon"></i>' : '';
+      return '<div class="note-item' + (isActive ? ' active' : '') + '" data-note-id="' + note.id + '" data-folder-id="' + folder.id + '" onclick="selectNote(\'' + note.id + '\', \'' + folder.id + '\')" oncontextmenu="showNoteContext(event, \'' + note.id + '\', \'' + folder.id + '\')" draggable="true" ondragstart="onNoteDragStart(event, \'' + note.id + '\', \'' + folder.id + '\')" ondragend="onNoteDragEnd(event)">' +
+        '<div class="note-dot" style="background:' + folder.color + '"></div>' +
+        pinHtml +
+        '<div class="note-text-area">' +
+        '<div class="note-title-text">' + escapeHtml(note.title || 'Untitled') + '</div>' +
+        '<div class="note-preview-text">' + escapeHtml(preview) + '</div>' +
+        '</div>' +
+        '<span class="note-date">' + formatDate(note.date) + '</span>' +
+        '</div>';
+    }
+
+    function renderFolderNotes(folder) {
+      var allNotes = folder.notes.slice();
+      var filteredNotes = allNotes.filter(noteMatchesSearch);
+
+      var pinnedNotes = filteredNotes.filter(function (n) { return n.pinned; });
+      var unpinnedNotes = filteredNotes.filter(function (n) { return !n.pinned; });
+
+      sortNotesArr(pinnedNotes, folder.sortMode);
+      sortNotesArr(unpinnedNotes, folder.sortMode);
+
+      var html = '';
+
+      if (pinnedNotes.length > 0) {
+        html += '<div class="pinned-label"><i class="fas fa-thumbtack"></i> Pinned</div>';
+        for (var i = 0; i < pinnedNotes.length; i++) {
+          html += renderNoteItem(pinnedNotes[i], folder);
+        }
+        if (unpinnedNotes.length > 0) {
+          html += '<div class="notes-separator"></div>';
         }
       }
-      showEmptyState();
+
+      for (var j = 0; j < unpinnedNotes.length; j++) {
+        html += renderNoteItem(unpinnedNotes[j], folder);
+      }
+
+      if (allNotes.length === 0) {
+        html += '<div class="folder-empty-state" onclick="createNoteInFolder(\'' + folder.id + '\')">';
+        html += '<span class="folder-empty-icon"><i class="far fa-sticky-note"></i></span>';
+        html += '<span class="folder-empty-text">Add a note <span class="folder-empty-plus">+</span></span>';
+        html += '</div>';
+      } else if (filteredNotes.length === 0 && searchQuery) {
+        html += '<div style="padding:10px 12px 10px 46px;font-size:11.5px;color:var(--fg-muted);opacity:0.6;">No matching notes</div>';
+      }
+
+      return html;
     }
 
     function renderFolders() {
@@ -2142,464 +1983,196 @@
       var html = '';
       for (var i = 0; i < folders.length; i++) {
         var f = folders[i];
-        sortNotes(f);
-        var isActive = (activeFolderId === f.id);
-        var isExpanded = f.expanded || (searchQuery.length > 0);
-        var chevronCls = isExpanded ? 'folder-chevron open' : 'folder-chevron';
-        var headerCls = 'folder-header' + (isActive ? ' active' : '');
+        var noteCount = f.notes.length;
+        var isExpanded = f.expanded;
+        var isActive = activeFolderId === f.id && !activeNoteId;
 
         html += '<div class="folder-item" data-folder-id="' + f.id + '">';
-        html += '<div class="' + headerCls + '" data-folder-id="' + f.id + '" onclick="toggleFolder(\'' + f.id + '\')" oncontextmenu="onFolderContext(event,\'' + f.id + '\')" ondragover="onFolderDragOver(event,\'' + f.id + '\')" ondragleave="onFolderDragLeave(event,\'' + f.id + '\')" ondrop="onFolderDrop(event,\'' + f.id + '\')">';
-        html += '<span class="' + chevronCls + '"><i class="fas fa-chevron-right"></i></span>';
+        html += '<div class="folder-header' + (isActive ? ' active' : '') + '" data-folder-id="' + f.id + '" onclick="toggleFolder(\'' + f.id + '\')" oncontextmenu="showFolderContext(event, \'' + f.id + '\')" ondragover="onFolderDragOver(event, \'' + f.id + '\')" ondragleave="onFolderDragLeave(event)" ondrop="onFolderDrop(event, \'' + f.id + '\')">';
+        html += '<span class="folder-chevron' + (isExpanded ? ' open' : '') + '"><i class="fas fa-chevron-right"></i></span>';
         html += '<i class="fas fa-folder folder-icon" style="color:' + f.color + '"></i>';
-        html += '<span class="folder-name">' + escHtml(f.name) + '</span>';
-        html += '<span class="folder-count">' + f.notes.length + '</span>';
-        html += '<button class="folder-sort-btn" onclick="event.stopPropagation();openSortMenu(event,\'' + f.id + '\')" title="Sort notes"><i class="fas fa-arrow-down-short-wide"></i></button>';
-        html += '<button class="folder-menu-btn" onclick="event.stopPropagation();onFolderContext(event,\'' + f.id + '\')" title="Folder options"><i class="fas fa-ellipsis-v"></i></button>';
+        html += '<span class="folder-name">' + escapeHtml(f.name) + '</span>';
+        html += '<span class="folder-count">' + noteCount + '</span>';
+        html += '<button class="folder-sort-btn" onclick="event.stopPropagation(); showSortMenu(event, \'' + f.id + '\')" title="Sort"><i class="fas fa-arrow-down-short-wide"></i></button>';
+        html += '<button class="folder-menu-btn" onclick="event.stopPropagation(); showFolderContext(event, \'' + f.id + '\')" title="More"><i class="fas fa-ellipsis-v"></i></button>';
         html += '</div>';
-        html += '<div class="folder-notes' + (isExpanded ? ' expanded' : '') + '">';
-
-        var pinnedNotes = f.notes.filter(function (n) { return n.pinned; });
-        var otherNotes = f.notes.filter(function (n) { return !n.pinned; });
-
-        if (pinnedNotes.length > 0) {
-          html += '<div class="pinned-section-label">Pinned</div>';
-          for (var p = 0; p < pinnedNotes.length; p++) {
-            html += renderNoteItem(pinnedNotes[p], f.color);
-          }
-        }
-
-        for (var j = 0; j < otherNotes.length; j++) {
-          html += renderNoteItem(otherNotes[j], f.color);
-        }
-
-        if (f.notes.length === 0) {
-          html += '<div class="folder-empty-state" onclick="addNoteToFolder(\'' + f.id + '\')">';
-          html += '<span class="folder-empty-icon"><i class="far fa-sticky-note"></i></span>';
-          html += '<span class="folder-empty-text"><span class="folder-empty-plus">+</span> Add note</span>';
-          html += '</div>';
-        }
-
-        html += '</div></div>';
+        html += '<div class="folder-notes' + (isExpanded ? ' expanded' : '') + '" id="folderNotes_' + f.id + '">';
+        html += renderFolderNotes(f);
+        html += '</div>';
+        html += '</div>';
       }
       container.innerHTML = html;
 
-      var noteEls = container.querySelectorAll('.note-item');
-      for (var n = 0; n < noteEls.length; n++) {
-        (function (el) {
-          el.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            onNoteContext(e, el.getAttribute('data-note-id'));
-          });
-          el.addEventListener('dragstart', function (e) {
-            e.dataTransfer.setData('text/plain', el.getAttribute('data-note-id'));
-            el.classList.add('dragging');
-          });
-          el.addEventListener('dragend', function () {
-            el.classList.remove('dragging');
-          });
-        })(noteEls[n]);
-      }
-    }
-
-    function renderNoteItem(note, folderColor) {
-      var title = note.title || 'Untitled';
-      var preview = getPlainText(note.content).slice(0, 60);
-      var isActive = (activeNoteId === note.id);
-      var cls = 'note-item' + (isActive ? ' active' : '');
-      var html = '<div class="' + cls + '" data-note-id="' + note.id + '" onclick="openNote(\'' + note.id + '\')">';
-      if (note.pinned) {
-        html += '<span class="note-pin-icon">📌</span>';
-      }
-      html += '<span class="note-dot" style="background:' + folderColor + '"></span>';
-      html += '<div class="note-text-area">';
-      html += '<div class="note-title-text">' + escHtml(title) + '</div>';
-      if (preview) {
-        html += '<div class="note-preview-text">' + escHtml(preview) + '</div>';
-      }
-      html += '</div>';
-      html += '<span class="note-date">' + formatDate(note.date) + '</span>';
-      html += '</div>';
-      return html;
-    }
-
-    /* ===== TRASH BIN RENDER (NEW) ===== */
-    function renderTrash() {
-      purgeOldTrash();
-      document.getElementById('trashCount').textContent = trash.length;
-
-      var listEl = document.getElementById('trashList');
-      var sectionEl = document.getElementById('trashSectionItem');
-
-      if (trashExpanded) {
-        listEl.classList.add('expanded');
-        sectionEl.classList.add('active');
-      } else {
-        listEl.classList.remove('expanded');
-        sectionEl.classList.remove('active');
-      }
-
-      if (trash.length === 0) {
-        listEl.innerHTML = '<div class="trash-empty">Trash is empty</div>';
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < trash.length; i++) {
-        var item = trash[i];
-        var name = item.type === 'folder' ? item.item.name : (item.item.title || 'Untitled');
-        var typeLabel = item.type === 'folder' ? 'Folder' : 'Note';
-        var iconCls = item.type === 'folder' ? 'trash-item-icon folder-icon-trash' : 'trash-item-icon note-icon';
-        var icon = item.type === 'folder' ? '<i class="fas fa-folder"></i>' : '<i class="far fa-sticky-note"></i>';
-        var timeLeft = getTrashTimeLeft(item.deletedAt);
-
-        html += '<div class="trash-item" data-trash-index="' + i + '" oncontextmenu="onTrashItemContext(event,' + i + ')">';
-        html += '<span class="' + iconCls + '">' + icon + '</span>';
-        html += '<div class="trash-item-info">';
-        html += '<div class="trash-item-name">' + escHtml(name) + '</div>';
-        html += '<div class="trash-item-type">' + typeLabel + '</div>';
-        html += '</div>';
-        html += '<span class="trash-item-time">' + timeLeft + '</span>';
-        html += '</div>';
-      }
-
-      html += '<div class="trash-empty-btn" onclick="emptyTrash()"><i class="fas fa-broom"></i> Empty trash</div>';
-      listEl.innerHTML = html;
-    }
-
-    function getTrashTimeLeft(deletedAt) {
-      var elapsed = Date.now() - new Date(deletedAt).getTime();
-      var remaining = TRASH_DURATION - elapsed;
-      if (remaining <= 0) return 'Expiring';
-      var hours = Math.floor(remaining / 3600000);
-      var mins = Math.floor((remaining % 3600000) / 60000);
-      if (hours > 0) return hours + 'h ' + mins + 'm left';
-      return mins + 'm left';
-    }
-
-    function toggleTrash() {
-      trashExpanded = !trashExpanded;
-      renderTrash();
-    }
-
-    /* ===== TRASH ITEM CONTEXT MENU (NEW) ===== */
-    function onTrashItemContext(e, index) {
-      e.preventDefault();
-      e.stopPropagation();
-      trashContextIndex = index;
-      var menu = document.getElementById('trashContextMenu');
-      menu.style.display = 'block';
-      positionMenu(menu, e.clientX, e.clientY);
-    }
-
-    document.getElementById('trashContextMenu').addEventListener('click', function (e) {
-      var item = e.target.closest('.ctx-item');
-      if (!item || trashContextIndex < 0) return;
-      var action = item.getAttribute('data-action');
-      if (action === 'restore') {
-        restoreFromTrash(trashContextIndex);
-      } else if (action === 'permanentDelete') {
-        permanentDeleteFromTrash(trashContextIndex);
-      }
-      hideAllMenus();
-      trashContextIndex = -1;
-    });
-
-    /* ===== RESTORE FROM TRASH (NEW) ===== */
-    function restoreFromTrash(index) {
-      if (index < 0 || index >= trash.length) return;
-      var item = trash.splice(index, 1)[0];
-      if (item.type === 'folder') {
-        // Generate new IDs for folder and its notes to avoid conflicts
-        item.item.id = genId();
-        for (var i = 0; i < item.item.notes.length; i++) {
-          item.item.notes[i].id = genId();
-        }
-        item.item.expanded = false;
-        folders.push(item.item);
-        showToast('Folder restored', 'success');
-      } else if (item.type === 'note') {
-        item.item.id = genId();
-        var targetFolder = findFolder(item.folderId);
-        if (targetFolder) {
-          targetFolder.notes.push(item.item);
-          showToast('Note restored to ' + targetFolder.name, 'success');
-        } else if (folders.length > 0) {
-          folders[0].notes.push(item.item);
-          showToast('Note restored to ' + folders[0].name, 'success');
-        } else {
-          // No folders exist, create one
-          var newF = { id: genId(), name: 'Restored', color: FOLDER_COLORS[0], expanded: true, sortMode: 'date-desc', notes: [item.item] };
-          folders.push(newF);
-          showToast('Note restored to new folder', 'success');
-        }
-      }
-      saveData();
-      renderAll();
-    }
-
-    /* ===== PERMANENT DELETE FROM TRASH (NEW) ===== */
-    function permanentDeleteFromTrash(index) {
-      if (index < 0 || index >= trash.length) return;
-      var item = trash[index];
-      var name = item.type === 'folder' ? item.item.name : (item.item.title || 'Untitled');
-      trash.splice(index, 1);
-      saveData();
-      renderTrash();
-      updateAllNotesCount();
-      showToast(name + ' permanently deleted', 'error');
-    }
-
-    /* ===== EMPTY TRASH (NEW) ===== */
-    function emptyTrash() {
-      if (trash.length === 0) return;
-      var count = trash.length;
-      trash = [];
-      saveData();
-      renderTrash();
-      updateAllNotesCount();
-      showToast(count + ' item' + (count > 1 ? 's' : '') + ' permanently deleted', 'error');
-    }
-
-    /* ===== UNDO DELETE (FROM TOAST) ===== */
-    function undoDelete() {
-      if (trash.length === 0) return;
-      var lastItem = trash.pop();
-      if (lastItem.type === 'folder') {
-        lastItem.item.id = genId();
-        for (var i = 0; i < lastItem.item.notes.length; i++) {
-          lastItem.item.notes[i].id = genId();
-        }
-        lastItem.item.expanded = false;
-        folders.push(lastItem.item);
-        showToast('Folder restored', 'success');
-      } else if (lastItem.type === 'note') {
-        lastItem.item.id = genId();
-        var targetFolder = findFolder(lastItem.folderId);
-        if (targetFolder) {
-          targetFolder.notes.push(lastItem.item);
-          showToast('Note restored', 'success');
-        } else if (folders.length > 0) {
-          folders[0].notes.push(lastItem.item);
-          showToast('Note restored', 'success');
-        }
-      }
-      saveData();
-      renderAll();
-    }
-
-    /* ===== END TRASH BIN ===== */
-
-    function escHtml(str) {
-      var div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    function updateAllNotesCount() {
       document.getElementById('allNotesCount').textContent = getTotalNoteCount();
-    }
-
-    function updateStatusBar() {
       document.getElementById('statusNotes').textContent = getTotalNoteCount() + ' notes';
-      if (activeFolderId) {
-        var f = findFolder(activeFolderId);
-        document.getElementById('statusFolder').textContent = f ? f.name : '--';
+
+      var allItem = document.getElementById('allNotesItem');
+      if (activeFolderId === null) {
+        allItem.classList.add('active');
       } else {
-        document.getElementById('statusFolder').textContent = 'All Notes';
+        allItem.classList.remove('active');
       }
     }
 
-    /* ===== FOLDER TOGGLE ===== */
     function toggleFolder(folderId) {
-      var f = findFolder(folderId);
-      if (!f) return;
-      f.expanded = !f.expanded;
+      var folder = findFolder(folderId);
+      if (!folder) return;
+      folder.expanded = !folder.expanded;
       activeFolderId = folderId;
-      lastOpenedFolderId = folderId;
-      saveData();
-      renderFolders();
-      updateStatusBar();
-    }
-
-    /* ===== SHOW ALL NOTES ===== */
-    function showAllNotes() {
-      activeFolderId = null;
-      saveData();
-      renderFolders();
-      updateStatusBar();
-      document.getElementById('allNotesItem').classList.add('active');
-    }
-
-    /* ===== OPEN NOTE ===== */
-    function openNote(noteId, skipRender) {
-      var found = findNote(noteId);
-      if (!found) return;
-      activeNoteId = noteId;
-      activeFolderId = found.folder.id;
-      lastOpenedFolderId = found.folder.id;
-      if (!found.folder.expanded) found.folder.expanded = true;
-
-      document.getElementById('emptyState').style.display = 'none';
-      document.getElementById('editorView').style.display = 'flex';
-
-      document.getElementById('noteTitleInput').value = found.note.title || '';
-      document.getElementById('editorArea').innerHTML = found.note.content || '';
-      updateMeta(found.note);
-
-      var bc = document.getElementById('topbarBreadcrumb');
-      bc.innerHTML = '<span class="tb-folder" style="cursor:pointer" onclick="toggleFolder(\'' + found.folder.id + '\')">' + escHtml(found.folder.name) + '</span>';
-      bc.innerHTML += '<span class="tb-sep"><i class="fas fa-chevron-right"></i></span>';
-      bc.innerHTML += '<span class="tb-note">' + escHtml(found.note.title || 'Untitled') + '</span>';
-
-      if (!skipRender) {
-        renderFolders();
-      } else {
-        var items = document.querySelectorAll('.note-item');
-        for (var i = 0; i < items.length; i++) {
-          items[i].classList.toggle('active', items[i].getAttribute('data-note-id') === noteId);
-        }
-        var headers = document.querySelectorAll('.folder-header');
-        for (var j = 0; j < headers.length; j++) {
-          headers[j].classList.toggle('active', headers[j].getAttribute('data-folder-id') === found.folder.id);
-        }
-      }
-      saveData();
-    }
-
-    function showEmptyState() {
       activeNoteId = null;
+      saveData();
+      renderFolders();
+      showEmptyState('No note selected', 'Select a note from the sidebar to start editing, or create a new one.');
+    }
+
+    function selectNote(noteId, folderId) {
+      var result = findNote(noteId);
+      if (!result) return;
+
+      activeNoteId = noteId;
+      activeFolderId = folderId;
+      var note = result.note;
+      var folder = result.folder;
+
+      if (!folder.expanded) {
+        folder.expanded = true;
+      }
+
+      saveData();
+      renderFolders();
+      showEditor(note, folder);
+
+      if (window.innerWidth < 768) {
+        closeSidebar();
+      }
+    }
+
+    function showEditor(note, folder) {
+      document.getElementById('emptyState').style.display = 'none';
+      var ev = document.getElementById('editorView');
+      ev.style.display = 'flex';
+
+      document.getElementById('noteTitleInput').value = note.title || '';
+      document.getElementById('editorArea').innerHTML = note.content || '';
+      document.getElementById('metaDate').textContent = formatFullDate(note.date);
+
+      updateWordCount();
+      updateBreadcrumb(folder, note);
+      updatePinMeta(note);
+      document.getElementById('statusFolder').textContent = folder.name;
+    }
+
+    function showEmptyState(title, desc) {
       document.getElementById('emptyState').style.display = 'flex';
       document.getElementById('editorView').style.display = 'none';
+      document.getElementById('emptyTitle').textContent = title;
+      document.getElementById('emptyDesc').textContent = desc;
       document.getElementById('topbarBreadcrumb').innerHTML = '<span class="tb-folder" style="color:var(--fg-muted)">NoteCraft</span>';
+      document.getElementById('statusFolder').textContent = '--';
     }
 
-    function updateMeta(note) {
-      document.getElementById('metaDate').textContent = formatFullDate(note.date);
-      var text = getPlainText(note.content);
-      var words = text ? text.split(/\s+/).length : 0;
-      document.getElementById('metaWords').textContent = words + ' words';
-      document.getElementById('metaChars').textContent = text.length + ' characters';
+    function updateBreadcrumb(folder, note) {
+      var html = '<span class="tb-folder">' + escapeHtml(folder.name) + '</span>';
+      html += '<span class="tb-sep"><i class="fas fa-chevron-right"></i></span>';
+      html += '<span class="tb-note">' + escapeHtml(note.title || 'Untitled') + '</span>';
+      document.getElementById('topbarBreadcrumb').innerHTML = html;
     }
 
-    /* ===== NOTE EDITING ===== */
-    function updateNoteTitle(val) {
-      if (!activeNoteId) return;
-      var found = findNote(activeNoteId);
-      if (!found) return;
-      found.note.title = val;
-      var bc = document.getElementById('topbarBreadcrumb');
-      var spans = bc.querySelectorAll('.tb-note');
-      if (spans.length > 0) spans[0].textContent = val || 'Untitled';
-      var noteEl = document.querySelector('.note-item[data-note-id="' + activeNoteId + '"] .note-title-text');
-      if (noteEl) noteEl.textContent = val || 'Untitled';
+    function updatePinMeta(note) {
+      var el = document.getElementById('metaPin');
+      if (note.pinned) {
+        el.style.display = 'flex';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    function updateWordCount() {
+      var text = getPlainText(document.getElementById('editorArea').innerHTML);
+      var words = text ? text.split(/\s+/).filter(function (w) { return w.length > 0; }).length : 0;
+      var chars = text.length;
+      document.getElementById('metaWords').textContent = words + ' word' + (words !== 1 ? 's' : '');
+      document.getElementById('metaChars').textContent = chars + ' character' + (chars !== 1 ? 's' : '');
+    }
+
+    function updateNoteTitle(value) {
+      var result = findNote(activeNoteId);
+      if (!result) return;
+      result.note.title = value;
+      result.note.date = new Date().toISOString();
       saveData();
+      renderFolders();
+      updateBreadcrumb(result.folder, result.note);
     }
 
     function onEditorInput() {
-      if (!activeNoteId) return;
-      var found = findNote(activeNoteId);
-      if (!found) return;
-      found.note.content = document.getElementById('editorArea').innerHTML;
-      found.note.date = new Date().toISOString();
-      updateMeta(found.note);
+      var result = findNote(activeNoteId);
+      if (!result) return;
+      result.note.content = document.getElementById('editorArea').innerHTML;
+      result.note.date = new Date().toISOString();
+      saveData();
+      updateWordCount();
+
+      var folderNotesEl = document.getElementById('folderNotes_' + result.folder.id);
+      if (folderNotesEl) {
+        folderNotesEl.innerHTML = renderFolderNotes(result.folder);
+      }
+
       var previewEl = document.querySelector('.note-item[data-note-id="' + activeNoteId + '"] .note-preview-text');
       if (previewEl) {
-        var text = getPlainText(found.note.content).slice(0, 60);
-        previewEl.textContent = text;
+        previewEl.textContent = getPlainText(result.note.content).substring(0, 60);
       }
+
       var dateEl = document.querySelector('.note-item[data-note-id="' + activeNoteId + '"] .note-date');
-      if (dateEl) dateEl.textContent = formatDate(found.note.date);
-      saveData();
+      if (dateEl) {
+        dateEl.textContent = formatDate(result.note.date);
+      }
+
+      document.getElementById('metaDate').textContent = formatFullDate(result.note.date);
     }
 
-    /* ===== CREATE NOTE ===== */
+    function showAllNotes() {
+      activeFolderId = null;
+      activeNoteId = null;
+      saveData();
+      renderFolders();
+      showEmptyState('All Notes', 'You have ' + getTotalNoteCount() + ' notes across ' + folders.length + ' folders.');
+    }
+
     function createNewNote() {
       var targetFolderId = activeFolderId || lastOpenedFolderId;
-      var f = findFolder(targetFolderId);
-      if (!f && folders.length > 0) {
-        f = folders[0];
-        targetFolderId = f.id;
+      var folder = findFolder(targetFolderId);
+      if (!folder && folders.length > 0) {
+        folder = folders[0];
+        targetFolderId = folder.id;
       }
-      if (!f) {
-        openNewFolderModal();
+      if (!folder) {
+        showToast('Create a folder first', 'info');
         return;
       }
-      addNoteToFolder(targetFolderId);
+      createNoteInFolder(targetFolderId);
     }
 
-    function addNoteToFolder(folderId) {
-      var f = findFolder(folderId);
-      if (!f) return;
-      var newNote = {
+    function createNoteInFolder(folderId) {
+      var folder = findFolder(folderId);
+      if (!folder) return;
+
+      var note = {
         id: genId(),
         title: '',
         content: '',
         date: new Date().toISOString(),
         pinned: false
       };
-      f.notes.unshift(newNote);
-      f.expanded = true;
-      activeFolderId = folderId;
+
+      folder.notes.unshift(note);
+      folder.expanded = true;
       lastOpenedFolderId = folderId;
+
       saveData();
-      renderAll();
-      openNote(newNote.id);
+      selectNote(note.id, folderId);
       document.getElementById('noteTitleInput').focus();
-      if (window.innerWidth < 768) closeSidebar();
-    }
-
-    /* ===== TOOLBAR ===== */
-    function execCmd(cmd) {
-      document.getElementById('editorArea').focus();
-      document.execCommand(cmd, false, null);
-    }
-
-    function formatBlock(tag) {
-      if (!tag) return;
-      document.getElementById('editorArea').focus();
-      document.execCommand('formatBlock', false, '<' + tag + '>');
-    }
-
-    function applyColor(color, btn) {
-      document.getElementById('editorArea').focus();
-      document.execCommand('foreColor', false, color);
-      var btns = document.querySelectorAll('.toolbar-color-btn');
-      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active-color');
-      if (btn) btn.classList.add('active-color');
-    }
-
-    function insertCode() {
-      var sel = window.getSelection();
-      if (sel.rangeCount > 0 && !sel.isCollapsed) {
-        var text = sel.toString();
-        document.execCommand('insertHTML', false, '<code>' + escHtml(text) + '</code>');
-      } else {
-        document.execCommand('insertHTML', false, '<code>code</code>&nbsp;');
-      }
-    }
-
-    /* ===== SEARCH ===== */
-    function filterNotes(query) {
-      searchQuery = query.trim().toLowerCase();
-      if (!searchQuery) {
-        renderFolders();
-        return;
-      }
-      for (var i = 0; i < folders.length; i++) {
-        folders[i].expanded = true;
-      }
-      renderFolders();
-      setTimeout(function () {
-        var allNoteEls = document.querySelectorAll('.note-item');
-        for (var k = 0; k < allNoteEls.length; k++) {
-          var tEl = allNoteEls[k].querySelector('.note-title-text');
-          var pEl = allNoteEls[k].querySelector('.note-preview-text');
-          var txt = ((tEl ? tEl.textContent : '') + ' ' + (pEl ? pEl.textContent : '')).toLowerCase();
-          allNoteEls[k].style.display = txt.indexOf(searchQuery) >= 0 ? '' : 'none';
-        }
-      }, 10);
+      showToast('New note created', 'success');
     }
 
     /* ===== SIDEBAR ===== */
@@ -2615,237 +2188,76 @@
       document.getElementById('sidebarBackdrop').classList.remove('visible');
     }
 
-    /* ===== FOLDER CONTEXT MENU ===== */
-    function onFolderContext(e, folderId) {
-      e.preventDefault();
-      e.stopPropagation();
-      contextTarget = { type: 'folder', id: folderId };
-      var menu = document.getElementById('contextMenu');
-      menu.style.display = 'block';
-      positionMenu(menu, e.clientX, e.clientY);
+    /* ===== FOLDER CRUD ===== */
+    function openNewFolderModal() {
+      document.getElementById('newFolderName').value = '';
+      document.getElementById('newFolderName').classList.remove('error');
+      selectedFolderColor = FOLDER_COLORS[0];
+      renderFolderColorPicker();
+      document.getElementById('folderModal').classList.add('show');
+      setTimeout(function () { document.getElementById('newFolderName').focus(); }, 100);
     }
 
-    /* ===== NOTE CONTEXT MENU ===== */
-    function onNoteContext(e, noteId) {
-      e.preventDefault();
-      e.stopPropagation();
-      contextTarget = { type: 'note', id: noteId };
-      var found = findNote(noteId);
-      var pinLabel = document.getElementById('ctxPinLabel');
-      var pinIcon = document.querySelector('#ctxPinNote i');
-      if (found && found.note.pinned) {
-        pinLabel.textContent = 'Unpin note';
-        pinIcon.style.transform = 'rotate(45deg)';
-      } else {
-        pinLabel.textContent = 'Pin note';
-        pinIcon.style.transform = 'rotate(0deg)';
-      }
-      var menu = document.getElementById('noteContextMenu');
-      menu.style.display = 'block';
-      positionMenu(menu, e.clientX, e.clientY);
+    function closeFolderModal() {
+      document.getElementById('folderModal').classList.remove('show');
     }
 
-    function positionMenu(menu, x, y) {
-      var mw = menu.offsetWidth || 190;
-      var mh = menu.offsetHeight || 200;
-      if (x + mw > window.innerWidth) x = window.innerWidth - mw - 8;
-      if (y + mh > window.innerHeight) y = window.innerHeight - mh - 8;
-      if (x < 0) x = 8;
-      if (y < 0) y = 8;
-      menu.style.left = x + 'px';
-      menu.style.top = y + 'px';
-    }
-
-    function hideAllMenus() {
-      document.getElementById('contextMenu').style.display = 'none';
-      document.getElementById('noteContextMenu').style.display = 'none';
-      document.getElementById('trashContextMenu').style.display = 'none';
-      document.getElementById('colorSubmenu').style.display = 'none';
-      document.getElementById('sortMenu').style.display = 'none';
-    }
-
-    /* ===== CONTEXT MENU ACTIONS ===== */
-    document.getElementById('contextMenu').addEventListener('click', function (e) {
-      var item = e.target.closest('.ctx-item');
-      if (!item || !contextTarget) return;
-      var action = item.getAttribute('data-action');
-      if (contextTarget.type === 'folder') {
-        handleFolderAction(action, contextTarget.id, e);
-      }
-      hideAllMenus();
-    });
-
-    document.getElementById('noteContextMenu').addEventListener('click', function (e) {
-      var item = e.target.closest('.ctx-item');
-      if (!item || !contextTarget) return;
-      var action = item.getAttribute('data-action');
-      if (contextTarget.type === 'note') {
-        handleNoteAction(action, contextTarget.id);
-      }
-      hideAllMenus();
-    });
-
-    function handleFolderAction(action, folderId, evt) {
-      var f = findFolder(folderId);
-      if (!f) return;
-      switch (action) {
-        case 'rename': openRenameModal('folder', folderId, f.name); break;
-        case 'addNote': addNoteToFolder(folderId); break;
-        case 'changeColor': openColorSubmenu(evt); return;
-        case 'duplicate': duplicateFolder(folderId); break;
-        case 'delete': openDeleteModal('folder', folderId, f.name); break;
-      }
-    }
-
-    function handleNoteAction(action, noteId) {
-      var found = findNote(noteId);
-      if (!found) return;
-      switch (action) {
-        case 'pinNote': togglePinNote(noteId); break;
-        case 'rename': openRenameModal('note', noteId, found.note.title || 'Untitled'); break;
-        case 'duplicate': duplicateNote(noteId); break;
-        case 'delete': openDeleteModal('note', noteId, found.note.title || 'Untitled'); break;
-      }
-    }
-
-    /* ===== PIN NOTE ===== */
-    function togglePinNote(noteId) {
-      var found = findNote(noteId);
-      if (!found) return;
-      found.note.pinned = !found.note.pinned;
-      saveData();
-      renderFolders();
-      showToast(found.note.pinned ? 'Note pinned' : 'Note unpinned', 'info');
-    }
-
-    /* ===== COLOR SUBMENU ===== */
-    function openColorSubmenu(evt) {
-      var f = findFolder(contextTarget.id);
-      if (!f) return;
-      var grid = document.getElementById('colorSubmenuGrid');
+    function renderFolderColorPicker() {
       var html = '';
       for (var i = 0; i < FOLDER_COLORS.length; i++) {
-        var isCurrent = f.color === FOLDER_COLORS[i];
-        html += '<div class="color-submenu-opt' + (isCurrent ? ' current' : '') + '" style="background:' + FOLDER_COLORS[i] + '" data-color="' + FOLDER_COLORS[i] + '"></div>';
+        html += '<div class="modal-color-opt' + (FOLDER_COLORS[i] === selectedFolderColor ? ' selected' : '') + '" style="background:' + FOLDER_COLORS[i] + '" onclick="selectFolderColor(\'' + FOLDER_COLORS[i] + '\')"></div>';
       }
-      grid.innerHTML = html;
-      var submenu = document.getElementById('colorSubmenu');
-      var ctxMenu = document.getElementById('contextMenu');
-      var rect = ctxMenu.getBoundingClientRect();
-      submenu.style.left = (rect.right + 4) + 'px';
-      submenu.style.top = rect.top + 'px';
-      if (rect.right + 180 > window.innerWidth) {
-        submenu.style.left = (rect.left - 184) + 'px';
+      document.getElementById('folderColorPicker').innerHTML = html;
+    }
+
+    function selectFolderColor(color) {
+      selectedFolderColor = color;
+      renderFolderColorPicker();
+    }
+
+    function confirmNewFolder() {
+      var name = document.getElementById('newFolderName').value.trim();
+      if (!name) {
+        document.getElementById('newFolderName').classList.add('error');
+        return;
       }
-      submenu.style.display = 'block';
-      grid.onclick = function (e) {
-        var opt = e.target.closest('.color-submenu-opt');
-        if (!opt) return;
-        f.color = opt.getAttribute('data-color');
-        saveData();
-        renderFolders();
-        hideAllMenus();
-        showToast('Color changed', 'success');
+      var folder = {
+        id: genId(),
+        name: name,
+        color: selectedFolderColor,
+        expanded: false,
+        sortMode: 'date-desc',
+        notes: []
       };
-    }
-
-    document.getElementById('ctxChangeColor').addEventListener('mouseenter', function () {
-      if (contextTarget && contextTarget.type === 'folder') {
-        clearTimeout(colorSubmenuTimer);
-        openColorSubmenu({ clientX: 0, clientY: 0 });
-      }
-    });
-    document.getElementById('ctxChangeColor').addEventListener('mouseleave', function () {
-      colorSubmenuTimer = setTimeout(function () { document.getElementById('colorSubmenu').style.display = 'none'; }, 200);
-    });
-    document.getElementById('colorSubmenu').addEventListener('mouseenter', function () { clearTimeout(colorSubmenuTimer); });
-    document.getElementById('colorSubmenu').addEventListener('mouseleave', function () {
-      colorSubmenuTimer = setTimeout(function () { document.getElementById('colorSubmenu').style.display = 'none'; }, 200);
-    });
-
-    /* ===== SORT MENU ===== */
-    var SORT_OPTIONS = [
-      { id: 'date-desc', icon: 'fas fa-arrow-down', label: 'Newest first' },
-      { id: 'date-asc', icon: 'fas fa-arrow-up', label: 'Oldest first' },
-      { id: 'name-asc', icon: 'fas fa-arrow-down-a-z', label: 'Name A-Z' },
-      { id: 'name-desc', icon: 'fas fa-arrow-up-z-a', label: 'Name Z-A' }
-    ];
-
-    function openSortMenu(e, folderId) {
-      e.stopPropagation();
-      sortTarget = folderId;
-      var f = findFolder(folderId);
-      if (!f) return;
-      var html = '<div class="sort-menu-title">Sort Notes</div>';
-      for (var i = 0; i < SORT_OPTIONS.length; i++) {
-        var opt = SORT_OPTIONS[i];
-        var isActive = f.sortMode === opt.id;
-        html += '<div class="sort-option' + (isActive ? ' active' : '') + '" data-sort="' + opt.id + '">';
-        html += '<i class="' + opt.icon + '"></i><span>' + opt.label + '</span>';
-        if (isActive) html += '<i class="fas fa-check sort-check"></i>';
-        html += '</div>';
-      }
-      var menu = document.getElementById('sortMenu');
-      menu.innerHTML = html;
-      menu.style.display = 'block';
-      var btn = e.target.closest('.folder-sort-btn');
-      var rect = btn.getBoundingClientRect();
-      var x = rect.left, y = rect.bottom + 4;
-      if (y + 180 > window.innerHeight) y = rect.top - 180;
-      if (x + 185 > window.innerWidth) x = window.innerWidth - 185 - 8;
-      menu.style.left = x + 'px';
-      menu.style.top = y + 'px';
-      menu.onclick = function (ev) {
-        var optEl = ev.target.closest('.sort-option');
-        if (!optEl) return;
-        f.sortMode = optEl.getAttribute('data-sort');
-        saveData();
-        renderFolders();
-        hideAllMenus();
-        showToast('Sort updated', 'success');
-      };
-    }
-
-    /* ===== DUPLICATE ===== */
-    function duplicateNote(noteId) {
-      var found = findNote(noteId);
-      if (!found) return;
-      var copy = JSON.parse(JSON.stringify(found.note));
-      copy.id = genId();
-      copy.title = copy.title + ' (copy)';
-      copy.date = new Date().toISOString();
-      copy.pinned = false;
-      found.folder.notes.splice(found.index + 1, 0, copy);
+      folders.push(folder);
       saveData();
-      renderAll();
-      showToast('Note duplicated', 'success');
+      renderFolders();
+      closeFolderModal();
+      showToast('Folder "' + name + '" created', 'success');
     }
 
-    function duplicateFolder(folderId) {
-      var f = findFolder(folderId);
-      if (!f) return;
-      var copy = JSON.parse(JSON.stringify(f));
-      copy.id = genId();
-      copy.name = f.name + ' (copy)';
-      copy.expanded = false;
-      for (var i = 0; i < copy.notes.length; i++) {
-        copy.notes[i].id = genId();
-        copy.notes[i].pinned = false;
-      }
-      var idx = folders.indexOf(f);
-      folders.splice(idx + 1, 0, copy);
-      saveData();
-      renderAll();
-      showToast('Folder duplicated', 'success');
-    }
-
-    /* ===== RENAME MODAL ===== */
-    function openRenameModal(type, id, currentName) {
+    /* ===== RENAME ===== */
+    function openRenameModal(type, id) {
       renameTarget = { type: type, id: id };
-      document.getElementById('renameModalTitle').textContent = type === 'folder' ? 'Rename Folder' : 'Rename Note';
       var input = document.getElementById('renameInput');
-      input.value = currentName;
       input.classList.remove('error');
+
+      if (type === 'folder') {
+        var folder = findFolder(id);
+        if (!folder) return;
+        document.getElementById('renameModalTitle').textContent = 'Rename Folder';
+        input.value = folder.name;
+        input.placeholder = 'Folder name';
+        input.maxLength = 40;
+      } else {
+        var result = findNote(id);
+        if (!result) return;
+        document.getElementById('renameModalTitle').textContent = 'Rename Note';
+        input.value = result.note.title || '';
+        input.placeholder = 'Note title';
+        input.maxLength = 60;
+      }
+
       document.getElementById('renameModal').classList.add('show');
       setTimeout(function () { input.focus(); input.select(); }, 100);
     }
@@ -2858,36 +2270,60 @@
     function confirmRename() {
       if (!renameTarget) return;
       var val = document.getElementById('renameInput').value.trim();
-      if (!val) { document.getElementById('renameInput').classList.add('error'); return; }
+      if (!val) {
+        document.getElementById('renameInput').classList.add('error');
+        return;
+      }
+
       if (renameTarget.type === 'folder') {
-        var f = findFolder(renameTarget.id);
-        if (f) { f.name = val; saveData(); renderAll(); showToast('Folder renamed', 'success'); }
-      } else if (renameTarget.type === 'note') {
-        var found = findNote(renameTarget.id);
-        if (found) {
-          found.note.title = val;
-          if (activeNoteId === renameTarget.id) {
-            document.getElementById('noteTitleInput').value = val;
-            var bc = document.getElementById('topbarBreadcrumb');
-            var spans = bc.querySelectorAll('.tb-note');
-            if (spans.length > 0) spans[0].textContent = val;
+        var folder = findFolder(renameTarget.id);
+        if (folder) {
+          folder.name = val;
+          if (activeFolderId === folder.id && !activeNoteId) {
+            document.getElementById('statusFolder').textContent = val;
           }
-          saveData();
-          renderFolders();
-          showToast('Note renamed', 'success');
+          if (activeNoteId) {
+            var res = findNote(activeNoteId);
+            if (res && res.folder.id === folder.id) {
+              updateBreadcrumb(res.folder, res.note);
+            }
+          }
+        }
+      } else {
+        var result = findNote(renameTarget.id);
+        if (result) {
+          result.note.title = val;
+          if (activeNoteId === result.note.id) {
+            document.getElementById('noteTitleInput').value = val;
+            updateBreadcrumb(result.folder, result.note);
+          }
         }
       }
+
+      saveData();
+      renderFolders();
       closeRenameModal();
+      showToast('Renamed successfully', 'success');
     }
 
-    /* ===== DELETE MODAL ===== */
-    function openDeleteModal(type, id, name) {
+    /* ===== DELETE ===== */
+    function openDeleteModal(type, id) {
       deleteTarget = { type: type, id: id };
-      document.getElementById('deleteModalTitle').textContent = type === 'folder' ? 'Delete Folder' : 'Delete Note';
-      document.getElementById('deleteModalDesc').textContent = type === 'folder'
-        ? 'This folder and all its notes will be moved to trash. They will be permanently deleted after 24 hours.'
-        : 'This note will be moved to trash. It will be permanently deleted after 24 hours.';
-      document.getElementById('deleteModalName').textContent = name || 'Untitled';
+
+      if (type === 'folder') {
+        var folder = findFolder(id);
+        if (!folder) return;
+        document.getElementById('deleteModalTitle').textContent = 'Delete Folder';
+        document.getElementById('deleteModalDesc').textContent = 'This folder and all its notes will be permanently deleted.';
+        document.getElementById('deleteModalName').textContent = folder.name + ' (' + folder.notes.length + ' notes)';
+      } else {
+        var result = findNote(id);
+        if (!result) return;
+        document.getElementById('deleteModalTitle').textContent = 'Delete Note';
+        document.getElementById('deleteModalDesc').textContent = 'This note will be permanently deleted.';
+        document.getElementById('deleteModalName').textContent = result.note.title || 'Untitled';
+      }
+
       document.getElementById('deleteModal').classList.add('show');
     }
 
@@ -2898,189 +2334,475 @@
 
     function confirmDelete() {
       if (!deleteTarget) return;
+
       if (deleteTarget.type === 'folder') {
         var idx = -1;
         for (var i = 0; i < folders.length; i++) {
           if (folders[i].id === deleteTarget.id) { idx = i; break; }
         }
-        if (idx >= 0) {
-          var removedFolder = folders.splice(idx, 1)[0];
+        if (idx !== -1) {
+          var fname = folders[idx].name;
+          folders.splice(idx, 1);
           if (activeFolderId === deleteTarget.id) {
-            activeNoteId = null;
             activeFolderId = null;
-            showEmptyState();
+            activeNoteId = null;
+            showEmptyState('Folder deleted', '"' + fname + '" has been deleted.');
           }
           if (activeNoteId) {
-            var wasInFolder = false;
-            for (var j = 0; j < removedFolder.notes.length; j++) {
-              if (removedFolder.notes[j].id === activeNoteId) { wasInFolder = true; break; }
+            var still = findNote(activeNoteId);
+            if (!still) {
+              activeNoteId = null;
+              showEmptyState('No note selected', 'Select a note from the sidebar to start editing.');
             }
-            if (wasInFolder) { activeNoteId = null; showEmptyState(); }
           }
-          if (folders.length > 0) lastOpenedFolderId = folders[0].id;
-          trash.push({ type: 'folder', item: JSON.parse(JSON.stringify(removedFolder)), deletedAt: new Date().toISOString() });
-          saveData();
-          renderAll();
-          showToast('Folder moved to trash', 'error', function () { undoDelete(); });
         }
-      } else if (deleteTarget.type === 'note') {
-        var found = findNote(deleteTarget.id);
-        if (found) {
-          var removedNote = found.folder.notes.splice(found.index, 1)[0];
+      } else {
+        var result = findNote(deleteTarget.id);
+        if (result) {
+          result.folder.notes.splice(result.index, 1);
           if (activeNoteId === deleteTarget.id) {
             activeNoteId = null;
-            showEmptyState();
+            showEmptyState('Note deleted', 'The note has been permanently deleted.');
           }
-          trash.push({ type: 'note', item: JSON.parse(JSON.stringify(removedNote)), folderId: found.folder.id, deletedAt: new Date().toISOString() });
-          saveData();
-          renderAll();
-          showToast('Note moved to trash', 'error', function () { undoDelete(); });
         }
       }
+
+      saveData();
+      renderFolders();
       closeDeleteModal();
+      showToast('Deleted successfully', 'success');
     }
 
-    /* ===== NEW FOLDER MODAL ===== */
-    function openNewFolderModal() {
-      selectedFolderColor = FOLDER_COLORS[0];
-      document.getElementById('newFolderName').value = '';
-      document.getElementById('newFolderName').classList.remove('error');
-      var picker = document.getElementById('folderColorPicker');
+    /* ===== DUPLICATE NOTE ===== */
+    function duplicateNote(noteId) {
+      var result = findNote(noteId);
+      if (!result) return;
+      var newNote = {
+        id: genId(),
+        title: (result.note.title || 'Untitled') + ' (copy)',
+        content: result.note.content,
+        date: new Date().toISOString(),
+        pinned: false
+      };
+      result.folder.notes.splice(result.index + 1, 0, newNote);
+      saveData();
+      renderFolders();
+      selectNote(newNote.id, result.folder.id);
+      showToast('Note duplicated', 'success');
+    }
+
+    /* ===== PIN / FAVORITE NOTE ===== */
+    function togglePinNote(noteId) {
+      var result = findNote(noteId);
+      if (!result) return;
+      result.note.pinned = !result.note.pinned;
+      saveData();
+      renderFolders();
+      if (activeNoteId === noteId) {
+        updatePinMeta(result.note);
+      }
+      showToast(result.note.pinned ? 'Note pinned' : 'Note unpinned', 'info');
+    }
+
+    /* ===== CONTEXT MENU ===== */
+    function showNoteContext(e, noteId, folderId) {
+      e.preventDefault();
+      e.stopPropagation();
+      contextTarget = { type: 'note', id: noteId, folderId: folderId };
+
+      var result = findNote(noteId);
+      var isPinned = result && result.note.pinned;
+
+      document.getElementById('ctxPinNote').style.display = 'flex';
+      document.getElementById('ctxPinLabel').textContent = isPinned ? 'Unpin note' : 'Pin note';
+      if (isPinned) {
+        document.getElementById('ctxPinNote').classList.add('pin-active');
+      } else {
+        document.getElementById('ctxPinNote').classList.remove('pin-active');
+      }
+
+      document.getElementById('ctxChangeColor').style.display = 'none';
+      document.querySelector('[data-action="addNote"]').style.display = 'none';
+
+      positionContextMenu(e.clientX, e.clientY);
+    }
+
+    function showFolderContext(e, folderId) {
+      e.preventDefault();
+      e.stopPropagation();
+      contextTarget = { type: 'folder', id: folderId };
+
+      document.getElementById('ctxPinNote').style.display = 'none';
+      document.getElementById('ctxChangeColor').style.display = 'flex';
+      document.querySelector('[data-action="addNote"]').style.display = 'flex';
+
+      positionContextMenu(e.clientX, e.clientY);
+    }
+
+    function positionContextMenu(x, y) {
+      var menu = document.getElementById('contextMenu');
+      menu.style.display = 'block';
+      hideColorSubmenu();
+
+      var mw = menu.offsetWidth;
+      var mh = menu.offsetHeight;
+      var ww = window.innerWidth;
+      var wh = window.innerHeight;
+
+      if (x + mw > ww - 8) x = ww - mw - 8;
+      if (y + mh > wh - 8) y = wh - mh - 8;
+      if (x < 8) x = 8;
+      if (y < 8) y = 8;
+
+      menu.style.left = x + 'px';
+      menu.style.top = y + 'px';
+    }
+
+    function hideContextMenu() {
+      document.getElementById('contextMenu').style.display = 'none';
+      hideColorSubmenu();
+      hideSortMenu();
+      contextTarget = null;
+    }
+
+    document.getElementById('contextMenu').addEventListener('click', function (e) {
+      var item = e.target.closest('.ctx-item');
+      if (!item || !contextTarget) return;
+      var action = item.dataset.action;
+
+      switch (action) {
+        case 'rename':
+          openRenameModal(contextTarget.type, contextTarget.id);
+          break;
+        case 'addNote':
+          if (contextTarget.type === 'folder') createNoteInFolder(contextTarget.id);
+          break;
+        case 'pinNote':
+          if (contextTarget.type === 'note') togglePinNote(contextTarget.id);
+          break;
+        case 'changeColor':
+          showColorSubmenu(e);
+          return;
+        case 'duplicate':
+          if (contextTarget.type === 'note') duplicateNote(contextTarget.id);
+          break;
+        case 'delete':
+          openDeleteModal(contextTarget.type, contextTarget.id);
+          break;
+      }
+      hideContextMenu();
+    });
+
+    /* ===== COLOR SUBMENU ===== */
+    function showColorSubmenu(e) {
+      if (!contextTarget || contextTarget.type !== 'folder') return;
+      var folder = findFolder(contextTarget.id);
+      if (!folder) return;
+
+      var menu = document.getElementById('contextMenu');
+      var submenu = document.getElementById('colorSubmenu');
+      var grid = document.getElementById('colorSubmenuGrid');
+
       var html = '';
       for (var i = 0; i < FOLDER_COLORS.length; i++) {
-        html += '<div class="modal-color-opt' + (i === 0 ? ' selected' : '') + '" style="background:' + FOLDER_COLORS[i] + '" data-color="' + FOLDER_COLORS[i] + '"></div>';
+        var isCurrent = FOLDER_COLORS[i] === folder.color;
+        html += '<div class="color-submenu-opt' + (isCurrent ? ' current' : '') + '" style="background:' + FOLDER_COLORS[i] + '" data-color="' + FOLDER_COLORS[i] + '"></div>';
       }
-      picker.innerHTML = html;
-      picker.onclick = function (e) {
-        var opt = e.target.closest('.modal-color-opt');
-        if (!opt) return;
-        selectedFolderColor = opt.getAttribute('data-color');
-        var all = picker.querySelectorAll('.modal-color-opt');
-        for (var j = 0; j < all.length; j++) all[j].classList.remove('selected');
-        opt.classList.add('selected');
-      };
-      document.getElementById('folderModal').classList.add('show');
-      setTimeout(function () { document.getElementById('newFolderName').focus(); }, 100);
+      grid.innerHTML = html;
+
+      var mr = menu.getBoundingClientRect();
+      var sx = mr.right + 4;
+      var sy = mr.top;
+      if (sx + 180 > window.innerWidth) sx = mr.left - 184;
+      if (sy + 120 > window.innerHeight) sy = window.innerHeight - 128;
+
+      submenu.style.left = sx + 'px';
+      submenu.style.top = sy + 'px';
+      submenu.style.display = 'block';
     }
 
-    function closeFolderModal() {
-      document.getElementById('folderModal').classList.remove('show');
+    function hideColorSubmenu() {
+      document.getElementById('colorSubmenu').style.display = 'none';
     }
 
-    function confirmNewFolder() {
-      var name = document.getElementById('newFolderName').value.trim();
-      if (!name) { document.getElementById('newFolderName').classList.add('error'); return; }
-      folders.push({
-        id: genId(), name: name, color: selectedFolderColor, expanded: true, sortMode: 'date-desc', notes: []
-      });
-      saveData();
-      closeFolderModal();
-      renderAll();
-      showToast('Folder created', 'success');
-    }
+    document.getElementById('colorSubmenu').addEventListener('click', function (e) {
+      var opt = e.target.closest('.color-submenu-opt');
+      if (!opt || !contextTarget) return;
+      var color = opt.dataset.color;
+      var folder = findFolder(contextTarget.id);
+      if (folder) {
+        folder.color = color;
+        saveData();
+        renderFolders();
+        if (activeNoteId) {
+          var res = findNote(activeNoteId);
+          if (res && res.folder.id === folder.id) {
+            updateBreadcrumb(res.folder, res.note);
+          }
+        }
+        showToast('Color updated', 'success');
+      }
+      hideContextMenu();
+    });
 
-    /* ===== DRAG & DROP NOTES ===== */
-    function onFolderDragOver(e, folderId) {
+    document.getElementById('ctxChangeColor').addEventListener('mouseenter', function () {
+      if (contextTarget && contextTarget.type === 'folder') showColorSubmenu(event);
+    });
+
+    document.getElementById('ctxChangeColor').addEventListener('mouseleave', function () {
+      colorSubmenuTimer = setTimeout(hideColorSubmenu, 200);
+    });
+
+    document.getElementById('colorSubmenu').addEventListener('mouseenter', function () {
+      clearTimeout(colorSubmenuTimer);
+    });
+
+    document.getElementById('colorSubmenu').addEventListener('mouseleave', function () {
+      colorSubmenuTimer = setTimeout(hideColorSubmenu, 200);
+    });
+
+    /* ===== SORT MENU ===== */
+    function showSortMenu(e, folderId) {
       e.preventDefault();
-      var header = e.target.closest('.folder-header');
-      if (header) header.classList.add('drag-over');
+      e.stopPropagation();
+      sortTarget = folderId;
+      var folder = findFolder(folderId);
+      if (!folder) return;
+
+      var modes = [
+        { id: 'date-desc', icon: 'fa-arrow-down-wide-short', label: 'Newest first' },
+        { id: 'date-asc', icon: 'fa-arrow-up-short-wide', label: 'Oldest first' },
+        { id: 'title-asc', icon: 'fa-arrow-down-a-z', label: 'Title A-Z' },
+        { id: 'title-desc', icon: 'fa-arrow-up-z-a', label: 'Title Z-A' }
+      ];
+
+      var html = '<div class="sort-menu-title">Sort Notes</div>';
+      for (var i = 0; i < modes.length; i++) {
+        var isActive = folder.sortMode === modes[i].id;
+        html += '<div class="sort-option' + (isActive ? ' active' : '') + '" data-sort="' + modes[i].id + '">';
+        html += '<i class="fas ' + modes[i].icon + '"></i>';
+        html += '<span>' + modes[i].label + '</span>';
+        if (isActive) html += '<i class="fas fa-check sort-check"></i>';
+        html += '</div>';
+      }
+
+      var menu = document.getElementById('sortMenu');
+      menu.innerHTML = html;
+
+      var btn = e.currentTarget || e.target;
+      var rect = btn.getBoundingClientRect();
+      var mx = rect.left;
+      var my = rect.bottom + 4;
+      if (my + 160 > window.innerHeight) my = rect.top - 164;
+      if (mx + 185 > window.innerWidth) mx = window.innerWidth - 193;
+
+      menu.style.left = mx + 'px';
+      menu.style.top = my + 'px';
+      menu.style.display = 'block';
     }
 
-    function onFolderDragLeave(e, folderId) {
-      var header = e.target.closest('.folder-header');
-      if (header) header.classList.remove('drag-over');
+    function hideSortMenu() {
+      document.getElementById('sortMenu').style.display = 'none';
+      sortTarget = null;
+    }
+
+    document.getElementById('sortMenu').addEventListener('click', function (e) {
+      var opt = e.target.closest('.sort-option');
+      if (!opt || !sortTarget) return;
+      var folder = findFolder(sortTarget);
+      if (folder) {
+        folder.sortMode = opt.dataset.sort;
+        saveData();
+        renderFolders();
+        showToast('Sort updated', 'info');
+      }
+      hideSortMenu();
+    });
+
+    /* ===== DRAG AND DROP NOTES ===== */
+    function onNoteDragStart(e, noteId, folderId) {
+      dragNoteId = noteId;
+      dragSourceFolderId = folderId;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', noteId);
+      setTimeout(function () {
+        var el = document.querySelector('.note-item[data-note-id="' + noteId + '"]');
+        if (el) el.classList.add('dragging');
+      }, 0);
+    }
+
+    function onNoteDragEnd(e) {
+      var el = document.querySelector('.note-item[data-note-id="' + dragNoteId + '"].dragging');
+      if (el) el.classList.remove('dragging');
+      dragNoteId = null;
+      dragSourceFolderId = null;
+      document.querySelectorAll('.folder-header.drag-over').forEach(function (el) { el.classList.remove('drag-over'); });
+    }
+
+    function onFolderDragOver(e, folderId) {
+      if (!dragNoteId || dragSourceFolderId === folderId) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      var header = e.currentTarget;
+      header.classList.add('drag-over');
+    }
+
+    function onFolderDragLeave(e) {
+      var header = e.currentTarget;
+      header.classList.remove('drag-over');
     }
 
     function onFolderDrop(e, targetFolderId) {
       e.preventDefault();
-      var header = e.target.closest('.folder-header');
-      if (header) header.classList.remove('drag-over');
-      var noteId = e.dataTransfer.getData('text/plain');
-      if (!noteId) return;
-      var found = findNote(noteId);
-      if (!found || found.folder.id === targetFolderId) return;
-      found.folder.notes.splice(found.index, 1);
+      var header = e.currentTarget;
+      header.classList.remove('drag-over');
+
+      if (!dragNoteId || !dragSourceFolderId || dragSourceFolderId === targetFolderId) return;
+
+      var result = findNote(dragNoteId);
       var targetFolder = findFolder(targetFolderId);
-      if (targetFolder) { targetFolder.notes.unshift(found.note); targetFolder.expanded = true; }
+      if (!result || !targetFolder) return;
+
+      result.folder.notes.splice(result.index, 1);
+      targetFolder.notes.unshift(result.note);
+      targetFolder.expanded = true;
+
+      if (activeNoteId === dragNoteId) {
+        activeFolderId = targetFolderId;
+        updateBreadcrumb(targetFolder, result.note);
+        document.getElementById('statusFolder').textContent = targetFolder.name;
+      }
+
       saveData();
-      renderAll();
-      showToast('Note moved', 'info');
+      renderFolders();
+      showToast('Note moved to ' + targetFolder.name, 'info');
+
+      dragNoteId = null;
+      dragSourceFolderId = null;
+    }
+
+    /* ===== SEARCH / FILTER ===== */
+    function filterNotes(query) {
+      searchQuery = query.toLowerCase().trim();
+
+      for (var i = 0; i < folders.length; i++) {
+        if (searchQuery && !folders[i].expanded) {
+          folders[i].expanded = true;
+        }
+      }
+
+      renderFolders();
+    }
+
+    /* ===== EDITOR TOOLBAR ===== */
+    function execCmd(cmd) {
+      document.execCommand(cmd, false, null);
+      document.getElementById('editorArea').focus();
+    }
+
+    function formatBlock(tag) {
+      if (!tag) return;
+      document.execCommand('formatBlock', false, '<' + tag + '>');
+      document.getElementById('editorArea').focus();
+    }
+
+    function applyColor(color, btn) {
+      document.execCommand('foreColor', false, color);
+      document.querySelectorAll('.toolbar-color-btn').forEach(function (b) { b.classList.remove('active-color'); });
+      btn.classList.add('active-color');
+      document.getElementById('editorArea').focus();
+    }
+
+    function insertCode() {
+      var sel = window.getSelection();
+      if (sel.rangeCount) {
+        var range = sel.getRangeAt(0);
+        var code = document.createElement('code');
+        code.textContent = sel.toString() || 'code';
+        range.deleteContents();
+        range.insertNode(code);
+        sel.collapseToEnd();
+      }
+      document.getElementById('editorArea').focus();
     }
 
     /* ===== TOAST ===== */
-    function showToast(message, type, undoFn) {
+    function showToast(message, type) {
+      type = type || 'info';
+      var icons = { success: 'fa-check-circle', info: 'fa-info-circle', error: 'fa-exclamation-circle' };
       var container = document.getElementById('toastContainer');
-      var icons = { success: 'fas fa-check-circle', info: 'fas fa-info-circle', error: 'fas fa-exclamation-circle' };
       var toast = document.createElement('div');
-      toast.className = 'toast ' + (type || 'info');
-      var html = '<i class="' + (icons[type] || icons.info) + '"></i><span>' + escHtml(message) + '</span>';
-      if (undoFn) {
-        html += '<button class="toast-undo">Undo</button>';
-        toast.style.animation = 'toastIn 0.3s ease';
-      }
-      toast.innerHTML = html;
+      toast.className = 'toast ' + type;
+      toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i><span>' + escapeHtml(message) + '</span>';
       container.appendChild(toast);
-      var duration = undoFn ? 8000 : 2600;
-      if (undoFn) {
-        toast.querySelector('.toast-undo').onclick = function (e) {
-          e.stopPropagation();
-          undoFn();
-          if (toast.parentNode) toast.parentNode.removeChild(toast);
-        };
-      }
       setTimeout(function () {
         if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, duration);
+      }, 2600);
     }
 
-    /* ===== GLOBAL CLICK TO CLOSE MENUS ===== */
+    /* ===== GLOBAL CLICK / KEYBOARD ===== */
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.context-menu') && !e.target.closest('.color-submenu') && !e.target.closest('.sort-menu') && !e.target.closest('.folder-sort-btn') && !e.target.closest('.folder-menu-btn')) {
-        hideAllMenus();
+        hideContextMenu();
       }
     });
 
-    /* ===== KEYBOARD SHORTCUTS ===== */
-    document.addEventListener('keydown', function (e) {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
-        e.preventDefault();
-        createNewNote();
+    document.addEventListener('contextmenu', function (e) {
+      if (!e.target.closest('.note-item') && !e.target.closest('.folder-header') && !e.target.closest('.folder-menu-btn')) {
+        hideContextMenu();
       }
+    });
+
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        hideAllMenus();
+        hideContextMenu();
         closeFolderModal();
         closeRenameModal();
         closeDeleteModal();
         if (sidebarOpen) closeSidebar();
       }
-    });
 
-    /* ===== MODAL OVERLAY CLICK TO CLOSE ===== */
-    document.querySelectorAll('.modal-overlay').forEach(function (overlay) {
-      overlay.addEventListener('click', function (e) {
-        if (e.target === overlay) {
-          overlay.classList.remove('show');
-          renameTarget = null;
-          deleteTarget = null;
-        }
-      });
+      if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+        e.preventDefault();
+        createNewNote();
+      }
+
+      if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+        e.preventDefault();
+        openSidebar();
+        setTimeout(function () { document.getElementById('searchInput').focus(); }, 350);
+      }
+
+      if (e.key === 'Delete' && activeNoteId && !e.target.closest('[contenteditable]') && !e.target.closest('input')) {
+        openDeleteModal('note', activeNoteId);
+      }
     });
 
     /* ===== INIT ===== */
-    renderAll();
+    function init() {
+      renderFolders();
 
-    if (window.innerWidth >= 768) {
-      openSidebar();
-    }
-
-    if (activeNoteId) {
-      var check = findNote(activeNoteId);
-      if (check) {
-        openNote(activeNoteId, true);
+      if (activeNoteId) {
+        var result = findNote(activeNoteId);
+        if (result) {
+          if (!result.folder.expanded) result.folder.expanded = true;
+          renderFolders();
+          showEditor(result.note, result.folder);
+        } else {
+          activeNoteId = null;
+          showEmptyState('No note selected', 'Select a note from the sidebar to start editing, or create a new one.');
+        }
       } else {
-        showEmptyState();
+        showEmptyState('No note selected', 'Select a note from the sidebar to start editing, or create a new one.');
+      }
+
+      if (window.innerWidth >= 768) {
+        openSidebar();
       }
     }
+
+    init();
   </script>
 </body>
+
 </html>
