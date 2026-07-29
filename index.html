@@ -1511,17 +1511,7 @@
       color: var(--accent);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-
-      *,
-      *::before,
-      *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* ===== PIN / FAVORITE NOTES - NEW STYLES ===== */
+    /* ===== PIN / FAVORITE NOTES ===== */
     .pinned-label {
       padding: 8px 12px 4px 46px;
       font-size: 9px;
@@ -1566,6 +1556,352 @@
     #metaPin i {
       color: var(--accent) !important;
     }
+
+    /* ===== TRASH / RECENTLY DELETED ===== */
+    .trash-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      margin: 2px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--fg-dim);
+    }
+
+    .trash-item:hover {
+      background: var(--bg-hover);
+      color: var(--fg);
+    }
+
+    .trash-item.active {
+      background: rgba(248, 113, 113, 0.1);
+      color: var(--danger);
+    }
+
+    .trash-item i {
+      font-size: 14px;
+      width: 18px;
+      text-align: center;
+    }
+
+    .trash-item .count-badge {
+      margin-left: auto;
+      font-size: 11px;
+      background: var(--bg-card);
+      color: var(--fg-muted);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .trash-view {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .trash-view-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 40px 16px;
+      flex-shrink: 0;
+    }
+
+    .trash-view-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--fg);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .trash-view-title i {
+      color: var(--fg-muted);
+      font-size: 18px;
+    }
+
+    .trash-view-desc {
+      font-size: 13px;
+      color: var(--fg-muted);
+      margin-left: 28px;
+    }
+
+    .trash-view-spacer {
+      flex: 1;
+    }
+
+    .empty-trash-btn {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--fg-dim);
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .empty-trash-btn:hover {
+      background: rgba(248, 113, 113, 0.1);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .trash-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 40px 40px;
+    }
+
+    .trash-note-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s;
+    }
+
+    .trash-note-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .trash-note-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--bg-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--fg-muted);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .trash-note-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .trash-note-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--fg-dim);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .trash-note-preview {
+      font-size: 12px;
+      color: var(--fg-muted);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .trash-note-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .trash-note-meta-tag {
+      font-size: 11px;
+      color: var(--fg-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .trash-note-meta-tag i {
+      font-size: 10px;
+    }
+
+    .trash-note-meta-tag.folder-tag {
+      background: var(--bg-hover);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .trash-note-time-remaining {
+      font-size: 11px;
+      color: var(--fg-muted);
+    }
+
+    .trash-note-time-remaining.urgent {
+      color: var(--danger);
+      opacity: 0.85;
+    }
+
+    .trash-note-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .trash-action-btn {
+      background: transparent;
+      border: 1px solid var(--border-light);
+      color: var(--fg-dim);
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .trash-action-btn.restore:hover {
+      background: rgba(74, 222, 128, 0.1);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .trash-action-btn.perm-delete:hover {
+      background: rgba(248, 113, 113, 0.1);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .trash-empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 40px;
+    }
+
+    .trash-empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--fg-muted);
+      opacity: 0.5;
+      border: 1px solid var(--border);
+    }
+
+    .trash-empty-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--fg-dim);
+    }
+
+    .trash-empty-desc {
+      font-size: 13px;
+      color: var(--fg-muted);
+    }
+
+    /* ===== UNDO TOAST ===== */
+    .undo-toast {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 12px 14px 12px 18px;
+      font-size: 13px;
+      color: var(--fg);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 280px;
+      position: relative;
+      overflow: hidden;
+      animation: toastIn 0.3s ease;
+    }
+
+    .undo-toast i.toast-icon {
+      font-size: 15px;
+      color: var(--info, var(--accent));
+    }
+
+    .undo-toast .undo-toast-text {
+      flex: 1;
+    }
+
+    .undo-toast-btn {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+
+    .undo-toast-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    .undo-toast-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 0 0 10px 10px;
+      animation: undoProgress var(--undo-duration, 30s) linear forwards;
+    }
+
+    @keyframes undoProgress {
+      from {
+        width: 100%;
+      }
+
+      to {
+        width: 0%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 
@@ -1603,6 +1939,11 @@
         <span>All Notes</span>
         <span class="count-badge" id="allNotesCount">0</span>
       </div>
+      <div class="trash-item" id="trashItem" onclick="showTrashView()">
+        <i class="far fa-trash-alt"></i>
+        <span>Trash</span>
+        <span class="count-badge" id="trashCount">0</span>
+      </div>
       <div id="foldersContainer"></div>
     </div>
     <button class="new-note-btn" onclick="createNewNote()">
@@ -1632,6 +1973,18 @@
         <kbd>Ctrl</kbd> + <kbd>N</kbd>
         <span>New note</span>
       </div>
+    </div>
+
+    <div id="trashView" class="trash-view" style="display:none;">
+      <div class="trash-view-header">
+        <div class="trash-view-title"><i class="far fa-trash-alt"></i> Trash</div>
+        <div class="trash-view-spacer"></div>
+        <button class="empty-trash-btn" id="emptyTrashBtn" onclick="openEmptyTrashModal()" style="display:none;">
+          <i class="far fa-trash-alt"></i> Empty Trash
+        </button>
+      </div>
+      <div class="trash-view-desc" id="trashViewDesc" style="padding:0 40px 16px;">Notes are permanently deleted after 24 hours.</div>
+      <div class="trash-list" id="trashList"></div>
     </div>
 
     <div id="editorView" style="display:none; flex-direction:column; flex:1; min-height:0;">
@@ -1769,6 +2122,8 @@
 
   <script>
     var FOLDER_COLORS = ['#ff6b35', '#f59e0b', '#4ade80', '#60a5fa', '#a78bfa', '#f472b6', '#fb7185', '#38bdf8', '#34d399', '#fbbf24'];
+    var TRASH_DURATION_MS = 24 * 60 * 60 * 1000;
+    var UNDO_DURATION_MS = 30 * 1000;
 
     var DEFAULT_FOLDERS = [
       {
@@ -1800,6 +2155,7 @@
     ];
 
     var folders = [];
+    var trash = [];
     var activeNoteId = null;
     var activeFolderId = null;
     var lastOpenedFolderId = 'f1';
@@ -1813,6 +2169,7 @@
     var searchQuery = '';
     var dragNoteId = null;
     var dragSourceFolderId = null;
+    var viewingTrash = false;
 
     /* ===== LOCAL STORAGE ===== */
     var STORAGE_KEY = 'notecraft_data';
@@ -1821,6 +2178,7 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           folders: folders,
+          trash: trash,
           activeNoteId: activeNoteId,
           activeFolderId: activeFolderId,
           lastOpenedFolderId: lastOpenedFolderId
@@ -1839,6 +2197,7 @@
           if (!f.id || !f.name || !Array.isArray(f.notes)) return false;
         }
         folders = data.folders;
+        trash = Array.isArray(data.trash) ? data.trash : [];
         activeNoteId = data.activeNoteId || null;
         activeFolderId = data.activeFolderId || null;
         lastOpenedFolderId = data.lastOpenedFolderId || (folders.length > 0 ? folders[0].id : 'f1');
@@ -1857,6 +2216,7 @@
 
     if (!loadData()) {
       folders = JSON.parse(JSON.stringify(DEFAULT_FOLDERS));
+      trash = [];
     }
     /* ========================= */
 
@@ -1891,6 +2251,13 @@
     function findFolder(folderId) {
       for (var i = 0; i < folders.length; i++) {
         if (folders[i].id === folderId) return folders[i];
+      }
+      return null;
+    }
+
+    function findTrashItem(trashId) {
+      for (var i = 0; i < trash.length; i++) {
+        if (trash[i].id === trashId) return { item: trash[i], index: i };
       }
       return null;
     }
@@ -2004,13 +2371,17 @@
       container.innerHTML = html;
 
       document.getElementById('allNotesCount').textContent = getTotalNoteCount();
+      document.getElementById('trashCount').textContent = trash.length;
       document.getElementById('statusNotes').textContent = getTotalNoteCount() + ' notes';
 
       var allItem = document.getElementById('allNotesItem');
-      if (activeFolderId === null) {
+      var trashItem = document.getElementById('trashItem');
+      allItem.classList.remove('active');
+      trashItem.classList.remove('active');
+      if (viewingTrash) {
+        trashItem.classList.add('active');
+      } else if (activeFolderId === null) {
         allItem.classList.add('active');
-      } else {
-        allItem.classList.remove('active');
       }
     }
 
@@ -2020,6 +2391,7 @@
       folder.expanded = !folder.expanded;
       activeFolderId = folderId;
       activeNoteId = null;
+      viewingTrash = false;
       saveData();
       renderFolders();
       showEmptyState('No note selected', 'Select a note from the sidebar to start editing, or create a new one.');
@@ -2031,6 +2403,7 @@
 
       activeNoteId = noteId;
       activeFolderId = folderId;
+      viewingTrash = false;
       var note = result.note;
       var folder = result.folder;
 
@@ -2049,6 +2422,7 @@
 
     function showEditor(note, folder) {
       document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('trashView').style.display = 'none';
       var ev = document.getElementById('editorView');
       ev.style.display = 'flex';
 
@@ -2065,6 +2439,7 @@
     function showEmptyState(title, desc) {
       document.getElementById('emptyState').style.display = 'flex';
       document.getElementById('editorView').style.display = 'none';
+      document.getElementById('trashView').style.display = 'none';
       document.getElementById('emptyTitle').textContent = title;
       document.getElementById('emptyDesc').textContent = desc;
       document.getElementById('topbarBreadcrumb').innerHTML = '<span class="tb-folder" style="color:var(--fg-muted)">NoteCraft</span>';
@@ -2134,6 +2509,7 @@
     function showAllNotes() {
       activeFolderId = null;
       activeNoteId = null;
+      viewingTrash = false;
       saveData();
       renderFolders();
       showEmptyState('All Notes', 'You have ' + getTotalNoteCount() + ' notes across ' + folders.length + ' folders.');
@@ -2314,13 +2690,19 @@
         var folder = findFolder(id);
         if (!folder) return;
         document.getElementById('deleteModalTitle').textContent = 'Delete Folder';
-        document.getElementById('deleteModalDesc').textContent = 'This folder and all its notes will be permanently deleted.';
+        document.getElementById('deleteModalDesc').textContent = 'This folder and all its notes will be moved to trash.';
         document.getElementById('deleteModalName').textContent = folder.name + ' (' + folder.notes.length + ' notes)';
+      } else if (type === 'trashNote') {
+        var tr = findTrashItem(id);
+        if (!tr) return;
+        document.getElementById('deleteModalTitle').textContent = 'Delete Forever';
+        document.getElementById('deleteModalDesc').textContent = 'This note will be permanently deleted and cannot be recovered.';
+        document.getElementById('deleteModalName').textContent = tr.item.title || 'Untitled';
       } else {
         var result = findNote(id);
         if (!result) return;
         document.getElementById('deleteModalTitle').textContent = 'Delete Note';
-        document.getElementById('deleteModalDesc').textContent = 'This note will be permanently deleted.';
+        document.getElementById('deleteModalDesc').textContent = 'This note will be moved to trash.';
         document.getElementById('deleteModalName').textContent = result.note.title || 'Untitled';
       }
 
@@ -2335,42 +2717,84 @@
     function confirmDelete() {
       if (!deleteTarget) return;
 
-      if (deleteTarget.type === 'folder') {
-        var idx = -1;
-        for (var i = 0; i < folders.length; i++) {
-          if (folders[i].id === deleteTarget.id) { idx = i; break; }
+      if (deleteTarget.type === 'trashNote') {
+        var tr = findTrashItem(deleteTarget.id);
+        if (tr) {
+          trash.splice(tr.index, 1);
+          saveData();
+          renderTrashView();
+          renderFolders();
+          showToast('Permanently deleted', 'success');
         }
-        if (idx !== -1) {
-          var fname = folders[idx].name;
-          folders.splice(idx, 1);
-          if (activeFolderId === deleteTarget.id) {
-            activeFolderId = null;
-            activeNoteId = null;
-            showEmptyState('Folder deleted', '"' + fname + '" has been deleted.');
+      } else if (deleteTarget.type === 'folder') {
+        var folder = findFolder(deleteTarget.id);
+        if (folder) {
+          for (var i = 0; i < folder.notes.length; i++) {
+            trash.push({
+              id: folder.notes[i].id,
+              title: folder.notes[i].title,
+              content: folder.notes[i].content,
+              date: folder.notes[i].date,
+              pinned: false,
+              folderId: folder.id,
+              folderName: folder.name,
+              deletedAt: new Date().toISOString()
+            });
           }
-          if (activeNoteId) {
-            var still = findNote(activeNoteId);
-            if (!still) {
+          var idx = -1;
+          for (var j = 0; j < folders.length; j++) {
+            if (folders[j].id === deleteTarget.id) { idx = j; break; }
+          }
+          if (idx !== -1) {
+            var fname = folders[idx].name;
+            folders.splice(idx, 1);
+            if (activeFolderId === deleteTarget.id) {
+              activeFolderId = null;
               activeNoteId = null;
-              showEmptyState('No note selected', 'Select a note from the sidebar to start editing.');
+              viewingTrash = false;
+              showEmptyState('Folder deleted', '"' + fname + '" and its notes moved to trash.');
+            }
+            if (activeNoteId) {
+              var still = findNote(activeNoteId);
+              if (!still) {
+                activeNoteId = null;
+                showEmptyState('No note selected', 'Select a note from the sidebar to start editing.');
+              }
             }
           }
+          saveData();
+          renderFolders();
+          showUndoToast('"' + fname + '" moved to trash', null);
         }
       } else {
         var result = findNote(deleteTarget.id);
         if (result) {
+          var noteData = {
+            id: result.note.id,
+            title: result.note.title,
+            content: result.note.content,
+            date: result.note.date,
+            pinned: false,
+            folderId: result.folder.id,
+            folderName: result.folder.name,
+            deletedAt: new Date().toISOString()
+          };
+          trash.unshift(noteData);
+          var wasActive = activeNoteId === result.note.id;
           result.folder.notes.splice(result.index, 1);
-          if (activeNoteId === deleteTarget.id) {
+
+          if (wasActive) {
             activeNoteId = null;
-            showEmptyState('Note deleted', 'The note has been permanently deleted.');
+            showEmptyState('Note deleted', 'The note has been moved to trash.');
           }
+
+          saveData();
+          renderFolders();
+          showUndoToast('Note moved to trash', noteData);
         }
       }
 
-      saveData();
-      renderFolders();
       closeDeleteModal();
-      showToast('Deleted successfully', 'success');
     }
 
     /* ===== DUPLICATE NOTE ===== */
@@ -2402,6 +2826,230 @@
         updatePinMeta(result.note);
       }
       showToast(result.note.pinned ? 'Note pinned' : 'Note unpinned', 'info');
+    }
+
+    /* ===== TRASH / RECENTLY DELETED ===== */
+    function getTimeRemainingText(deletedAt) {
+      var remaining = TRASH_DURATION_MS - (Date.now() - new Date(deletedAt).getTime());
+      if (remaining <= 0) return 'Expiring soon';
+      var hours = Math.floor(remaining / 3600000);
+      var minutes = Math.floor((remaining % 3600000) / 60000);
+      if (hours > 0) return hours + 'h ' + minutes + 'm remaining';
+      return minutes + 'm remaining';
+    }
+
+    function isTrashExpiringSoon(deletedAt) {
+      var remaining = TRASH_DURATION_MS - (Date.now() - new Date(deletedAt).getTime());
+      return remaining <= 3600000;
+    }
+
+    function cleanupTrash() {
+      var now = Date.now();
+      var before = trash.length;
+      trash = trash.filter(function (item) {
+        return (now - new Date(item.deletedAt).getTime()) < TRASH_DURATION_MS;
+      });
+      if (trash.length !== before) {
+        saveData();
+        if (viewingTrash) renderTrashView();
+        renderFolders();
+      }
+    }
+
+    function showTrashView() {
+      viewingTrash = true;
+      activeNoteId = null;
+      activeFolderId = null;
+      document.getElementById('emptyState').style.display = 'none';
+      document.getElementById('editorView').style.display = 'none';
+      document.getElementById('trashView').style.display = 'flex';
+      document.getElementById('topbarBreadcrumb').innerHTML = '<span class="tb-folder" style="color:var(--fg-muted)">NoteCraft</span><span class="tb-sep"><i class="fas fa-chevron-right"></i></span><span class="tb-note">Trash</span>';
+      document.getElementById('statusFolder').textContent = 'Trash';
+      renderFolders();
+      renderTrashView();
+      if (window.innerWidth < 768) closeSidebar();
+    }
+
+    function renderTrashView() {
+      var listEl = document.getElementById('trashList');
+      var emptyBtn = document.getElementById('emptyTrashBtn');
+
+      if (trash.length === 0) {
+        emptyBtn.style.display = 'none';
+        listEl.innerHTML = '<div class="trash-empty-state">' +
+          '<div class="trash-empty-icon"><i class="far fa-trash-alt"></i></div>' +
+          '<div class="trash-empty-title">Trash is empty</div>' +
+          '<div class="trash-empty-desc">Deleted notes will appear here for 24 hours.</div>' +
+          '</div>';
+        return;
+      }
+
+      emptyBtn.style.display = 'flex';
+      var html = '';
+      for (var i = 0; i < trash.length; i++) {
+        var item = trash[i];
+        var preview = getPlainText(item.content).substring(0, 120);
+        var timeText = getTimeRemainingText(item.deletedAt);
+        var urgent = isTrashExpiringSoon(item.deletedAt);
+
+        html += '<div class="trash-note-card">';
+        html += '<div class="trash-note-icon"><i class="far fa-sticky-note"></i></div>';
+        html += '<div class="trash-note-body">';
+        html += '<div class="trash-note-title">' + escapeHtml(item.title || 'Untitled') + '</div>';
+        if (preview) html += '<div class="trash-note-preview">' + escapeHtml(preview) + '</div>';
+        html += '<div class="trash-note-meta-row">';
+        html += '<span class="trash-note-meta-tag folder-tag"><i class="fas fa-folder"></i> ' + escapeHtml(item.folderName || 'Unknown') + '</span>';
+        html += '<span class="trash-note-meta-tag"><i class="far fa-clock"></i> ' + formatDate(item.deletedAt) + '</span>';
+        html += '<span class="trash-note-time-remaining' + (urgent ? ' urgent' : '') + '">' + timeText + '</span>';
+        html += '</div>';
+        html += '</div>';
+        html += '<div class="trash-note-actions">';
+        html += '<button class="trash-action-btn restore" title="Restore" onclick="restoreFromTrash(\'' + item.id + '\')"><i class="fas fa-rotate-left"></i></button>';
+        html += '<button class="trash-action-btn perm-delete" title="Delete forever" onclick="openDeleteModal(\'trashNote\', \'' + item.id + '\')"><i class="far fa-trash-alt"></i></button>';
+        html += '</div>';
+        html += '</div>';
+      }
+      listEl.innerHTML = html;
+    }
+
+    function restoreFromTrash(trashId) {
+      var tr = findTrashItem(trashId);
+      if (!tr) return;
+
+      var item = tr.item;
+      var targetFolder = findFolder(item.folderId);
+      var restoredFolderName;
+
+      if (!targetFolder) {
+        if (folders.length > 0) {
+          targetFolder = folders[0];
+          restoredFolderName = targetFolder.name;
+        } else {
+          targetFolder = {
+            id: genId(),
+            name: item.folderName || 'Restored Notes',
+            color: FOLDER_COLORS[0],
+            expanded: true,
+            sortMode: 'date-desc',
+            notes: []
+          };
+          folders.push(targetFolder);
+          restoredFolderName = targetFolder.name;
+        }
+      } else {
+        restoredFolderName = targetFolder.name;
+      }
+
+      var restoredNote = {
+        id: item.id,
+        title: item.title,
+        content: item.content,
+        date: item.date,
+        pinned: false
+      };
+
+      targetFolder.notes.unshift(restoredNote);
+      trash.splice(tr.index, 1);
+      targetFolder.expanded = true;
+
+      saveData();
+      renderFolders();
+      renderTrashView();
+      selectNote(restoredNote.id, targetFolder.id);
+      showToast('Note restored to "' + restoredFolderName + '"', 'success');
+    }
+
+    function undoDeleteNote(noteData) {
+      if (!noteData) return;
+
+      var targetFolder = findFolder(noteData.folderId);
+      if (!targetFolder) {
+        if (folders.length > 0) {
+          targetFolder = folders[0];
+        } else {
+          targetFolder = {
+            id: genId(),
+            name: noteData.folderName || 'Restored Notes',
+            color: FOLDER_COLORS[0],
+            expanded: true,
+            sortMode: 'date-desc',
+            notes: []
+          };
+          folders.push(targetFolder);
+        }
+      }
+
+      var trIdx = -1;
+      for (var i = 0; i < trash.length; i++) {
+        if (trash[i].id === noteData.id) { trIdx = i; break; }
+      }
+      if (trIdx !== -1) trash.splice(trIdx, 1);
+
+      var restoredNote = {
+        id: noteData.id,
+        title: noteData.title,
+        content: noteData.content,
+        date: noteData.date,
+        pinned: false
+      };
+
+      targetFolder.notes.unshift(restoredNote);
+      targetFolder.expanded = true;
+
+      saveData();
+      renderFolders();
+      selectNote(restoredNote.id, targetFolder.id);
+      showToast('Note restored', 'success');
+    }
+
+    function openEmptyTrashModal() {
+      deleteTarget = { type: 'emptyTrash', id: null };
+      document.getElementById('deleteModalTitle').textContent = 'Empty Trash';
+      document.getElementById('deleteModalDesc').textContent = 'All ' + trash.length + ' notes in trash will be permanently deleted.';
+      document.getElementById('deleteModalName').textContent = 'This action cannot be undone';
+      document.getElementById('deleteModal').classList.add('show');
+    }
+
+    /* ===== UNDO TOAST ===== */
+    function showUndoToast(message, noteData) {
+      var container = document.getElementById('toastContainer');
+      var toast = document.createElement('div');
+      toast.className = 'undo-toast';
+      toast.style.setProperty('--undo-duration', (UNDO_DURATION_MS / 1000) + 's');
+      toast.innerHTML = '<i class="fas fa-trash-alt toast-icon" style="color:var(--fg-muted);"></i>' +
+        '<span class="undo-toast-text">' + escapeHtml(message) + '</span>' +
+        (noteData ? '<button class="undo-toast-btn">Undo</button>' : '') +
+        '<div class="undo-toast-progress"></div>';
+
+      container.appendChild(toast);
+
+      if (noteData) {
+        var undoBtn = toast.querySelector('.undo-toast-btn');
+        var undoTimer = setTimeout(function () {
+          removeUndoToast(toast);
+        }, UNDO_DURATION_MS);
+
+        undoBtn.addEventListener('click', function () {
+          clearTimeout(undoTimer);
+          removeUndoToast(toast);
+          undoDeleteNote(noteData);
+        });
+      } else {
+        setTimeout(function () {
+          removeUndoToast(toast);
+        }, UNDO_DURATION_MS);
+      }
+    }
+
+    function removeUndoToast(el) {
+      if (el && el.parentNode) {
+        el.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(8px)';
+        setTimeout(function () {
+          if (el.parentNode) el.parentNode.removeChild(el);
+        }, 260);
+      }
     }
 
     /* ===== CONTEXT MENU ===== */
@@ -2780,6 +3428,7 @@
 
     /* ===== INIT ===== */
     function init() {
+      cleanupTrash();
       renderFolders();
 
       if (activeNoteId) {
@@ -2799,6 +3448,8 @@
       if (window.innerWidth >= 768) {
         openSidebar();
       }
+
+      setInterval(cleanupTrash, 60000);
     }
 
     init();
