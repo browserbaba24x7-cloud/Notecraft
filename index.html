@@ -458,6 +458,9 @@
       text-overflow: ellipsis;
       line-height: 1.3;
       transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .note-item:hover .note-title-text {
@@ -1557,6 +1560,94 @@
       color: var(--accent) !important;
     }
 
+    /* ===== LOCKED NOTES ===== */
+    .note-lock-icon {
+      font-size: 9px;
+      color: var(--fg-muted);
+      margin-left: 2px;
+    }
+
+    #editorView {
+      position: relative;
+    }
+
+    .note-title-input[readonly] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .editor-area[contenteditable="false"] {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .locked-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(22, 22, 35, 0.85);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 50;
+      border-radius: 4px;
+    }
+
+    .is-locked .locked-overlay {
+      display: flex;
+    }
+
+    .locked-overlay-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: var(--accent);
+      border: 1px solid var(--border-light);
+    }
+
+    .locked-overlay-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      color: var(--fg-dim);
+      font-weight: 600;
+    }
+
+    .locked-overlay-btn {
+      background: var(--accent);
+      border: none;
+      color: #fff;
+      padding: 9px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 6px;
+    }
+
+    .locked-overlay-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    #metaLock {
+      color: var(--fg-muted) !important;
+    }
+
+    #metaLock i {
+      color: var(--fg-muted) !important;
+    }
+
     /* ===== TRASH / RECENTLY DELETED ===== */
     .trash-item {
       display: flex;
@@ -2037,11 +2128,19 @@
         <div class="note-meta">
           <div class="note-meta-item"><i class="far fa-clock"></i><span id="metaDate">--</span></div>
           <div class="note-meta-item" id="metaPin" style="display:none;"><i class="fas fa-thumbtack"></i><span>Pinned</span></div>
+          <div class="note-meta-item" id="metaLock" style="display:none;"><i class="fas fa-lock"></i><span>Locked</span></div>
           <div class="note-meta-item"><i class="far fa-file-alt"></i><span id="metaWords">0 words</span></div>
           <div class="note-meta-item"><i class="far fa-file-lines"></i><span id="metaChars">0 characters</span></div>
         </div>
       </div>
       <div class="editor-area" id="editorArea" contenteditable="true" oninput="onEditorInput()" spellcheck="true"></div>
+      
+      <!-- Lock Overlay -->
+      <div class="locked-overlay" id="lockedOverlay">
+        <div class="locked-overlay-icon"><i class="fas fa-lock"></i></div>
+        <div class="locked-overlay-text">This note is locked</div>
+        <button class="locked-overlay-btn" onclick="toggleLockNote(activeNoteId)">Unlock Note</button>
+      </div>
     </div>
 
     <div class="status-bar">
@@ -2063,6 +2162,7 @@
     <div class="ctx-item" data-action="addNote"><i class="fas fa-plus"></i>Add note here</div>
     <div class="ctx-divider"></div>
     <div class="ctx-item" id="ctxPinNote" data-action="pinNote" style="display:none;"><i class="fas fa-thumbtack"></i><span id="ctxPinLabel">Pin note</span></div>
+    <div class="ctx-item" id="ctxLockNote" data-action="lockNote" style="display:none;"><i class="fas fa-lock"></i><span id="ctxLockLabel">Lock note</span></div>
     <div class="ctx-item" id="ctxChangeColor" data-action="changeColor"><i class="fas fa-palette"></i>Change color<span
         class="ctx-arrow"><i class="fas fa-chevron-right"></i></span></div>
     <div class="ctx-item" data-action="duplicate"><i class="far fa-copy"></i>Duplicate</div>
@@ -2128,28 +2228,28 @@
     var DEFAULT_FOLDERS = [
       {
         id: 'f1', name: 'Personal', color: '#ff6b35', expanded: true, sortMode: 'date-desc', notes: [
-          { id: 'n1', title: 'Daily Routine', content: '<h2>Morning Routine</h2><ul><li>Wake up at 6:00 AM</li><li>Meditation for 15 minutes</li><li>Exercise for 30 minutes</li><li>Healthy breakfast</li></ul><h2>Evening Routine</h2><ul><li>Review the day</li><li>Read for 30 minutes</li><li>Plan tomorrow</li><li>Sleep by 10:30 PM</li></ul>', date: '2026-07-14T10:30:00', pinned: false },
-          { id: 'n2', title: 'Books to Read', content: '<p>My reading list for this year:</p><ol><li><strong>Atomic Habits</strong> by James Clear</li><li><strong>Deep Work</strong> by Cal Newport</li><li><strong>The Almanack of Naval Ravikant</strong></li><li><strong>Thinking, Fast and Slow</strong> by Daniel Kahneman</li></ol><blockquote>Reading is to the mind what exercise is to the body.</blockquote>', date: '2026-07-13T15:20:00', pinned: false },
-          { id: 'n3', title: 'Fitness Goals', content: '<p>Target: Get in the best shape of my life by December 2026.</p><h3>Weekly Schedule</h3><ul><li>Monday: Chest & Triceps</li><li>Tuesday: Back & Biceps</li><li>Wednesday: Rest / Cardio</li><li>Thursday: Shoulders & Arms</li><li>Friday: Legs</li><li>Saturday: Full body HIIT</li><li>Sunday: Rest</li></ul>', date: '2026-07-12T09:00:00', pinned: false }
+          { id: 'n1', title: 'Daily Routine', content: '<h2>Morning Routine</h2><ul><li>Wake up at 6:00 AM</li><li>Meditation for 15 minutes</li><li>Exercise for 30 minutes</li><li>Healthy breakfast</li></ul><h2>Evening Routine</h2><ul><li>Review the day</li><li>Read for 30 minutes</li><li>Plan tomorrow</li><li>Sleep by 10:30 PM</li></ul>', date: '2026-07-14T10:30:00', pinned: false, locked: false },
+          { id: 'n2', title: 'Books to Read', content: '<p>My reading list for this year:</p><ol><li><strong>Atomic Habits</strong> by James Clear</li><li><strong>Deep Work</strong> by Cal Newport</li><li><strong>The Almanack of Naval Ravikant</strong></li><li><strong>Thinking, Fast and Slow</strong> by Daniel Kahneman</li></ol><blockquote>Reading is to the mind what exercise is to the body.</blockquote>', date: '2026-07-13T15:20:00', pinned: false, locked: false },
+          { id: 'n3', title: 'Fitness Goals', content: '<p>Target: Get in the best shape of my life by December 2026.</p><h3>Weekly Schedule</h3><ul><li>Monday: Chest & Triceps</li><li>Tuesday: Back & Biceps</li><li>Wednesday: Rest / Cardio</li><li>Thursday: Shoulders & Arms</li><li>Friday: Legs</li><li>Saturday: Full body HIIT</li><li>Sunday: Rest</li></ul>', date: '2026-07-12T09:00:00', pinned: false, locked: false }
         ]
       },
       {
         id: 'f2', name: 'Work', color: '#60a5fa', expanded: false, sortMode: 'date-desc', notes: [
-          { id: 'n4', title: 'Project Roadmap Q3', content: '<h2>Q3 2026 Roadmap</h2><p>Key objectives:</p><ul><li>Launch v2.0</li><li>Migrate infrastructure</li><li>Hire 3 engineers</li><li>99.9% uptime</li></ul>', date: '2026-07-14T08:00:00', pinned: false },
-          { id: 'n5', title: 'Meeting Notes - July 10', content: '<p><strong>Attendees:</strong> Team Lead, PM, Design Lead</p><ul><li>Sprint progress on track</li><li>Design system updates needed</li></ul>', date: '2026-07-10T14:00:00', pinned: false },
-          { id: 'n6', title: 'API Documentation', content: '<code>POST /api/v2/auth/login</code><br><code>GET /api/v2/users</code><br><code>PUT /api/v2/users/:id</code>', date: '2026-07-09T11:30:00', pinned: false }
+          { id: 'n4', title: 'Project Roadmap Q3', content: '<h2>Q3 2026 Roadmap</h2><p>Key objectives:</p><ul><li>Launch v2.0</li><li>Migrate infrastructure</li><li>Hire 3 engineers</li><li>99.9% uptime</li></ul>', date: '2026-07-14T08:00:00', pinned: false, locked: false },
+          { id: 'n5', title: 'Meeting Notes - July 10', content: '<p><strong>Attendees:</strong> Team Lead, PM, Design Lead</p><ul><li>Sprint progress on track</li><li>Design system updates needed</li></ul>', date: '2026-07-10T14:00:00', pinned: false, locked: false },
+          { id: 'n6', title: 'API Documentation', content: '<code>POST /api/v2/auth/login</code><br><code>GET /api/v2/users</code><br><code>PUT /api/v2/users/:id</code>', date: '2026-07-09T11:30:00', pinned: false, locked: false }
         ]
       },
       {
         id: 'f3', name: 'Ideas', color: '#a78bfa', expanded: false, sortMode: 'date-desc', notes: [
-          { id: 'n7', title: 'App Concept: FocusFlow', content: '<h2>FocusFlow</h2><p>A Pomodoro timer with ambient sounds and task tracking.</p><ul><li>Customizable intervals</li><li>Sound mixer</li><li>Daily stats</li></ul>', date: '2026-07-11T20:00:00', pinned: false },
-          { id: 'n8', title: 'Blog Post Ideas', content: '<ol><li>Why Dark Mode Matters</li><li>Building a Note App</li><li>Single-Page Applications</li><li>Color Theory for Dev Tools</li></ol>', date: '2026-07-08T16:45:00', pinned: false }
+          { id: 'n7', title: 'App Concept: FocusFlow', content: '<h2>FocusFlow</h2><p>A Pomodoro timer with ambient sounds and task tracking.</p><ul><li>Customizable intervals</li><li>Sound mixer</li><li>Daily stats</li></ul>', date: '2026-07-11T20:00:00', pinned: false, locked: false },
+          { id: 'n8', title: 'Blog Post Ideas', content: '<ol><li>Why Dark Mode Matters</li><li>Building a Note App</li><li>Single-Page Applications</li><li>Color Theory for Dev Tools</li></ol>', date: '2026-07-08T16:45:00', pinned: false, locked: false }
         ]
       },
       {
         id: 'f4', name: 'Learning', color: '#4ade80', expanded: false, sortMode: 'date-desc', notes: [
-          { id: 'n9', title: 'Rust Notes - Ownership', content: '<h2>Ownership Rules</h2><ol><li>Each value has one <strong>owner</strong></li><li>Value is <strong>dropped</strong> when owner goes out of scope</li><li>Values can be <strong>borrowed</strong> with &amp;</li></ol>', date: '2026-07-07T13:00:00', pinned: false },
-          { id: 'n10', title: 'WebGL Shader Basics', content: '<p>Shaders run on the GPU.</p><ul><li><strong>Vertex Shader</strong> — per vertex</li><li><strong>Fragment Shader</strong> — per pixel</li></ul>', date: '2026-07-06T10:15:00', pinned: false }
+          { id: 'n9', title: 'Rust Notes - Ownership', content: '<h2>Ownership Rules</h2><ol><li>Each value has one <strong>owner</strong></li><li>Value is <strong>dropped</strong> when owner goes out of scope</li><li>Values can be <strong>borrowed</strong> with &amp;</li></ol>', date: '2026-07-07T13:00:00', pinned: false, locked: false },
+          { id: 'n10', title: 'WebGL Shader Basics', content: '<p>Shaders run on the GPU.</p><ul><li><strong>Vertex Shader</strong> — per vertex</li><li><strong>Fragment Shader</strong> — per pixel</li></ul>', date: '2026-07-06T10:15:00', pinned: false, locked: false }
         ]
       }
     ];
@@ -2205,6 +2305,7 @@
           if (!folders[j].sortMode) folders[j].sortMode = 'date-desc';
           for (var k = 0; k < folders[j].notes.length; k++) {
             if (folders[j].notes[k].pinned === undefined) folders[j].notes[k].pinned = false;
+            if (folders[j].notes[k].locked === undefined) folders[j].notes[k].locked = false;
           }
         }
         return true;
@@ -2296,11 +2397,12 @@
       var isActive = activeNoteId === note.id;
       var preview = getPlainText(note.content).substring(0, 60);
       var pinHtml = note.pinned ? '<i class="fas fa-thumbtack note-pin-icon"></i>' : '';
+      var lockHtml = note.locked ? '<i class="fas fa-lock note-lock-icon"></i>' : '';
       return '<div class="note-item' + (isActive ? ' active' : '') + '" data-note-id="' + note.id + '" data-folder-id="' + folder.id + '" onclick="selectNote(\'' + note.id + '\', \'' + folder.id + '\')" oncontextmenu="showNoteContext(event, \'' + note.id + '\', \'' + folder.id + '\')" draggable="true" ondragstart="onNoteDragStart(event, \'' + note.id + '\', \'' + folder.id + '\')" ondragend="onNoteDragEnd(event)">' +
         '<div class="note-dot" style="background:' + folder.color + '"></div>' +
         pinHtml +
         '<div class="note-text-area">' +
-        '<div class="note-title-text">' + escapeHtml(note.title || 'Untitled') + '</div>' +
+        '<div class="note-title-text">' + escapeHtml(note.title || 'Untitled') + lockHtml + '</div>' +
         '<div class="note-preview-text">' + escapeHtml(preview) + '</div>' +
         '</div>' +
         '<span class="note-date">' + formatDate(note.date) + '</span>' +
@@ -2426,13 +2528,28 @@
       var ev = document.getElementById('editorView');
       ev.style.display = 'flex';
 
-      document.getElementById('noteTitleInput').value = note.title || '';
-      document.getElementById('editorArea').innerHTML = note.content || '';
+      var titleInput = document.getElementById('noteTitleInput');
+      var editorArea = document.getElementById('editorArea');
+
+      titleInput.value = note.title || '';
+      editorArea.innerHTML = note.content || '';
       document.getElementById('metaDate').textContent = formatFullDate(note.date);
+
+      // Handle Lock State in Editor
+      if (note.locked) {
+        titleInput.setAttribute('readonly', 'true');
+        editorArea.setAttribute('contenteditable', 'false');
+        ev.classList.add('is-locked');
+      } else {
+        titleInput.removeAttribute('readonly');
+        editorArea.setAttribute('contenteditable', 'true');
+        ev.classList.remove('is-locked');
+      }
 
       updateWordCount();
       updateBreadcrumb(folder, note);
       updatePinMeta(note);
+      updateLockMeta(note);
       document.getElementById('statusFolder').textContent = folder.name;
     }
 
@@ -2456,6 +2573,15 @@
     function updatePinMeta(note) {
       var el = document.getElementById('metaPin');
       if (note.pinned) {
+        el.style.display = 'flex';
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
+    function updateLockMeta(note) {
+      var el = document.getElementById('metaLock');
+      if (note.locked) {
         el.style.display = 'flex';
       } else {
         el.style.display = 'none';
@@ -2538,7 +2664,8 @@
         title: '',
         content: '',
         date: new Date().toISOString(),
-        pinned: false
+        pinned: false,
+        locked: false
       };
 
       folder.notes.unshift(note);
@@ -2736,6 +2863,7 @@
               content: folder.notes[i].content,
               date: folder.notes[i].date,
               pinned: false,
+              locked: folder.notes[i].locked,
               folderId: folder.id,
               folderName: folder.name,
               deletedAt: new Date().toISOString()
@@ -2775,6 +2903,7 @@
             content: result.note.content,
             date: result.note.date,
             pinned: false,
+            locked: result.note.locked,
             folderId: result.folder.id,
             folderName: result.folder.name,
             deletedAt: new Date().toISOString()
@@ -2806,7 +2935,8 @@
         title: (result.note.title || 'Untitled') + ' (copy)',
         content: result.note.content,
         date: new Date().toISOString(),
-        pinned: false
+        pinned: false,
+        locked: false
       };
       result.folder.notes.splice(result.index + 1, 0, newNote);
       saveData();
@@ -2826,6 +2956,19 @@
         updatePinMeta(result.note);
       }
       showToast(result.note.pinned ? 'Note pinned' : 'Note unpinned', 'info');
+    }
+
+    /* ===== LOCK / UNLOCK NOTE ===== */
+    function toggleLockNote(noteId) {
+      var result = findNote(noteId);
+      if (!result) return;
+      result.note.locked = !result.note.locked;
+      saveData();
+      renderFolders();
+      if (activeNoteId === noteId) {
+        showEditor(result.note, result.folder);
+      }
+      showToast(result.note.locked ? 'Note locked' : 'Note unlocked', 'info');
     }
 
     /* ===== TRASH / RECENTLY DELETED ===== */
@@ -2945,7 +3088,8 @@
         title: item.title,
         content: item.content,
         date: item.date,
-        pinned: false
+        pinned: false,
+        locked: item.locked || false
       };
 
       targetFolder.notes.unshift(restoredNote);
@@ -2990,7 +3134,8 @@
         title: noteData.title,
         content: noteData.content,
         date: noteData.date,
-        pinned: false
+        pinned: false,
+        locked: noteData.locked || false
       };
 
       targetFolder.notes.unshift(restoredNote);
@@ -3060,6 +3205,7 @@
 
       var result = findNote(noteId);
       var isPinned = result && result.note.pinned;
+      var isLocked = result && result.note.locked;
 
       document.getElementById('ctxPinNote').style.display = 'flex';
       document.getElementById('ctxPinLabel').textContent = isPinned ? 'Unpin note' : 'Pin note';
@@ -3068,6 +3214,9 @@
       } else {
         document.getElementById('ctxPinNote').classList.remove('pin-active');
       }
+
+      document.getElementById('ctxLockNote').style.display = 'flex';
+      document.getElementById('ctxLockLabel').textContent = isLocked ? 'Unlock note' : 'Lock note';
 
       document.getElementById('ctxChangeColor').style.display = 'none';
       document.querySelector('[data-action="addNote"]').style.display = 'none';
@@ -3081,6 +3230,7 @@
       contextTarget = { type: 'folder', id: folderId };
 
       document.getElementById('ctxPinNote').style.display = 'none';
+      document.getElementById('ctxLockNote').style.display = 'none';
       document.getElementById('ctxChangeColor').style.display = 'flex';
       document.querySelector('[data-action="addNote"]').style.display = 'flex';
 
@@ -3127,6 +3277,9 @@
           break;
         case 'pinNote':
           if (contextTarget.type === 'note') togglePinNote(contextTarget.id);
+          break;
+        case 'lockNote':
+          if (contextTarget.type === 'note') toggleLockNote(contextTarget.id);
           break;
         case 'changeColor':
           showColorSubmenu(e);
