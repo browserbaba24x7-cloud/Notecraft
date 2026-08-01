@@ -1,146 +1,78 @@
-Notecraft — Smart Notes
-A beautiful, fast, and fully offline note-taking Progressive Web App. Organize your thoughts with rich text editing, color-coded notes, folders, and instant search — all saved locally in your browser.
+📝 NoteCraft
+A beautiful, fast, and fully responsive note-taking web app built with pure HTML, CSS, and Vanilla JavaScript. NoteCraft allows you to organize your thoughts using nested folders, rich text formatting, and local storage persistence—all without needing a backend or database.
 
-Notecraft
+NoteCraft License Made with
 
-Features
-Writing
-Rich Text Editor — Bold, Italic, Underline, Strikethrough
-Headings — H1, H2, H3 for structured notes
-Lists — Bullet lists and numbered lists
-Checkboxes — Interactive task items with check/uncheck
-Code Blocks — Inline code and code blocks with monospace font
-Blockquotes — Highlight important quotes
-Dividers — Horizontal rules to separate sections
-Tab Indentation — Press Tab to indent inside the editor
-Organization
-Folders — Create, rename, and delete custom folders
-Color Coding — 10 colors to visually tag each note
-Pin Notes — Pin important notes to the top of the list
-Duplicate Notes — One-click clone of any note
-Instant Search — Search across all notes by title or content
-"All Notes" View — See every note across all folders
-Data & Storage
-Auto-Save — Notes save automatically as you type (600ms debounce)
-Local Storage — All data stays in your browser, nothing sent to any server
-Storage Monitor — Live storage usage bar in the status bar
-Quota Handling — Graceful error handling when storage is full
-Export — Download all notes as a .txt file
-Clear Data — One-click reset to start fresh
-HTML Cleanup — Automatically strips bloated contenteditable junk to save space
-PWA & Install
-Install as App — Works on Android, iOS, Desktop (Chrome, Edge, Safari)
-Standalone Mode — No browser UI when installed
-Custom Icons — Favicon, Apple Touch Icon, PWA manifest icons (192px & 512px)
-Install Banner — Auto-appears when browser supports installation
-Theme Color — Amber accent color in browser chrome
-Design
-Dark Theme — Easy on the eyes with warm amber accents
-Animated Background — Subtle floating glow effects
-Smooth Transitions — Every interaction has polish
-Responsive — Full mobile support with slide-out sidebar
-Keyboard Shortcuts — Power user friendly
-Word & Character Count — Live counter below each note
-Keyboard Shortcuts
-Shortcut	Action
-Ctrl + N	Create new note
-Ctrl + B	Bold
-Ctrl + I	Italic
-Ctrl + U	Underline
-Ctrl + Shift + F	Focus search
-Tab	Indent in editor
-Escape	Close modals / sidebar
-File Structure
-notecraft/
-│
-├── index.html # Main application (single file)
-├── README.md # This file
-│
-├── favicon.svg # Browser tab icon (SVG, modern browsers)
-├── favicon.ico # Browser tab icon (ICO, legacy support)
-├── favicon-96x96.png # Browser tab icon (PNG fallback)
-│
-├── apple-touch-icon-n.png # iOS home screen icon (180x180+)
-│
-├── web-app-manifest-192x192.png # PWA icon — small (Android, Chrome)
-├── web-app-manifest-512x512.png # PWA icon — large (Android, Chrome)
-│
-└── site.webmanifest # PWA manifest configuration
+✨ Features
+📁 Nested Organization: Create colorful folders to group related notes together.
+✍️ Rich Text Editor: Format your notes with headings, bold/italic/underline text, lists, quotes, code blocks, and custom text colors.
+🖱️ Drag & Drop: Easily move notes between different folders.
+🔒 Passcode Locking: Secure individual notes or entire folders with a passcode to prevent unauthorized viewing.
+📌 Pin Notes: Keep your most important notes pinned to the top of the folder.
+🔍 Instant Search: Quickly filter notes by title or content directly from the sidebar.
+🗑️ Trash Bin: Safely delete notes or folders. Restore them easily or permanently delete them.
+🎨 Customizable UI: Choose from 10 vibrant colors for your folders. Includes a sleek, dark-themed interface with ambient background glows.
+💾 Auto-Save: All data is automatically saved to your browser's localStorage. No account or internet connection required.
+⌨️ Keyboard Shortcuts: Fast navigation and note creation.
+📱 PWA Ready: Meta tags configured for installation on mobile and desktop home screens.
+🛠️ Tech Stack
+HTML5: Semantic structure and PWA configuration.
+CSS3: Custom properties (variables), Flexbox, smooth transitions, and animations. Fully responsive layout.
+Vanilla JavaScript (ES5/ES6): DOM manipulation, state management, and localStorage integration.
+Font Awesome 6: For crisp, scalable icons.
+Google Fonts: Space Grotesk for headings and DM Sans for body text.
+🚀 Getting Started
+Because NoteCraft is built entirely with front-end technologies, getting it running is incredibly simple.
 
+Prerequisites
+You just need a modern web browser (Chrome, Firefox, Edge, Safari).
 
----
+Installation & Running
+Download/Clone the repository:
+bash
 
-## Setup
+git clone https://github.com/your-username/notecraft.git
+Navigate to the project folder:
+bash
 
-### Quick Start (No Server Needed)
+cd notecraft
+Add Icons (Optional but recommended):
+Ensure you have a ./favicon/ folder containing the following files (as referenced in the HTML):
+favicon.svg
+favicon-96x96.png
+favicon.ico
+apple-touch-icon.png
+Run the app:
+Simply open the index.html file in your web browser.
+bash
 
-1. Download or clone all files into one folder
-2. Open `index.html` directly in your browser
-3. Start taking notes — everything works immediately
+# If you are using VS Code, you can use Live Server
+# Or just double-click the index.html file
+⌨️ Keyboard Shortcuts
+Shortcut
+Action
+Ctrl + N	Create a new note
+Esc	Close sidebar, modals, or context menus
 
-### With a Local Server (Recommended for PWA)
+📂 Project Structure
+text
 
-```bash
-# Using Python
-python -m http.server 8080
+.
+├── index.html          # Main HTML file containing structure, styles, and scripts
+├── favicon/            # Folder containing app icons
+│   ├── favicon.svg
+│   ├── favicon-96x96.png
+│   ├── favicon.ico
+│   └── apple-touch-icon.png
+└── README.md           # This file
+🧠 How It Works
+State Management: The app maintains a global folders and trash array. Every time a change is made (create, edit, delete, drag), the state is updated and saveData() writes the JSON stringified state to localStorage.
+Rendering: The render() function dynamically rebuilds the sidebar folder tree and note list based on the current state, applying active states, colors, and pinned items.
+ContentEditable: The main editor uses a contenteditable div. The toolbar utilizes document.execCommand to apply rich text formatting (bold, italic, lists, etc.).
+🛡️ Data Privacy
+NoteCraft stores all data locally in your browser's Local Storage.
 
-# Using Node.js
-npx serve .
+No data is ever sent to a server.
+Clearing your browser's cache/site data will permanently delete your notes. (Consider exporting your notes manually if you clear your browser frequently).
 
-# Using PHP
-php -S localhost:8080
-
-Why a server? The PWA install feature and service workers require serving over HTTP/HTTPS. Opening the HTML file directly (file://) works for everything except the install prompt.
-
-Installing as an App
-Android (Chrome)
-Open the page in Chrome
-Tap the "Install" banner at the bottom (or tap ⋮ menu → "Install app")
-Notecraft appears on your home screen with the feather icon
-iOS (Safari)
-Open the page in Safari
-Tap the Share button (square with arrow)
-Scroll down and tap "Add to Home Screen"
-The feather icon appears on your home screen
-Desktop (Chrome / Edge)
-Open the page in Chrome or Edge
-Click the install icon in the address bar (⊕ or ↓)
-Or click ⋮ menu → "Install Notecraft"
-App opens in its own window with the icon in your taskbar/dock
-How Data Works
-All notes and folders are stored in localStorage under the key notecraft_data
-Data persists across browser sessions — closing the tab does NOT delete your notes
-Clearing browser data / cache WILL delete your notes
-Use Export before clearing data if you want a backup
-Storage limit is typically 5MB per origin (varies by browser)
-The status bar shows live storage usage with a color-coded bar:
-🟢 Green — under 50%
-🟡 Yellow — 50-80%
-🔴 Red — over 80%
-Browser Support
-Browser
-Notes
-PWA Install
-Chrome 80+	Full support	Yes
-Edge 80+	Full support	Yes
-Firefox 80+	Full support	No (not supported by Firefox)
-Safari 15+	Full support	Yes (via Add to Home Screen)
-Mobile Chrome	Full support	Yes
-Mobile Safari	Full support	Yes
-Samsung Internet	Full support	Yes
-
-Technology
-HTML5 — Semantic markup
-CSS3 — Custom properties, flexbox, animations, backdrop-filter
-Vanilla JavaScript — Zero dependencies, no framework
-ContentEditable API — Rich text editing
-LocalStorage API — Persistent data storage
-Web App Manifest — PWA configuration
-Before Install Prompt API — Install banner
-Google Fonts — Space Grotesk + JetBrains Mono
-Font Awesome 6 — Icon library
-Generating Icons
-Icons were generated using RealFaviconGenerator:
-
-
-have a miner update
+Made with ❤️ and Vanilla JS.
